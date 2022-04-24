@@ -14,6 +14,66 @@
     //define("FILENAME_SLASH", '/'); //Normal unix slash for Linux, web and more
     //define("FILENAME_SLASH", '\\'); //Stupid windows backslash because they are special.
 
+    class Unit {
+        public $name;
+        public $type_description;
+        public $alias;
+        public $price;
+        public $modslots;
+        public $uc_limit;
+        public $length;
+        public $height;
+        public $width;
+        public $hyperdrive;
+        public $backup;
+        public $mglt;
+        public $kmh;
+        public $shield;
+        public $hull;
+        public $sbd;
+        public $hbd;
+        public $points;
+        public $is_special;
+        public $notes;
+        public $armament = [];
+        public $complement = [];
+        public $crew = [];
+        
+        function __construct($name_str, $type, $alias = '', $modslots = 0, $price = 0) { //Initialise common values when creating the class
+            $this->name = $name_str;
+            $this->type = $type;
+            $this->alias = $alias;
+            $this->modslots = $modslots;
+            $this->price = $price;
+        }
+
+        function add_notes($notes) { //add any notes if they exist
+            $this->notes = $notes;
+        }
+
+        function add_armament($armament) { //add the armament if it exists
+            $this->armament = $armament;
+        }
+
+        function add_complement($complement) { //add a complement if it exists
+            $this->complement = $complement;
+        }
+
+        function add_crew($crew) { //add a crew if it exists.
+            $this->crew = $crew;
+        }
+    }
+
+    /*
+    ISD REFERENCE FOR OBJECT
+            'modslots' => $modslots,
+            'unit_name' => $name,
+            'type' => $type,
+            'price' => $price,
+            'notes' => $notes,
+            'uc_limit' => $uc_limit
+    */
+
     function create_table(&$pdo, $name, $query) {
         /* 
             A short and sweet piece of code to create a table if it doesn't exist. As the login provided to this server does not have the privilege to
