@@ -1,5 +1,5 @@
 <?php
-    define("WEBSITE_ROOT", "http://localhost/the_holonet_archives");
+    define("WEBSITE_ROOT", "http://localhost/the_holonet_archives/public_html");
     //define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
     define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
     define("MYSQL_USER", "php_console");
