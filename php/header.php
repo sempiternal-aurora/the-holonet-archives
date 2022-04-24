@@ -36,7 +36,7 @@
             <div data-role='page'>
                 <div data-role='header'>
                     <div id='logo' class='centre'>The H<img height='30px' id='net' src='{$C('WEBSITE_ROOT')}/data/images/logo.png' alt='o'  />lonet Archives</div>
-                    <div id='center_username' class='username'>$logged_in_as</div>
+                    <div id='center-username' class='username'>$logged_in_as</div>
                 </div>
                 <div data-role='content'>
     _ECHO;

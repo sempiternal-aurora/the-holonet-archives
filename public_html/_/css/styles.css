@@ -20,7 +20,7 @@ html {
     color:#40d;
 }
 
-#center_username {
+#center-username {
     margin:auto;
     width:90%;
 }
@@ -31,7 +31,38 @@ html {
     
 }
 
-.login_form {
+.login-form {
     margin:0 auto;
     width:300px;
+}
+
+.form-label {
+    font-size:15px;
+    font-weight:bold;
+}
+
+.btn-thin {
+    padding: 0.2em 1em;
+    margin: 0.1em 0.1em;
+}
+
+.top-margin {
+    margin-top: 15px;
+}
+
+#pass-div-cont {
+    margin: 0px 0px;
+}
+
+#username-field {
+    min-width: 292px;
+}
+
+#password-input-field {
+    max-width: 300px;
+    min-width: 207px
+}
+
+#sign-up-btn {
+    margin: 10px 110px;
 }
