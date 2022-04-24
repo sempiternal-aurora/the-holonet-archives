@@ -36,30 +36,33 @@
 
     _END;
 
-    $error = $user = $pass = '';
-    if (isset($_SESSION['user'])) destroy_session_completely();
+    $error = $user = $pass = ''; //initialise variables
+    if (isset($_SESSION['user'])) destroy_session_completely(); //if user is already logged in, lot them out
 
-    if (isset($_POST['user'])) {
-        $user = sanitise_string($pdo, $_POST['user']);
+    if (isset($_POST['user'])) { //if the user has already filled in the form and submitted it
+        $user = sanitise_string($pdo, $_POST['user']); //sanitise the imputs they have supplied
         $pass = sanitise_string($pdo, $_POST['pass']);
 
-        if ($user == '' || $pass == '') $error = 'Not all fields were entered<br  /><br  />';
+        if ($user == '' || $pass == '') $error = 'Not all fields were entered<br  /><br  />'; //if the fields are blank, return an error message
         else {
-            $result = $pdo->query("SELECT * FROM user WHERE username='$user'");
+            $result = $pdo->query("SELECT username, pass FROM user WHERE username='$user'"); //check for users with the username the user gave us
 
-            $is_valid_user = validate_username($user);
-            $is_valid_pass = validate_password($pass);
+            $is_valid_user = validate_username($user); //check if the username given is valid
+            $is_valid_pass = validate_password($pass); //check if the password given is valid
 
-            if ($result->rowCount()) $error = 'That username already exists<br  /><br  />';
-            elseif ($is_valid_user != '') $error .= $is_valid_user;
-            elseif ($is_valid_pass != '') $error .= $is_valid_pass;
-            else {
-                $hash = password_hash($pass, PASSWORD_DEFAULT);
-                $result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')");
-                die('<h4>Account created</h4>Please Log in.</div></body></html>');
+            if ($result->rowCount()) $error = 'That username already exists<br  /><br  />'; //if there exists a record for the username given, the username is taken, and inform the user for them to try again
+            elseif ($is_valid_user != '') $error .= $is_valid_user; //if the validate function found a problem with either username or password, these problems are
+            elseif ($is_valid_pass != '') $error .= $is_valid_pass; //appended to the error message shown to the user
+            else { //otherwise, if the username is taken and it and the password are valid
+                $hash = password_hash($pass, PASSWORD_DEFAULT); //hash the password for security
+                $result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')"); //and insert it into the database of users for future reference
+                die('<h4>Account created</h4>Please Log in.</div></body></html>'); //inform the user that their account has been created, and ask them to login, stopping the script
             }
         }
     }
+    /*
+        What follows is the form sent to the user that gathers password and username and calls this script with the values they give. Also includes basic validation to save server resources.
+    */
 
     echo <<<_END
             <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate(this)'>$error
@@ -86,4 +89,4 @@
         </div>
     _END;
 
-    include_once DOCUMENT_ROOT . '/php/footer.php';
+    include_once DOCUMENT_ROOT . '/php/footer.php'; //footer
