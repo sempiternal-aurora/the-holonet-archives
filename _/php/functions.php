@@ -1,6 +1,7 @@
 <?php
     define("WEBSITE_ROOT", "http://localhost/the_holonet_archives");
-    define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/");
+    //define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
+    define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
     define("MYSQL_USER", "php_console");
     define("MYSQL_PASS", "mysql");
     define("MYSQL_HOST", "localhost");
@@ -10,6 +11,8 @@
         'type_description' => 'Unit Class',
         'alias' => 'nickname'
     ));
+    //define("FILENAME_SLASH", '/'); //Normal unix slash for Linux, web and more
+    //define("FILENAME_SLASH", '\\'); //Stupid windows backslash because they are special.
 
     function create_table(&$pdo, $name, $query) {
         /* 
@@ -187,6 +190,7 @@
             $logged_in_as = "You are logged in as $user";
         }
         else {
+            $user = '';
             $userstr = "";
             $logged_in = FALSE;
             $logged_in_as = "You are not logged in";
@@ -370,10 +374,10 @@
         unset($stats['backup']);
     }
 
-    function ingest_shop_to_array($shop) {
+    function ingest_shop_to_array($shop, $unit_id_key) {
         $shop = explode("\n", $shop); //seperate the lines into seperate values in the variables
-        $unit_type = '';
-        $units = array();
+        $units = array(); //
+        $type = ''; //initialise type to avoid errors later
         foreach ($shop as $index => $line) { //for each line in the shop
             $line = trim($line);
             if ($line == "") { //if it is empty, unset the line and continue with the next element
@@ -384,83 +388,35 @@
             }
             elseif (strpos($line, "_") === 0) {//test to see if there are any _, denoting a unit type in the shop
                 $type = trim($line, "_");
-                if (!(in_array($type, $types))) $types[] = $type;
+                //if (!(in_array($type, $types))) $types[] = $type; //Old check to gather names of all unit types from shops
             }
-            elseif (is_numeric(substr($line, 1, 1))) { //test to see if the 2nd character in a string is numeric
-                
+            elseif (is_numeric(substr($line, 1, 1)) || (strrpos($line, "-") >= 3 && substr($line, 0, 1) != "[")) { 
+                /*test to see if the 2nd character in a string is numeric, or the first character is an m-dash, or if there is an m-dash past index 3 AND the line doesn't start with a square bracket
+                Will accept:
+                (1) YM-2800 Limpet - 250,000
+                OR
+                Wyyyschokk - 7,500,000 (Max 10 Per UC)
+                But not:
+                [Adds one of the following: A blaster cannon, 6 round grenade launcher or stun blaster.]
+                OR
+                - (1) Armaments Modification - 10,000
+                */
+                $unit = convert_shop_unit_string_to_unit($line, $type);
+                $units[] = $unit; //add the new unit to the array of units
             }
-            elseif (strpos($line, "-") === 0) {
-                $remaining_line = trim($line, " \t\n\r\0\x0B-");
-                $modslots = substr($remaining_line, 1, 1);
-                $remaining_line = trim(substr($remaining_line, 3));
-                $name = htmlspecialchars(trim(substr($remaining_line, 0, strrpos($remaining_line, "-"))), ENT_QUOTES);
-                $remaining_line = str_replace(",", "", trim(substr($remaining_line, strrpos($remaining_line, "-")), " \t\n\r\0\x0B-"));
-                $price = intval($remaining_line);
-                $remaining_line = trim($remaining_line, "1234567890- ");
-                if ((!(strpos($remaining_line, "UC")===False)) && (!(strpos($remaining_line, "Max")===False))) {
-                    $uc_limit = intval(trim($remaining_line, " Max()"));
-                    $notes = "";
-                }
-                else {
-                    $remaining_line = trim($remaining_line, " \t\n\r\0\x0B-()[]{}:;");
-                    $notes = htmlspecialchars($remaining_line, ENT_QUOTES);
-                    $uc_limit = 'NULL';
-                }
-                if (array_key_exists($name, $unit_id_key)) {
-                    $id = $unit_id_key[$name];
-                }
-                else {
-                    $id = NULL;
-                }
-                $units[] = array(
-                    'modslots' => $modslots,
-                    'unit_name' => $name,
-                    'type' => 'mod',
-                    'price' => $price,
-                    'notes' => $notes,
-                    'uc_limit' => $uc_limit,
-                    'unit_id' => $id
-                );
-            }   
-            elseif (strrpos($line, "-") >= 3 && substr($line, 0, 1) != "[") {
-                $modslots = 0;
-                $name = htmlspecialchars(trim(substr($line, 0, strrpos($line, "-"))), ENT_QUOTES);
-                $remaining_line = str_replace(",", "", trim(substr($line, strrpos($line, "-")), " \t\n\r\0\x0B-"));
-                $price = intval($remaining_line);
-                $remaining_line = trim($remaining_line, "1234567890- ");
-                if ((!(strpos($remaining_line, "UC")===False)) && (!(strpos($remaining_line, "Max")===False))) {
-                    $uc_limit = intval(trim($remaining_line, " Max()"));
-                    $notes = "";
-                }
-                else {
-                    $remaining_line = trim($remaining_line, " \t\n\r\0\x0B-()[]{}:;");
-                    $notes = htmlspecialchars($remaining_line, ENT_QUOTES);
-                    $uc_limit = 'NULL';
-                }
-                if (array_key_exists($name, $unit_id_key)) {
-                    $id = $unit_id_key[$name];
-                }
-                else {
-                    $id = NULL;
-                }
-                $units[] = array(
-                    'modslots' => $modslots,
-                    'unit_name' => $name,
-                    'type' => $type,
-                    'price' => $price,
-                    'notes' => $notes,
-                    'uc_limit' => $uc_limit,
-                    'unit_id' => $id
-                );
+            elseif (strpos($line, "-") === 0) { //deals with the case where the unit is a mod
+                $unit = convert_shop_unit_string_to_unit($line, ($type . " Mod")); //just adds the mod classification to the unit, so it can be checked later
+                $units[] = $unit;
             }
-            else {
+            else { //otherwise, assume is is a note for the last processed unit.
                 $index = count($units) - 1;
                 $units[$index]['notes'] .= trim($line, " \t\n\r\0\x0B-()[]{}:;");
             }
         }
+        return array($shop_name, $units); //return the shop object
     }
 
-    function convert_shop_unit_with_modslots_string_to_unit($shop_str, $type) {
+    function convert_shop_unit_string_to_unit($shop_str, $type) {
         /*
             Take a string of information like the one below, and convert it into a unit array with as much information as possible.
             (0) Mediator-Class Battlecruiser - 270,000,000 (Max 3 Per UC)
@@ -468,27 +424,30 @@
         $shop_str = trim($shop_str, " \t\n\r\0\x0B-"); //trim the string down, including removing first '-' if the unit is a mod and indented with one.
         $modslots = get_modslots_from_shop_str($shop_str); //take any number that may be in the first brackets at the start of a string, as that will most likely be modslots
         $remaining_line = trim_modslots_from_str($shop_str); //remove that number and bracket pair, triming whitespace
+        $name = get_name_from_shop_str($remaining_line); //Remove the name from the shop string
+        $remaining_line = remove_name_from_shop_str($remaining_line); //keep the rest
 
-        $str_array = explode_string_at_any_open_bracket($remaining_line); //split the string into multiple parts, one including price and name, and others including notes and possible uc_limit
+        $str_array = explode_string_at_any_open_bracket($remaining_line); //split the string into multiple parts, one including price, and others including notes and possible uc_limit
 
-        //assume the first in the array contains the name and price
-        $remaining_line = $str_array[0];
-        unset($str_array[0]);
-        $name = get_name_from_shop_str($remaining_line);
-        $remaining_line = remove_name_from_shop_str($remaining_line);
+        //assume the first in the array contains the price
+        $remaining_line = $str_array[0]; //get the first part
+        $price = get_number_from_comma_string($remaining_line); //get the number from it
+        unset($str_array[0]); //remove the first part from the array
 
-        $price = intval($remaining_line);
-        $remaining_line = trim($remaining_line, "1234567890- ");
-        if ((!(strpos($remaining_line, "UC")===False)) && (!(strpos($remaining_line, "Max")===False))) {
-            $uc_limit = intval(trim($remaining_line, " Max()"));
-            $notes = "";
+        $notes = ''; //initialise notes so there is no errors
+        foreach ($str_array as $line) { //iterate through the remaining line
+            if ((!(strpos($line, "UC")===False)) && (!(strpos($remaining_line, "Max")===False))) { //if Max and UC exist in the string, as in (Max 72 Per UC)
+                $uc_limit = get_uc_limit_from_str($line); //extract the uc_limit from the string
+            }
+            else {
+                $notes .= " " . trim($remaining_line, " \t\n\r\0\x0B-()[]{}:;"); //trim the rest and add it to the noted for the unit
+            }
         }
-        else {
-            $remaining_line = trim($remaining_line, " \t\n\r\0\x0B-()[]{}:;");
-            $notes = htmlspecialchars($remaining_line, ENT_QUOTES);
+        $notes = trim($notes); // remove whitespace from the notes string to save space
+        if (!(isset($uc_limit))) { //if the unit has no uc_limit, set it to the appropriate value
             $uc_limit = 'NULL';
         }
-        $unit = array(
+        $unit = array( //format the unit
             'modslots' => $modslots,
             'unit_name' => $name,
             'type' => $type,
@@ -497,7 +456,27 @@
             'uc_limit' => $uc_limit
         );
 
-        return $unit;
+        return $unit; //return the unit
+    }
+
+    function get_uc_limit_from_str($str) {
+        // For string in format (Max 72 Per UC), will strip all other parts and return the number in the centre
+        $str = trim($str, " MaxPerUC()"); //remove all characters that can exist in the string except for numbers from either end
+        $uc_limit = intval($str); //make the string an integer
+        return $uc_limit; //return the integer
+    }
+
+    function remove_comma_from_str($str) {
+        // Simply remove commas from a string
+        return str_replace(',', '', $str);
+    }
+
+    function get_number_from_comma_string($str) {
+        /*
+            Take a string of numbers with commas seperating digits in groups of 3s, and take the value of that number
+        */
+        $str = remove_comma_from_str($str); //remove all commas from the string
+        return intval($str); //turn the string into an integer value until it reaches a non-numeric character
     }
 
     function explode_string_at_any_open_bracket($str) {
@@ -554,7 +533,7 @@
         return $str; //return the string without the first bracket pair
     }
 
-    function add_id_to_unit($unit, $unit_id_key) {
+    function find_id_for_unit($unit, $unit_id_key) {
         $name = $unit['unit_name'];
         if (array_key_exists($name, $unit_id_key)) {
             $id = $unit_id_key[$name];
