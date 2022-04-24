@@ -79,7 +79,7 @@
                 </div>
                 <div class='ui-field-contain'>
                     <label for='sign-up-btn' class='ui-hidden-accessible'>Sign Up</label>
-                    <input class='ui-btn ui-btn-inline' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
+                    <input class='submit-btn ui-btn ui-btn-inline' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
                 </div>
             </div>
             </form>

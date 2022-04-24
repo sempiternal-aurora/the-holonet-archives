@@ -63,6 +63,10 @@ html {
     min-width: 207px
 }
 
-#sign-up-btn {
+.submit_btn {
     margin: 10px 110px;
+}
+
+.taken, .error {
+    color: red;
 }
