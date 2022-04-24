@@ -16,6 +16,8 @@
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/js/jquery_mobile/jquery.mobile-1.4.5.css'  />
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/css/styles.css'  />
             <link rel='icon' href='{$C('WEBSITE_ROOT')}/data/images/logo.png' type='image/png'  />
+            <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/OSC.js'></script>
+            <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/javascript.js'></script>
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/jquery/jquery-3.6.0.js'></script>
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/jquery_mobile/jquery.mobile-1.4.5.js'></script>
     _ECHO; //echo the header of the document, containing links to javascript files, stylesheets and other meta information
