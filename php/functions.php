@@ -364,29 +364,40 @@
 
     function display_simple_stat($stat, $value) {
         $stat = mysql_stat_names_to_display_names($stat);
-        echo "$stat: $value<br  />";
+        echo "$stat: ";
+        print_r($value);
+        echo "<br  />";
     }
 
     function display_unit_stats($unit) {
         /*
             A function that can be called to easily display all stats of a unit
         */
-        display_unit_name_string($stats);
 
-        display_unit_type_price_string($stats);
+        echo "<table class='unit-table'><tbody>";
+        display_unit_name_string($unit);
 
-        display_dimensions_string($stats);
+        display_unit_type_price_string($unit);
 
-        display_hyperdrive_string($stats);
+        display_dimensions_string($unit);
 
-        foreach ($stats as $stat => $value) {
+        display_hyperdrive_string($unit);
+
+        foreach ($unit as $stat => $value) {
             if ($value === NULL);
             elseif ($stat == 'armament') display_armament($value);
             elseif ($stat == 'complement') display_complement($value);
             elseif ($stat == 'crew') display_crew($value);
+            elseif (gettype($value) == 'array') display_array_stat($value, $stat);
             else display_simple_stat($stat, $value);
         }
+        echo "</tbody></table>";
+    }
 
+    function display_array_stat($value, $stat) {
+        echo "$stat: ";
+        print_r($value);
+        echo "<br  />";
     }
 
     function display_armament($armament) {}
@@ -396,6 +407,7 @@
     function display_crew($crew) {}
 
     function display_unit_name_string(&$stats) {
+        echo "<tr><th colspan=2>";
         if (not_null($stats['modslots'])) $modslots = $stats['modslots'];
         else $modslots = '?';
         $name = ucwords($stats['name']);
@@ -408,6 +420,7 @@
             echo " AKA <i>'$alias'</i><br  />";
         }
         unset($stats['alias']);
+        echo "</td></tr>";
     }
 
     function not_null($val) { return (!($val === NULL)); }
@@ -427,11 +440,13 @@
 
     function display_price($price) {
         $C = 'constant';
-        echo " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='16px'  />";
+        echo " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />";
         echo add_commas_to_num($price);
     }
 
     function display_unit_type_price_string(&$stats) {
+        echo "<tr><td>";
+
         if (not_null($stats['points'])) {
             $points = $stats['points'];
             echo "$points Point";
@@ -444,12 +459,12 @@
         unset($stats['type_description']);
 
         if (not_null($stats['price'])) {
-            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            echo "</td><td class='left-text'>";
             display_price($stats['price']);
         }
 
         unset($stats['price']);
-        echo "<br  />";
+        echo "</td></tr>";
     }
 
     function display_dimensions_string(&$stats) {
@@ -459,7 +474,9 @@
         $dimensions = ['length', 'width', 'height']; //all of the possible dimensions in 3 dimensions
         foreach ($dimensions as $dimension) { //iterate through them all
             if (not_null($stats[$dimension])) { //if the unit has a value for that dimension
-                echo ucwords($dimension) . ": " . add_commas_to_num($stats[$dimension]) . " meters<br  />"; //format and display it properly.
+                echo "<tr><td>";
+                echo ucwords($dimension) . "</td>";
+                echo "<td class='left-text'>" . add_commas_to_num($stats[$dimension]) . " meters</td></tr>"; //format and display it properly.
             }
             unset($stats[$dimension]); //remove the dimension from the array, whether or not it exists.
         }
@@ -468,12 +485,12 @@
     function display_hyperdrive_string(&$stats) {
         $hyperdrive_str = '';
         if (not_null($stats['hyperdrive'])) {
-            $hyperdrive_str = "Hyperdrive: ".$stats['hyperdrive'];
+            $hyperdrive_str = "<tr><td>Hyperdrive: Class " . $stats['hyperdrive'] . "</td>";
         }
         if (not_null($stats['backup'])) {
-            $hyperdrive_str .= " | Backup: ".$stats['backup'];
+            $hyperdrive_str .= "<td class='left-text'>Backup: Class " . $stats['backup'] . "</td>";
         }
-        echo $hyperdrive_str . "<br  />";
+        echo $hyperdrive_str . "</tr>";
         unset($stats['hyperdrive']);
         unset($stats['backup']);
     }
