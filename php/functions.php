@@ -484,7 +484,7 @@
             return $num_string;
         }
         else {
-            return add_commas_to_num(substr($num_string, 0, -3)) . "," . substr($num_string, -3);
+            return add_commas_to_num(substr($num_string, 0, -3)) . substr($num_string, -3);
         }
     }
 
