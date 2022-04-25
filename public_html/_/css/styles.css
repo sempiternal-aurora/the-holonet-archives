@@ -1,6 +1,6 @@
 html {
     background:#444;
-    color: white;
+    color: #CEF;
 }
 
 .centre {
@@ -12,13 +12,14 @@ html {
     font-weight:bold;
     font-style:italic;
     font-size:300%;
-    color:white;
+    color:#6AF;
+    text-shadow: 0 0 20px #58B;
 }
 
 .username {
     text-align:center;
     background:#777;
-    color:#fef;
+    color:#7BF;
 }
 
 #center-username {
