@@ -359,6 +359,28 @@
         echo "$stat: $value<br  />";
     }
 
+    function display_unit_stats($unit) {
+        /*
+            A function that can be called to easily display all stats of a unit
+        */
+        display_unit_name_string($stats);
+
+        display_unit_type_price_string($stats);
+
+        display_dimensions_string($stats);
+
+        display_hyperdrive_string($stats);
+
+        foreach ($stats as $stat => $value) {
+            if ($value === NULL);
+            elseif ($stat == 'armament') display_armament($value);
+            elseif ($stat == 'complement') display_complement($value);
+            elseif ($stat == 'crew') display_crew($value);
+            else display_simple_stat($stat, $value);
+        }
+
+    }
+
     function display_armament($armament) {}
 
     function display_complement($complement) {}
