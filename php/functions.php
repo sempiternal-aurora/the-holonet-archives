@@ -311,12 +311,12 @@
             'is_special' => 0,
             'notes' => "The Imperial II-class Star Destroyer, also known as the Imperial II-class Destroyer and colloquially the ImpStar Deuce, was a Star Destroyer model that was derived from the Imperial I-class Star Destroyer.",
             'in_shops' => array(
-                'Empire of the Hand Shop', 
-                'Eriadu Authority Shop', 
-                'Greater Maldrood Shop', 
-                'Pentastar Alignment Shop', 
-                'X1&#039;s Empire Shop', 
-                'Zsinj&#039;s Empire Shop'
+                array('shop_id' => 1, 'shop_name' => 'Empire of the Hand Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'Eriadu Authority Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'Greater Maldrood Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'Pentastar Alignment Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'X1&#039;s Empire Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'Zsinj&#039;s Empire Shop')
             ),
             'armament' => array(
                 // ammo, type, battery, range, firelink, type, quantity, direction
@@ -388,8 +388,10 @@
 
         display_integrity_stats($unit);
 
+        display_shops_unit_in($unit);
+
         display_armament($unit['armament']);
-        display_complement($unit['complement']);
+        display_complement($unit);
         display_crew($unit['crew']);
 
         foreach ($unit as $stat => $value) {
@@ -418,6 +420,20 @@
         }
     }
 
+    function display_shops_unit_in(&$stats) {
+        $randstr = generate_random_string();
+        $C = 'constant';
+        if (not_null($stats['in_shops'])) {
+            echo "<tr><th class=centre colspan=2>In Shops</th></tr>";
+            foreach ($stats['in_shops'] as $shop) {
+                $shop_id = $shop['shop_id'];
+                echo "<tr><td class=centre colspan=2><a href='{$C('WEBSITE_ROOT')}/shop_page/?r=$randstr&sid=$shop_id' data-transition='slide'>";
+                echo $shop['shop_name'] . "</a></td></tr>";
+            }
+        }
+        unset($stats['in_shops']);
+    }
+
     function display_mglt_kmh_stats(&$stats) {
         $str = '';
 
@@ -443,7 +459,65 @@
 
     function display_armament($armament) {}
 
-    function display_complement($complement) {}
+    function display_complement(&$stats) {
+        $complement = $stats['complement'];
+        unset($stats['complement']);
+        if (not_null($complement)) {
+            $str = '';
+            if (not_null($complement['consumables'])) {
+                $quantity = convert_days_to_timestr($complement['consumables']);
+                $str .= "<tr><td class='centre' colspan=2>$quantity Consumables</td></tr>";
+                unset($complement['consumables']);
+            } 
+            if (not_null($complement['cargo capacity'])) {
+                $quantity = $complement['cargo capacity'];
+                $str .= "<tr><td>Cargo Capacity</td><td>$quantity Metric Tonnes</td></tr>";
+                unset($complement['cargo capacity']);
+            }
+            $unit_comp_str = '';
+            foreach ($complement as $class => $quantity) {
+                $stat = mysql_stat_names_to_display_names($class);
+                $stat = pluralise($stat);
+                $unit_comp_str .= "<li>$quantity $stat</li>";
+            }
+            echo "<tr><th class='centre' colspan=2>Complement</th></tr>";
+            if ($unit_comp_str != '') {
+                $unit_comp_str = "<tr><td colspan=2><ul>" . $unit_comp_str . "</ul></td></tr>";
+                echo $unit_comp_str;
+            }
+            echo $str;
+        }
+    }
+
+    function pluralise($phrase) {
+        if (strtolower(substr($phrase, -1)) == 's') {
+            return $phrase;
+        } else return $phrase . "s";
+    }
+
+    function divide_with_remainder($dividend, $divisor) {
+        $quotient = intval($dividend / $divisor);
+        $remainder = $dividend % $divisor;
+        return array($quotient, $remainder);
+    }
+
+    function convert_days_to_timestr($days) {
+        list($years, $year_remainder) = divide_with_remainder($days, 365);
+        list($months, $month_remainder) = divide_with_remainder($year_remainder, 30);
+
+        $str = '';
+        if ($years != 0) {
+            $str .= "$years years";
+        }
+        if ($months != 0) {
+            $str .= " $months months";
+        }
+        if ($month_remainder != 0) {
+            $str .= " $month_remainder days";
+        }
+
+        return trim($str);
+    }
 
     function display_crew($crew) {}
 
