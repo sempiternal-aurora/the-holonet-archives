@@ -73,6 +73,25 @@ html {
     color: red;
 }
 
-.left-text {
+.right-text {
     text-align: right;
+}
+
+.unit-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.unit-table * tr {
+    border: 1px solid black;
+}
+
+.unit-table * th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.unit-table * td {
+    border: 1px solid black;
+    padding: 5px;
 }

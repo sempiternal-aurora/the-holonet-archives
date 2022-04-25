@@ -31,7 +31,7 @@
         public $shield;
         public $hull;
         public $sbd;
-        public $hbd;
+        public $ru;
         public $points;
         public $is_special;
         public $notes;
@@ -297,19 +297,19 @@
             'modslots' => 3,
             'uc_limit' => NULL,
             'length' => 1600.0,
-            'height' => NULL,
-            'width' => NULL,
+            'height' => 454.6,
+            'width' => 952.9,
             'hyperdrive' => '2.0',
             'backup' => '8.0',
             'mglt' => 60,
             'kmh' => 975,
             'shield' => 'Above Average',
             'hull' => 'Above Average',
-            'sbd' => NULL,
-            'hbd' => NULL,
+            'sbd' => 4800,
+            'ru' => 2272,
             'points' => 7,
             'is_special' => 0,
-            'notes' => NULL,
+            'notes' => "The Imperial II-class Star Destroyer, also known as the Imperial II-class Destroyer and colloquially the ImpStar Deuce, was a Star Destroyer model that was derived from the Imperial I-class Star Destroyer.",
             'in_shops' => array(
                 'Empire of the Hand Shop', 
                 'Eriadu Authority Shop', 
@@ -375,20 +375,25 @@
         */
 
         echo "<table class='unit-table'><tbody>";
+
         display_unit_name_string($unit);
 
         display_unit_type_price_string($unit);
 
+        display_uc_limit($unit);
+
         display_dimensions_string($unit);
 
-        display_hyperdrive_string($unit);
+        display_speed_string($unit);
+
+        display_integrity_stats($unit);
+
+        display_armament($unit['armament']);
+        display_complement($unit['complement']);
+        display_crew($unit['crew']);
 
         foreach ($unit as $stat => $value) {
-            if ($value === NULL);
-            elseif ($stat == 'armament') display_armament($value);
-            elseif ($stat == 'complement') display_complement($value);
-            elseif ($stat == 'crew') display_crew($value);
-            elseif (gettype($value) == 'array') display_array_stat($value, $stat);
+            if ($value === NULL) echo "$stat<br  />";
             else display_simple_stat($stat, $value);
         }
         echo "</tbody></table>";
@@ -400,11 +405,56 @@
         echo "<br  />";
     }
 
+    function display_speed_string(&$stats) {
+        $str = '';
+
+        $str = display_mglt_kmh_stats($stats);
+
+        $str .= display_hyperdrive_string($stats);
+
+        if ($str!='') {
+            echo "<tr><th class='centre' colspan=2>Speed</th></tr>";
+            echo $str;
+        }
+    }
+
+    function display_mglt_kmh_stats(&$stats) {
+        $str = '';
+
+        if (not_null($stats['kmh']) && not_null($stats['mglt'])) {
+            $str .= "<tr><td>";
+            $str .= $stats['mglt'] . " MGTL";
+            $str .= "</td><td class='right-text'>";
+            $str .= $stats['kmh'] . "km/h in atmosphere";
+        } elseif (not_null($stats['kmh'])) {
+            $str .= "<tr><td colspan=2 class='centre'>";
+            $str .= $stats['kmh'] . "km/h in atmosphere";
+            $str .= "</td></tr>";
+        } elseif (not_null($stats['mglt'])) {
+            $str .= "<tr><td colspan=2 class='centre'>";
+            $str .= $stats['mgkt'] . " MGLT";
+            $str .= "</td></tr>";
+        }
+
+        unset($stats['mglt']);
+        unset($stats['kmh']);
+        return $str;
+    }
+
     function display_armament($armament) {}
 
     function display_complement($complement) {}
 
     function display_crew($crew) {}
+
+    function display_uc_limit(&$stats) {
+        if (not_null($stats['uc_limit'])) {
+            echo "<tr><td colspan=2 class='centre'>";
+            echo "Max " . $stats['uc_limit'] . " Per UC";
+            echo "</td></tr>";
+        }
+        unset($stats['uc_limit']);
+    }
 
     function display_unit_name_string(&$stats) {
         echo "<tr><th colspan=2>";
@@ -449,17 +499,18 @@
 
         if (not_null($stats['points'])) {
             $points = $stats['points'];
-            echo "$points Point";
+            echo "$points Point ";
         }
         if ($stats['is_special'] === 1) {
-            echo " <i>Special</i>";
+            echo "<i>Special</i> ";
         }
-        echo " " . $stats['type_description'];
+        echo $stats['type_description'];
         unset($stats['points']);
         unset($stats['type_description']);
+        unset($stats['is_special']);
 
         if (not_null($stats['price'])) {
-            echo "</td><td class='left-text'>";
+            echo "</td><td class='right-text'>";
             display_price($stats['price']);
         }
 
@@ -467,18 +518,52 @@
         echo "</td></tr>";
     }
 
+    function display_integrity_stats(&$stats) {
+        $str = '';
+        $str .= generate_integrity_stat_tr($stats['shield'], $stats['sbd'], "Shielding");
+        $str .= generate_integrity_stat_tr($stats['hull'], $stats['ru'], "Hull");
+        if ($str != '') {
+            echo "<tr><th class='centre' colspan=2>Durability</th></tr>";
+            echo $str;
+        }
+        unset($stats['sbd']);
+        unset($stats['shield']);
+        unset($stats['hull']);
+        unset($stats['ru']);
+    }
+
+    function generate_integrity_stat_tr($descriptor, $value, $type) {
+        $str = '';
+        $units = 'SBD';
+        if ($type == 'Hull') $units = 'RU';
+        if (not_null($descriptor) && not_null($value)) {
+            $str .= "<tr><td>$descriptor $type</td>";
+            $str .= "<td>$value $units</td></tr>";
+        } elseif (not_null($descriptor)) {
+            $str .= "<tr><td colspan=2 class='centre'>$descriptor $type</td></tr>";
+        } elseif (not_null($value)) {
+            $str .= "<tr><td colspan=2 class='centre'>$value $units</td></tr>";
+        }
+        return $str;
+    }
+
     function display_dimensions_string(&$stats) {
         /*
             A function to take a array of unit stats, display the dimensions of the ship, and then unset the values so they are not displayed later.
         */
         $dimensions = ['length', 'width', 'height']; //all of the possible dimensions in 3 dimensions
+        $dimensions_str = '';
         foreach ($dimensions as $dimension) { //iterate through them all
             if (not_null($stats[$dimension])) { //if the unit has a value for that dimension
-                echo "<tr><td>";
-                echo ucwords($dimension) . "</td>";
-                echo "<td class='left-text'>" . add_commas_to_num($stats[$dimension]) . " meters</td></tr>"; //format and display it properly.
+                $dimensions_str .= "<tr><td>";
+                $dimensions_str .= ucwords($dimension) . "</td>";
+                $dimensions_str .= "<td class='right-text'>" . add_commas_to_num($stats[$dimension]) . " meters</td></tr>"; //format and display it properly.
             }
             unset($stats[$dimension]); //remove the dimension from the array, whether or not it exists.
+        }
+        if ($dimensions_str != '') {
+            echo "<tr><th class='centre' colspan=2>Dimensions</th></td>";
+            echo $dimensions_str;
         }
     }
 
@@ -488,11 +573,13 @@
             $hyperdrive_str = "<tr><td>Hyperdrive: Class " . $stats['hyperdrive'] . "</td>";
         }
         if (not_null($stats['backup'])) {
-            $hyperdrive_str .= "<td class='left-text'>Backup: Class " . $stats['backup'] . "</td>";
+            $hyperdrive_str .= "<td class='right-text'>Backup: Class " . $stats['backup'] . "</td>";
         }
-        echo $hyperdrive_str . "</tr>";
         unset($stats['hyperdrive']);
         unset($stats['backup']);
+        if ($hyperdrive_str !== '') {
+            return $hyperdrive_str . "</tr>";
+        }
     }
 
     function ingest_shop_to_array($shop, $unit_id_key) {
