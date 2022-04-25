@@ -388,11 +388,11 @@
 
         display_integrity_stats($unit);
 
-        display_shops_unit_in($unit);
-
-        display_armament($unit['armament']);
+        display_armament($unit);
         display_complement($unit);
-        display_crew($unit['crew']);
+        display_crew($unit);
+
+        display_shops_unit_in($unit);
 
         foreach ($unit as $stat => $value) {
             if ($value === NULL) echo "$stat<br  />";
@@ -471,13 +471,15 @@
             } 
             if (not_null($complement['cargo capacity'])) {
                 $quantity = $complement['cargo capacity'];
-                $str .= "<tr><td>Cargo Capacity</td><td>$quantity Metric Tonnes</td></tr>";
+                $quantity = add_commas_to_num($quantity);
+                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity Metric Tonnes</td></tr>";
                 unset($complement['cargo capacity']);
             }
             $unit_comp_str = '';
             foreach ($complement as $class => $quantity) {
                 $stat = mysql_stat_names_to_display_names($class);
                 $stat = pluralise($stat);
+                $quantity = add_commas_to_num($quantity);
                 $unit_comp_str .= "<li>$quantity $stat</li>";
             }
             echo "<tr><th class='centre' colspan=2>Complement</th></tr>";
@@ -491,6 +493,8 @@
 
     function pluralise($phrase) {
         if (strtolower(substr($phrase, -1)) == 's') {
+            return $phrase;
+        } elseif (strtolower($phrase) == 'crew') {
             return $phrase;
         } else return $phrase . "s";
     }
@@ -519,7 +523,32 @@
         return trim($str);
     }
 
-    function display_crew($crew) {}
+    function display_crew(&$stats) {
+        $crew = $stats['crew'];
+        unset($stats['crew']);
+        if (not_null($crew)) {
+            $str = '';
+            if (not_null($crew['minimum crew'])) {
+                $quantity = $crew['minimum crew'];
+                $quantity = add_commas_to_num($quantity);
+                $str .= "<tr><td>Minimum Crew</td><td class='right-text'>$quantity</td></tr>";
+                unset($crew['minimum crew']);
+            }
+            $unit_crew_str = '';
+            foreach ($crew as $role => $quantity) {
+                $stat = mysql_stat_names_to_display_names($role);
+                $stat = pluralise($stat);
+                $quantity = add_commas_to_num($quantity);
+                $unit_crew_str .= "<li>$quantity $stat</li>";
+            }
+            echo "<tr><th class='centre' colspan=2>Crew</th></tr>";
+            if ($unit_crew_str != '') {
+                $unit_crew_str = "<tr><td colspan=2><ul>" . $unit_crew_str . "</ul></td></tr>";
+                echo $unit_crew_str;
+            }
+            echo $str;
+        }
+    }
 
     function display_uc_limit(&$stats) {
         if (not_null($stats['uc_limit'])) {
@@ -612,7 +641,7 @@
         if ($type == 'Hull') $units = 'RU';
         if (not_null($descriptor) && not_null($value)) {
             $str .= "<tr><td>$descriptor $type</td>";
-            $str .= "<td>$value $units</td></tr>";
+            $str .= "<td class='right-text'>$value $units</td></tr>";
         } elseif (not_null($descriptor)) {
             $str .= "<tr><td colspan=2 class='centre'>$descriptor $type</td></tr>";
         } elseif (not_null($value)) {

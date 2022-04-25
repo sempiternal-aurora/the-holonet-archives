@@ -5,7 +5,7 @@
     if (isset($_GET['uid'])) {
         $unit_id = $_GET['uid'];
         $stats = get_unit_stats($pdo, $unit_id);
-        //get_unit_stats_yes($pdo, $unit_id);
+        get_unit_stats_yes($pdo, $unit_id);
         echo <<<_END
                         <div class='unit'>
         _END;
