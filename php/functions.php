@@ -317,8 +317,10 @@
             $emplacement = array();
             $armament_query = $pdo->query("SELECT a.ammo, w.weapon_type FROM armament AS a JOIN weapon AS w ON a.weapon_id=w.weapon_id WHERE armament_id=$armament_id");
             while ($result = $armament_query->fetch()) {
-                $emplacement[] = $result['ammo'];
-                $emplacement[] = $result['weapon_type'];
+                $emplacement[] = array(
+                    'ammo' => $result['ammo'], 
+                    'weapon_type' => $result['weapon_type']
+                );
             }
             $armament_array[$armament_id] = $emplacement;
         }
