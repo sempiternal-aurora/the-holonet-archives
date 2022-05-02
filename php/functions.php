@@ -548,7 +548,161 @@
         return $str;
     }
 
-    function display_armament($armament) {}
+    function consolidate_armament($armament) {
+        $new_armament = [];
+        foreach ($armament as $i => $weapon) {
+            $is_found = FALSE;
+            foreach ($new_armament as $j => $new_weapon) {
+                if (is_same_weapon_emplacement($weapon, $new_weapon)) {
+                    $new_armament[$j]['locations'][] = array(
+                        'quantity' => $weapon['quantity'],
+                        'direction' => $weapon['direction']
+                    );
+                    $is_found = TRUE;
+                    break;
+                }
+            }
+            if (!$is_found) {
+                $armament[$i]['locations'] = array();
+                $armament[$i]['locations'][] = array(
+                    'quantity' => $weapon['quantity'],
+                    'direction' => $weapon['direction']
+                );
+                unset($armament[$i]['quantity']);
+                unset($armament[$i]['direction']);
+                $new_armament[] = $armament[$i];
+            }
+        }
+        return $new_armament;
+    }
+
+    function consolidate_quantity($emplacement) {
+        $quantity = 0;
+        foreach ($emplacement['locations'] as $location) {
+            $quantity += $location['quantity'];
+        }
+        return $quantity;
+    }
+
+    function get_size_word($size) {
+        switch ($size) {
+            case 2:
+                return 'Dual';
+            case 3:
+                return 'Triple';
+            case 4:
+                return 'Quad';
+            case 5:
+                return 'Quintuple';
+            case 6:
+                return 'Sextuple';
+            case 8:
+                return 'Octuple';
+            default:
+                return '';
+        }
+    }
+
+    function generate_emplacement_list($locations) {
+        $str = '';
+        $str .= "<ul>";
+        foreach ($locations as $location) {
+            $str .= "<li>" . trim($location['quantity'] . " " . $location['direction']) . "</li>";
+        }
+        $str .= "</ul>";
+        return $str;
+    }
+
+    function format_firelink($firelink) {
+        if ($firelink > 0) {
+            return " (firelinked in groups of $firelink)";
+        } else return '';
+    }
+
+    function format_weapon_range($range) {
+        if ($range > 0) {
+            return " (range: $range km)";
+        } else return '';
+    }
+
+    function format_weapon_type($types) {
+        $str = '';
+        foreach ($types as $type) {
+            $str .= " " . $type['weapon_type'];
+            if ($type['ammo'] > 0) {
+                $str .= " (ammo: " . $type['ammo'] . ")";
+            }
+            $str .= " or";
+        }
+        $str = substr($str, 0, -3); //remove the last or and space
+        return $str;
+    }
+
+    function format_weapon($weapon_type, $weapons) {
+        $weapons = format_weapon_type($weapons);
+        return str_replace(':', " $weapons ", $weapon_type);
+    }
+
+    function display_emplacement($emplacement) {
+        $str = '<li>';
+        $quantity = consolidate_quantity($emplacement);
+        $str .= $quantity . " ";
+        $size_word = get_size_word($emplacement['battery_size']);
+        $str .= $size_word;
+        unset($emplacement['battery_size']);
+
+        $emplacement_list_str = '';
+        if (sizeof($emplacement['locations']) > 2) {
+            $emplacement_list_str = generate_emplacement_list($emplacement['locations']);
+        } else {
+            $str .= $emplacement['locations'][0]['direction'];
+        }
+        unset($emplacement['locations']);
+
+        $str .= " " . format_weapon($emplacement['weapon_type'], $emplacement['weapon']);
+
+        $str .= format_firelink($emplacement['firelink']);
+        unset($emplacement['firelink']);
+
+        $str .= format_weapon_range($emplacement['weapon_range']);
+        unset($emplacement['weapon_range']);
+
+        $str .= $emplacement_list_str;
+        $str .= '</li>';
+        return $str;
+    }
+
+    function is_same_weapon_emplacement($emplacement_1, $emplacement_2) {
+        /*
+            Takes two weapon emplacements, and compares everything except quantity and direction, returning true if they are the same, and false if they are not.
+        */
+        unset($emplacement_1['quantity']);
+        unset($emplacement_1['direction']);
+        unset($emplacement_1['locations']);
+        unset($emplacement_2['quantity']);
+        unset($emplacement_2['direction']);
+        unset($emplacement_2['locations']);
+        return $emplacement_1 === $emplacement_2;
+    }
+
+    function display_armament(&$stats) {
+        /*
+            Take the armament of a unit and display it as a organised unordered list. Unset it so that it isn't displayed twice
+        */
+        $armament = $stats['armament'];
+        $armament = consolidate_armament($armament);
+        $str = '';
+        if ($armament !== []) {
+            $str .= "<tr><th colspan=2 class='centre'>Armament</th></tr>";
+            $str .= "<tr><td colspan=2><ul>";
+            foreach ($armament as $emplacement) {
+                $str .= display_emplacement($emplacement);
+            }
+            $str .= "</ul></td></tr>";
+        }
+        echo $str;
+        unset($stats['armament']);
+    }
 
     function display_complement(&$stats) {
         $complement = $stats['complement'];
