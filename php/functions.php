@@ -342,12 +342,12 @@
         }
     }
 
-    function verify_unit_id(&$pdo, $unit_id) {
-        $query = $pdo->query("SELECT * FROM unit WHERE unit_id = '$unit_id'");
-        if (!is_numeric($unit_id)) {
-            return "Unit_id must be an integer, please try again.";
+    function verify_id(&$pdo, $id, $table) {
+        $query = $pdo->query("SELECT * FROM $table WHERE $table" . "_id = '$id'");
+        if (!is_numeric($id)) {
+            return "ID must be an integer, please try again.";
         } elseif ($query->rowCount() == 0) {
-            return "That unit does not exist, please try again";
+            return "That entry does not exist, please try again";
         } else return '';
     }
 
