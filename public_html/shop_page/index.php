@@ -26,7 +26,12 @@
         }
     }
     else {
-        echo "<h4 class='centre'>Please specify a unit to lookup stats for.</h4></div>";
+        echo "<h4 class='centre'>All Shops</h4>";
+        $all_shops = fetch_all_shops($pdo);
+
+        foreach ($all_shops as $shop) {
+            echo display_shop_link($shop);
+        }
     }
 
     include_once DOCUMENT_ROOT . 'php/footer.php';
