@@ -273,10 +273,11 @@
     }
 
     function get_unit_stats(&$pdo, $unit_id) {
-        $get_stats = $pdo->query("SELECT * FROM unit AS u JOIN unit_type AS ut ON ut.unit_type=u.unit_type WHERE unit_id = $unit_id");
+        $get_stats = $pdo->query("SELECT * FROM unit AS u LEFT JOIN unit_type AS ut ON ut.unit_type=u.unit_type WHERE unit_id = '$unit_id'");
         while ($result = $get_stats->fetch()) {
             $stats = $result;
         }
+
         update_shield_hull($stats);
         unset($stats['unit_type']);
 
