@@ -48,6 +48,7 @@
                         <a class='ui-btn ui-btn-inline ui-icon-home ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Home</a>
                         <a class='ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>
                         <a class='ui-btn ui-btn-inline ui-icon-shop ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/order?r=$randstr'>Order Calc</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-user ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile?r=$randstr'>Profile</a>
                         <a class='ui-btn ui-btn-inline ui-icon-action ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
@@ -59,6 +60,7 @@
                     <div class='centre'>
                         <a class='ui-btn ui-btn-inline ui-icon-home ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Home</a>
                         <a class='ui-btn ui-btn-inline ui-icon-shop ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/order?r=$randstr'>Order Calc</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/sign_up.php?r=$randstr'>Sign Up</a>
                         <a class='ui-btn ui-btn-inline ui-icon-check ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/login.php?r=$randstr'>Login</a>
