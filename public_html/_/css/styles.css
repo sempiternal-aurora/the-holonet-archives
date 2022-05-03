@@ -3,6 +3,18 @@ html {
     color: #CEF;
 }
 
+a:link {
+    color: #7BF;
+}
+
+a:visited {
+    color: #CCF;
+}
+
+a:active {
+    color: #FFF;
+}
+
 .unit-links {
     text-decoration: none;
 }
