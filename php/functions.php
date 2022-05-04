@@ -497,7 +497,7 @@
                 $value += 1;
             case 'Infantry':
                 $value += 1;
-            case 'Vehicles':
+            case 'Vehicle':
                 $value += 1;
             case 'Space Station':
                 $value += 1;
