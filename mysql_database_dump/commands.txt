@@ -1,0 +1,1 @@
+Windows: mysqldump.exe -u root -p holonet > C:\xampp\htdocs\the_holonet_archives\mysql_database_dump\holonet.sql
