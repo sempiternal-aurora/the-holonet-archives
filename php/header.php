@@ -35,7 +35,11 @@
         </body>
             <div data-role='page'>
                 <div data-role='header'>
-                    <div id='logo' class='centre'>The H<img height='30px' id='net' src='{$C('WEBSITE_ROOT')}/data/images/logo.png' alt='o'  />lonet Archives</div>
+                    <div class='centre'>
+                        <a class='no-show' href='{$C('WEBSITE_ROOT')}?r=$randstr'>
+                            <span id='logo'>The H<img height='30px' id='net' src='{$C('WEBSITE_ROOT')}/data/images/logo.png' alt='o'  />lonet Archives</span>
+                        </a>
+                    </div>
                     <div id='center-username' class='username'>$logged_in_as</div>
                 </div>
                 <div data-role='content'>
@@ -45,7 +49,6 @@
     if ($logged_in) {//If they are logged in, display a button linking to the home, modify unit, order calculator, unit search, profile and log out page
         echo <<<_ECHO
                     <div class='centre'>
-                        <a class='ui-btn ui-btn-inline ui-icon-home ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Home</a>
                         <a class='ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>
                         <a class='ui-btn ui-btn-inline ui-icon-shop ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/order?r=$randstr'>Order Calc</a>
                         <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
@@ -58,7 +61,6 @@
     else {//If they are not logged in, instead display a different list of options, including links to home, order calculator, unit search, sign up and login page
         echo <<<_ECHO
                     <div class='centre'>
-                        <a class='ui-btn ui-btn-inline ui-icon-home ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Home</a>
                         <a class='ui-btn ui-btn-inline ui-icon-shop ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/order?r=$randstr'>Order Calc</a>
                         <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
