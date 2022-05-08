@@ -478,7 +478,7 @@
         $str = "<li><a class='unit-links' data-transition='slide' href='{$C('WEBSITE_ROOT')}/unit_page?uid=$unit_id'>(" . $unit['modslots'] . ") ";
         $str .= $unit['name'];
         $price = $unit['price'];
-        if ($price != 0) $str .= " - <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . add_commas_to_num($price);
+        if ($price != 0) $str .= " - <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . number_format($price);
         if (not_null($unit['uc_limit'])) $str .= " (Max " . $unit['uc_limit'] . " Per UC)";
         $str .= "</a>";
         if (not_null($unit['notes'])) $str .= "<br  />[" . $unit['notes'] . "]";
@@ -981,7 +981,7 @@
             } 
             if (isset($complement['Cargo Capacity'])) {
                 $quantity = $complement['Cargo Capacity'];
-                $quantity = add_commas_to_num($quantity);
+                $quantity = number_format($quantity);
                 $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity Metric Tonnes</td></tr>";
                 unset($complement['Cargo Capacity']);
             }
@@ -989,7 +989,7 @@
             foreach ($complement as $class => $quantity) {
                 $stat = mysql_stat_names_to_display_names($class);
                 $stat = pluralise($stat);
-                $quantity = add_commas_to_num($quantity);
+                $quantity = number_format($quantity);
                 $unit_comp_str .= "<li>$quantity $stat</li>";
             }
             echo "<tr><th class='centre' colspan=2>Complement</th></tr>";
@@ -1042,7 +1042,7 @@
             $str = '';
             if (isset($crew['Minimum Crew'])) {
                 $quantity = $crew['Minimum Crew'];
-                $quantity = add_commas_to_num($quantity);
+                $quantity = number_format($quantity);
                 $str .= "<tr><td>Minimum Crew</td><td class='right-text'>$quantity</td></tr>";
                 unset($crew['Minimum Crew']);
             }
@@ -1050,7 +1050,7 @@
             foreach ($crew as $role => $quantity) {
                 $stat = mysql_stat_names_to_display_names($role);
                 $stat = pluralise($stat);
-                $quantity = add_commas_to_num($quantity);
+                $quantity = number_format($quantity);
                 $unit_crew_str .= "<li>$quantity $stat</li>";
             }
             echo "<tr><th class='centre' colspan=2>Crew</th></tr>";
@@ -1093,20 +1093,20 @@
     function add_commas_to_num($num_string) {
         $pos = strrpos($num_string, '.');
         if ($pos) {
-            return add_commas_to_num(substr($num_string, 0, $pos)) . substr($num_string, $pos);
+            return number_format(substr($num_string, 0, $pos)) . substr($num_string, $pos);
         }
         if (strlen($num_string) < 4) {
             return $num_string;
         }
         else {
-            return add_commas_to_num(substr($num_string, 0, -3)) . "," . substr($num_string, -3);
+            return number_format(substr($num_string, 0, -3)) . "," . substr($num_string, -3);
         }
     }
 
     function display_price($price) {
         $C = 'constant';
         echo " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />";
-        echo add_commas_to_num($price);
+        echo number_format($price);
     }
 
     function display_unit_type_price_string(&$stats) {
