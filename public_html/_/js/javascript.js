@@ -14,7 +14,7 @@ function validatePassword(field) {
     else return "";
 }
 
-function validate(form) {
+function validate_login(form) {
     fail = validateUsername(form.user.value)
     fail += validatePassword(form.pass.value)
 
