@@ -14,6 +14,8 @@
             <meta charset='utf-8'  />
             <meta name='viewport' content='width=device-width, initial-scale=1'  />
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/js/jquery_mobile/jquery.mobile-1.4.5.css'  />
+            <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/css/holonet-original.css'  />
+            <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/css/jquery.mobile.icons.min.css'  />
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/css/styles.css'  />
             <link rel='icon' href='{$C('WEBSITE_ROOT')}/data/images/favicon.ico' type='image/ico'  />
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/OSC.js'></script>
@@ -49,9 +51,9 @@
     if ($logged_in) {//If they are logged in, display a button linking to the home, modify unit, order calculator, unit search, profile and log out page
         echo <<<_ECHO
                     <div class='centre'>
-                        <a class='ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>
+                        <a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>
                         <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
-                        <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-action ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
                         <a class='ui-btn ui-btn-inline ui-icon-comment ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
@@ -60,8 +62,8 @@
     else {//If they are not logged in, instead display a different list of options, including links to home, order calculator, unit search, sign up and login page
         echo <<<_ECHO
                     <div class='centre'>
-                        <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
-                        <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
+                        <a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/sign_up.php?r=$randstr'>Sign Up</a>
                         <a class='ui-btn ui-btn-inline ui-icon-check ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/login.php?r=$randstr'>Login</a>
                         <a class='ui-btn ui-btn-inline ui-icon-comment ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
