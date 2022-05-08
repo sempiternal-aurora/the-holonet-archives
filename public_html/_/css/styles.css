@@ -150,3 +150,7 @@ html {
 .form-button:visited {
     color: #7BF;
 }
+
+.sort-by {
+    padding: 15px;
+}
