@@ -3,36 +3,27 @@ html {
     color: #CEF;
 }
 
-a:link {
-    color: #7BF;
-}
-
-a:visited {
-    color: #CCF;
-}
-
-a:active {
-    color: #FFF;
-}
-
 .unit-links {
     text-decoration: none;
-}
-
-.unit-links:link {
-    color: #CEF;
-}
-
-.unit-links:visited {
-    color: #CCF;
-}
-
-.unit-links:hover {
-    text-decoration: underline;
+    text-shadow: none;
 }
 
 .centre {
     text-align:center;
+}
+
+#price-min {
+    width: 100px;
+}
+
+#price-max {
+    width: 100px;
+}
+
+#price-rangeslider .ui-rangeslider-sliders {
+    max-width: 54%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #logo {
@@ -52,7 +43,6 @@ a:active {
 
 #center-username {
     margin:auto;
-    width:90%;
 }
 
 .net {
@@ -63,7 +53,7 @@ a:active {
 
 .login-form {
     margin:0 auto;
-    width:300px;
+    max-width: 300px;
 }
 
 .form-label {
@@ -133,4 +123,30 @@ a:active {
 
 .no-show {
     text-decoration: none;
+}
+
+.search {
+    margin: auto;
+    max-width: 800px;
+    border: 2px solid #000;
+    border-radius: 5px;
+}
+
+.search-input {
+    padding: 10px 20px;
+}
+
+.show-button {
+    margin: 5px auto;
+    width: fit-content;
+}
+
+.form-button {
+    color: #7BF;
+    background-color: #444;
+    border-color: #7BF;
+}
+
+.form-button:visited {
+    color: #7BF;
 }
