@@ -13,7 +13,7 @@
                         <li>And even calculate orders with them</li>
                     </ul>
                     To get started, follow one of the links above to a different part of the website!
-                </div>
+                </div></div>
     _END;
 
     require_once DOCUMENT_ROOT . 'php/footer.php';
