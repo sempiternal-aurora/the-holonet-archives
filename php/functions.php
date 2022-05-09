@@ -1322,11 +1322,10 @@
 
         $notes = ''; //initialise notes so there is no errors
         foreach ($str_array as $line) { //iterate through the remaining line
-            if ((!(strpos($line, "UC")===False)) && (!(strpos($remaining_line, "Max")===False))) { //if Max and UC exist in the string, as in (Max 72 Per UC)
+            if ((!(strpos($line, "UC")===False)) && (!(strpos($line, "Max")===False))) { //if Max and UC exist in the string, as in (Max 72 Per UC)
                 $uc_limit = get_uc_limit_from_str($line); //extract the uc_limit from the string
-            }
-            else {
-                $notes .= " " . trim($remaining_line, " \t\n\r\0\x0B-()[]{}:;"); //trim the rest and add it to the noted for the unit
+            } else {
+                $notes .= " " . trim($line, " \t\n\r\0\x0B-()[]{}:;"); //trim the rest and add it to the noted for the unit
             }
         }
         $notes = trim($notes); // remove whitespace from the notes string to save space
@@ -1335,8 +1334,8 @@
         }
         $unit = array( //format the unit
             'modslots' => $modslots,
-            'unit_name' => $name,
-            'type' => $type,
+            'name' => $name,
+            'type_description' => $type,
             'price' => $price,
             'notes' => $notes,
             'uc_limit' => $uc_limit
@@ -1383,6 +1382,7 @@
         */
         $last_m_dash_position = strrpos($str, '-'); //find the last m dash, assuming that it indicates the location of a m-dash splitting the name of the unit and it's price
         $name = trim(substr($str, 0, $last_m_dash_position)); //grab everything up to the m dash, and trim whitespace
+        $name = ucwords($name);
         return $name;
     } 
 
@@ -1397,10 +1397,11 @@
 
     function get_modslots_from_shop_str($str) {
         /*
-            Takes a bracketted modslot pair from the start of the string, and returns the number inside it, as well as the string without the modslots number.
+            Takes a bracketted modslot pair from the start of the string, and returns the number inside it.
             Should deal with 2 digit modslot values now, like with the Loronar.
         */
         $str = trim($str);
+        $modslots = 0;
 
         if (substr($str, 0, 1) == '(') {
             $mod_str = substr($str, 1);
