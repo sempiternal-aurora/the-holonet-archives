@@ -116,6 +116,16 @@ html {
     padding: 5px;
 }
 
+.centre-div {
+    max-width: 600px;
+    margin: auto;
+}
+
+#is-special-div {
+    max-width: 300px;
+    margin: auto;
+}
+
 .shop {
     max-width: 800px;
     margin: auto;
