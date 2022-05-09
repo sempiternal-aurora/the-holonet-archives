@@ -1001,6 +1001,16 @@
         }
     }
 
+    function depluralise($phrase) {
+        if (strtolower(substr($phrase, -1)) == 's') {
+            return substr($phrase, 0, -1);
+        } elseif (strtolower($phrase) == 'crew') {
+            return $phrase;
+        } elseif (strtolower($phrase) == 'infantry') {
+            return $phrase;
+        } else return $phrase;
+    }
+
     function pluralise($phrase) {
         if (strtolower(substr($phrase, -1)) == 's') {
             return $phrase;
