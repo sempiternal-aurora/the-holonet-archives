@@ -147,7 +147,7 @@
                     <form action='' data-ajax='false' method='GET'>
                         <div class='ui-field-contain search-input'>
                             <label for='name'>Unit Name</label>
-                            <input name='name' id='unit-name-input' type='text'  />
+                            <input name='name' id='unit-name-input' type='search'  />
                         </div>
                         <div class='ui-field-contain search-input'>
                             <label for='is_special'>Special?</label>
