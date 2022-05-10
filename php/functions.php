@@ -587,7 +587,7 @@
         }
     }
 
-    function verify_id(&$pdo, $id, $table) {
+    function validate_id(&$pdo, $id, $table) {
         $query = $pdo->query("SELECT * FROM $table WHERE $table" . "_id = '$id'");
         if (!is_numeric($id)) {
             return "ID must be an integer, please try again.";
