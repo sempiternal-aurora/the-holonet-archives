@@ -8,7 +8,17 @@
         echo "You do not have the required privilege to use this feature.</div>";
     } else {
         echo "<div class='centre centre-div'>";
-        echo "<h2>Please choose an option below</h2>";
+        
+        if (isset($_POST['unit_data'])) {
+
+        } else {
+            echo "<h2>Wookieepedia Ingest</h2>";
+            echo "<form method='post' action=''>";
+            echo "<label for='wiki_link'>Wookieepedia Link:</label>";
+            echo "<input type='text'></input>";
+            echo "<input type='submit' value='submit' data-role='button'>";
+            echo "</form>";
+        }
 
         echo "</div></div>";
     }
