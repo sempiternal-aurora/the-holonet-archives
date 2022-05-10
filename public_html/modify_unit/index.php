@@ -10,8 +10,8 @@
         echo "<div class='centre centre-div'>";
         echo "<h2>Please choose an option below</h2>";
 
-        echo "<a data-role='button' data-transtition='slidefade' href='update_unit.php'>Update Unit</a>";
-        echo "<a data-role='button' data-transtition='slidefade' href='update_shop.php'>Update Shop</a>";
+        echo "<a data-role='button' data-transtition='slidefade' href='" . WEBSITE_ROOT . "/modify_unit/update_unit.php'>Update Unit</a>";
+        echo "<a data-role='button' data-transtition='slidefade' href='" . WEBSITE_ROOT . "/modify_unit/update_shop.php'>Update Shop</a>";
         echo "<a data-role='button' data-transtition='slidefade' href='" . WEBSITE_ROOT . "/modify_unit/add_unit.php'>Add Unit</a>";
         echo "<a data-role='button' data-transtition='slidefade' href='" . WEBSITE_ROOT . "/modify_unit/add_shop.php'>Add Shop</a>";
 
