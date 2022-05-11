@@ -815,7 +815,7 @@
             $str .= "</td></tr>";
         } elseif (not_null($stats['mglt'])) {
             $str .= "<tr><td colspan=2 class='centre'>";
-            $str .= $stats['mgkt'] . " MGLT";
+            $str .= $stats['mglt'] . " MGLT";
             $str .= "</td></tr>";
         }
 
