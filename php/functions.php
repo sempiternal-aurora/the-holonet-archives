@@ -1728,7 +1728,7 @@
                 if (stripos($line, 'long range') === FALSE && stripos($line, 'range') !== FALSE) {
                     $current_emplacement['weapon_range'] = get_float_value_from_line(substr($line, stripos($line, 'range')));
                 } else {
-                    $current_emplacement['weapon_range'] = '';
+                    $current_emplacement['weapon_range'] = NULL;
                 }
                 $current_emplacement['quantity'] = get_float_value_from_line($line);
                 $current_emplacement['weapon'] = get_all_weapon_types_and_ammo($pdo, $line);
@@ -1740,11 +1740,14 @@
                 foreach ($current_emplacement['weapon'] as $weapon) {
                     $line = str_replace($weapon['ammo'], '', $line);
                 }
-                $line = str_replace(" : ", ":", $line);
-                $line = str_replace(": ", ":", $line);
-                $line = str_replace(" :", ":", $line);
-                $line = preg_replace('/\:\S*\:/', ':', $line);
+                for ($i = 0; $i < 10; $i++) {
+                    $line = str_replace(" : ", ":", $line);
+                    $line = str_replace(": ", ":", $line);
+                    $line = str_replace(" :", ":", $line);
+                    $line = preg_replace('/\:\S*\:/', ':', $line);
+                }
                 $line = str_replace(array('dual', 'triple', 'quad', 'quintuple', 'sextuple', 'octuple'), "", $line);
+                $line = trim($line);
                 $current_emplacement['weapon_type'] = uppercase_string_with_colon($line);
                 $current_emplacement['direction'] = '';
             } elseif ($state == 'existing' && get_float_value_from_line($line) > 0) {
@@ -1771,11 +1774,11 @@
     }
 
     function get_float_value_from_line($line) {
-        return floatval(remove_comma_from_str(trim($line, " --:\t\n\r\0\x0Ba..zA..Z[]{}()")));
+        return floatval(remove_comma_from_str(trim($line, " -/-:\t\n\r\0\x0Ba..zA..Z[]{}()")));
     }
 
     function get_unit_type(&$pdo, $unit_name) {
-        $query = $pdo->query("SELECT ut.type_description FROM unit_type AS ut JOIN unit AS u ON ut.unit_type = u.unit_type WHERE name LIKE '%$unit_name%'");
+        $query = $pdo->query("SELECT ut.type_description FROM unit_type AS ut JOIN unit AS u ON ut.unit_type = u.unit_type WHERE name LIKE '%$unit_name%' OR alias LIKE '%$unit_name%'");
 
         if ($query->rowCount() === 1) {
             $row = $query->fetch();
@@ -1819,14 +1822,11 @@
         foreach ($complement as $line) {
             $type = ucwords(strtolower(depluralise(trim($line, " -:\t\n\r\0\x0B0..9(){}[]"))));
 
-            echo $type;
             if (stripos($line, 'cargo') !== FALSE || stripos($line, 'ton') !== FALSE) {
                 $value = get_float_value_from_line($line);
                 $value == 0 ?  : $new_complement['Cargo Capacity'] = $value;
             } elseif (stripos($line, 'consumables') !== FALSE || stripos($line, 'year') !== FALSE || stripos($line, 'months') !== FALSE || stripos($line, 'day') !== FALSE) {
-                echo $line;
                 $value = get_consumables($line);
-                echo $value;
                 $value == 0 ?  : $new_complement['Consumables'] = $value;
             } elseif (stripos($line, 'passenger') !== False || stripos($line, 'troop') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Passenger');
@@ -1841,7 +1841,9 @@
             } elseif (stripos($line, 'small vehicle') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Small Vehicle');
             } elseif (stripos($line, 'fighter') !== False) {
-                extract_complement_from_str($line, $new_complement, 'Fighter');
+                extract_complement_from_str($line, $new_complement, 'Starfighter');
+            } elseif (stripos($line, 'escape pod') !== False) {
+                extract_complement_from_str($line, $new_complement, 'Escape Pods');
             } elseif (in_array($type, generate_type_list($pdo))) {
                 $new_complement[$type] = get_float_value_from_line($line);
             }
@@ -1866,6 +1868,14 @@
         $stats[$measure] = get_float_value_from_line($str);
     }
 
+    function extract_link(&$stats, $str) {
+        $stats['wiki_link'] = isset($stats['wiki_link']) ? $stats['wiki_link'] : trim(preg_replace('/wiki link/i', '', $str), " \t\n\r\0\x0B:");
+    }
+
+    function extract_type(&$stats, $str) {
+        $stats['unit_type'] = isset($stats['unit_type']) ? $stats['unit_type'] : get_float_value_from_line($str);
+    }
+
     function ingest_unit_from_data(&$pdo, $unit_data, $unit_id) {
         $unit = [];
         $complement = [];
@@ -1883,6 +1893,10 @@
                 extract_speeds($unit, $line);
             } elseif (stripos($line, 'hyperdrive') !== FALSE || stripos($line, 'backup') !== FALSE) {
                 extract_hyperdrive($unit, $line);
+            } elseif (stripos($line, 'wiki link') !== FALSE) {
+                extract_link($unit, $line);
+            } elseif (stripos($line, 'unit type') !== FALSE) {
+                extract_type($unit, $line);
             } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
                 extract_durability($unit, $line);
 
@@ -1913,9 +1927,150 @@
             }
         }
 
+        $unit_types = generate_type_list($pdo);
+
+        $unit['unit_id'] = $unit_id;
         $unit['armament'] = ingest_armament($pdo, $armament);
         $unit['complement'] = ingest_complement($pdo, $complement);
         $unit['crew'] = ingest_crew($crew);
+        $unit['type_description'] = isset($unit_type) ? $unit_types[$unit['unit_type']] : NULL ;
+
+        foreach (array('uc_limit', 'hyperdrive', 'backup', 'kmh', 'mglt', 'length', 'height', 'width', 'sbd', 'ru', 'shield', 'hull', 'notes', 'modslots', 'name', 'alias', 'price', 'points', 'is_special') as $stat) {
+            $unit[$stat] = isset($unit[$stat]) ? $unit[$stat] : NULL;
+        }
+
+        foreach (array('skills', 'in_shops', 'complement', 'armament', 'crew') as $stat) {
+            $unit[$stat] = isset($unit[$stat]) ? $unit[$stat] : [];
+        }
 
         return $unit;
+    }
+
+    function generate_armament_list(&$pdo) {
+        $armament_list = [];
+        $armament_query = $pdo->query("SELECT armament_id, ammo, weapon_id FROM armament");
+
+        while ($row = $armament_query->fetch()) {
+            if (array_key_exists($row['armament_id'], $armament_list)) {
+                $armament_list[$row['armament_id']][] = array('ammo' => $row['ammo'], 'weapon_id' => $row['weapon_id']);
+            } else {
+                $armament_list[$row['armament_id']] = array();
+                $armament_list[$row['armament_id']][] = array('ammo' => $row['ammo'], 'weapon_id' => $row['weapon_id']);
+            }
+        }
+        
+        return $armament_list;
+    }
+
+    function update_unit_complement(&$pdo, $unit_id, $complement, $is_crew = 0) {
+        $add_crew_query = 'INSERT INTO unit_complement VALUES ';
+        
+        foreach ($complement as $stat => $value) {
+            $crew_query = $pdo->query("SELECT * FROM complement WHERE alias LIKE '$stat' AND is_crew = '$is_crew'");
+
+            if ($crew_query->rowCount() == 0) {
+                $pdo->query("INSERT INTO complement(alias, is_crew) VALUES ('$stat', '$is_crew')");
+            }
+
+            $crew_query = $pdo->query("SELECT complement_id FROM complement WHERE alias LIKE '$stat' AND is_crew = '$is_crew'");
+            if ($crew_query->rowCount() == 1) {
+                $row = $crew_query->fetch();
+                $complement_id = $row['complement_id'];
+                $crew_query = $pdo->query("SELECT * FROM unit_complement WHERE complement_id = '$complement_id' AND unit_id = '$unit_id'");
+                if ($crew_query->rowCount() == 1) {
+                    $pdo->query("UPDATE unit_complement SET quantity='$value' WHERE complement_id = '$complement_id' AND unit_id = '$unit_id'");
+                } else $add_crew_query .= "('$complement_id', '$value', '$unit_id'), ";
+            }
+        }
+
+        if (strlen($add_crew_query) > 40) {
+            $pdo->query(substr($add_crew_query, 0, -2));
+        }
+    }
+
+    function update_unit_armament(&$pdo, $unit_id, $armament) {
+        $armament_list = generate_armament_list($pdo);
+        $all_armament_query = "INSERT INTO unit_armament VALUES ";
+
+        foreach ($armament as $emplacement) {
+            foreach ($emplacement['weapon'] as $key => $weapon) {
+                $armament_query = $pdo->query("SELECT weapon_id FROM weapon WHERE weapon_type LIKE '" . $weapon['weapon_type'] . "'");
+
+                if ($armament_query->rowCount() == 1) {
+                    $emplacement['weapon'][$key]['weapon_id'] = $armament_query->fetch()['weapon_id'];
+                    unset($emplacement['weapon'][$key]['weapon_type']);
+                } else {
+                    echo "WEAPON NOT FOUND: " . $weapon['weapon_type'] . "<br  />";
+                    continue 2;
+                }
+            }
+
+            if (in_array($emplacement['weapon'], $armament_list)) {
+                $armament_id = array_keys($armament_list, $emplacement['weapon'])[0];
+            } else {
+                $new_armament_id = array_key_last($armament_list) + 1;
+                $weapon_query = "INSERT INTO armament VALUES ";
+                foreach ($emplacement['weapon'] as $weapon) {
+                    $weapon_query .= "('$new_armament_id', '" . $weapon['ammo'] . "', '" . $weapon['weapon_id'] . "'), ";
+                }
+                $weapon_query = substr($weapon_query, 0, -2);
+                $pdo->query($weapon_query);
+                
+                $armament_list = generate_armament_list($pdo);
+                $armament_id = $new_armament_id;
+            }
+
+
+            $battery_size = $emplacement['battery_size'];
+            $weapon_range = not_null($emplacement['weapon_range']) ? $emplacement['weapon_range'] : 'NULL' ;
+            $firelink = $emplacement['firelink'];
+            $direction = $emplacement['direction'];
+            $quantity = $emplacement['quantity'];
+            $weapon_type = $emplacement['weapon_type'];
+            $weapon_range_search = $weapon_range === 'NULL' ? 'weapon_range IS NULL' : "weapon_range = '$weapon_range'";
+
+            $emplacement_query = $pdo->query("SELECT * FROM unit_armament WHERE direction = '$direction' AND firelink = '$firelink' AND battery_size = '$battery_size' AND armament_id = '$armament_id' AND unit_id = '$unit_id' AND " . $weapon_range_search);
+            if ($emplacement_query->rowCount() >= 1) {
+                $pdo->query("UPDATE unit_armament SET quantity='$quantity', weapon_type='$weapon_type' WHERE direction = '$direction' AND firelink = '$firelink' AND battery_size = '$battery_size' AND armament_id = '$armament_id' AND unit_id = '$unit_id' AND " . $weapon_range_search);
+            } else $all_armament_query .= "('$unit_id', '$armament_id', '$battery_size', $weapon_range, '$firelink', '$weapon_type', '$quantity', '$direction'), ";
+        }
+
+        if (strlen($all_armament_query) > 40) {
+            $pdo->query(substr($all_armament_query, 0, -2));
+        }
+    }
+
+    function update_unit_skills(&$pdo, $unit_id, $complement) {
+        
+    }
+
+    function update_unit_shops(&$pdo, $unit_id, $complement) {
+        
+    }
+
+    function update_unit(&$pdo, $unit_id, $unit) {
+        $query = "UPDATE unit SET ";
+
+        foreach ($unit as $stat => $value) {
+            if ($stat == 'armament') {
+                update_unit_armament($pdo, $unit_id, $value);
+            } elseif ($stat == 'complement') {
+                update_unit_complement($pdo, $unit_id, $value);
+            } elseif ($stat == 'skills') {
+                update_unit_skills($pdo, $unit_id, $value);
+            } elseif ($stat == 'crew') {
+                update_unit_complement($pdo, $unit_id, $value, 1);
+            } elseif ($stat == 'in_shops') {
+                update_unit_shops($pdo, $unit_id, $value);
+            } elseif (!in_array($stat, array('type_description', 'unit_id'))) {
+                if (not_null($value)) {
+                    $query .= "$stat = '$value', ";
+                }
+            }
+        }
+
+        $query = substr($query, 0, -2);
+        $query .= " WHERE unit_id = $unit_id";
+
+        $pdo->query($query);
     }
