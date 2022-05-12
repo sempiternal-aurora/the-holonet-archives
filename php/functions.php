@@ -1207,11 +1207,13 @@
 
     function display_hyperdrive_string(&$stats) {
         $hyperdrive_str = '';
-        if (not_null($stats['hyperdrive'])) {
+        if (not_null($stats['hyperdrive']) && not_null($stats['backup'])) {
             $hyperdrive_str = "<tr><td>Hyperdrive: Class " . number_format($stats['hyperdrive'], 1) . "</td>";
-        }
-        if (not_null($stats['backup'])) {
             $hyperdrive_str .= "<td class='right-text'>Backup: Class " . number_format($stats['backup'], 1) . "</td>";
+        } elseif (not_null($stats['hyperdrive'])) {
+            $hyperdrive_str = "<tr><td colspan='2' class='centre'>Hyperdrive: Class " . number_format($stats['hyperdrive'], 1) . "</td>";
+        } elseif (not_null($stats['backup'])) {
+            $hyperdrive_str .= "<td colspan='2' class='centre'>Backup: Class " . number_format($stats['backup'], 1) . "</td>";
         }
         unset($stats['hyperdrive']);
         unset($stats['backup']);
