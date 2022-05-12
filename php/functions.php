@@ -1473,7 +1473,7 @@
     }
 
     function get_unit_type_number(&$pdo, $type) {
-        $types = fetch_unit_type_array($pdo);
+        $types = array_flip(generate_type_list($pdo));
 
         if (array_key_exists($type, $types)) {
             $type_num = "'" . $types[$type] . "'";
