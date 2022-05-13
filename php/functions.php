@@ -727,6 +727,8 @@
 
         display_speed_string($unit);
 
+        display_max_height($unit);
+
         display_integrity_stats($unit);
 
         display_armament($unit);
@@ -766,6 +768,16 @@
             echo "<tr><td colspan=2>$notes</td></tr>";
         }
         unset($stats['notes']);
+    }
+
+    function display_max_height(&$stats) {
+        if (not_null($stats['max_height'])) {
+            echo "<tr><td colspan='2' class='centre'>";
+            echo "Maximum Altitude: " . $stats['max_height'];
+            echo "</td></tr>";
+        }
+
+        unset($stats['max_height']);
     }
 
     function display_array_stat($value, $stat) {
@@ -1897,6 +1909,8 @@
                 extract_link($unit, $line);
             } elseif (stripos($line, 'unit type') !== FALSE) {
                 extract_type($unit, $line);
+            } elseif (stripos($line, 'Altitude') !== FALSE) {
+                $unit['max_height'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
                 extract_durability($unit, $line);
 
@@ -1935,7 +1949,7 @@
         $unit['crew'] = ingest_crew($crew);
         $unit['type_description'] = isset($unit_type) ? $unit_types[$unit['unit_type']] : NULL ;
 
-        foreach (array('uc_limit', 'hyperdrive', 'backup', 'kmh', 'mglt', 'length', 'height', 'width', 'sbd', 'ru', 'shield', 'hull', 'notes', 'modslots', 'name', 'alias', 'price', 'points', 'is_special') as $stat) {
+        foreach (array('uc_limit', 'max_height', 'wiki_link',  'hyperdrive', 'backup', 'kmh', 'mglt', 'length', 'height', 'width', 'sbd', 'ru', 'shield', 'hull', 'notes', 'modslots', 'name', 'alias', 'price', 'points', 'is_special') as $stat) {
             $unit[$stat] = isset($unit[$stat]) ? $unit[$stat] : NULL;
         }
 
