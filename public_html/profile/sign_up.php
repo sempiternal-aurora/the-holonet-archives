@@ -4,21 +4,6 @@
 
     echo <<<_END
         <script type='text/javascript'>
-            function check_user(user) {
-                if (user.value == '') {
-                    $('#used').html('&nbsp;')
-                    return
-                }
-            
-                $.post(
-                    'checkuser.php', 
-                    { user : user.value }, 
-                    function(data) {
-                        $('#used').html(data)
-                    }
-                )
-            }
-
             $(document).ready(function(){
                 $('#show-password').on('click', function() {
                     var passwordField = $('#password-input-field');
@@ -57,7 +42,7 @@
             elseif ($is_valid_pass != '') $error .= $is_valid_pass; //appended to the error message shown to the user
             else { //otherwise, if the username is taken and it and the password are valid
                 $hash = password_hash($pass, PASSWORD_DEFAULT); //hash the password for security
-                //$result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')"); //and insert it into the database of users for future reference
+                $result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')"); //and insert it into the database of users for future reference
                 echo "<div class='centre'><h4>Account created</h4>Please Log in.</div></div></body></html>"; //inform the user that their account has been created, and ask them to login, stopping the script
                 $has_signed_up = TRUE;
             }
@@ -69,9 +54,10 @@
 
     if (!$has_signed_up) {
         echo <<<_END
-                <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate(this)'>$error
+                <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate_login(this)'>
                 <div class='login-form'>
                     <div class='centre'>Please enter your details to sign up</div>
+                    <div id='sign-up-fail' class='error'>$error</div>
                     <div class='top-margin'>    
                         <label for='user'><span class='form-label'>Username</span></label>
                         <div>
