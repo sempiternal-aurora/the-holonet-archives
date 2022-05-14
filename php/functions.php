@@ -1936,6 +1936,8 @@
                 extract_text_from_line($unit, $line, 'wiki_link');
             } elseif (stripos($line, 'unit type') !== FALSE) {
                 extract_type($unit, $line);
+            } elseif (stripos($line, 'notes') !== FALSE) {
+                extract_text_from_line($unit, $line, 'notes');
             } elseif (stripos($line, 'Altitude') !== FALSE) {
                 $unit['max_height'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
