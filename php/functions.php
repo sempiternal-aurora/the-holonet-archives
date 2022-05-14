@@ -1906,8 +1906,9 @@
         $stats[$measure] = get_float_value_from_line($str);
     }
 
-    function extract_link(&$stats, $str) {
-        $stats['wiki_link'] = isset($stats['wiki_link']) ? $stats['wiki_link'] : trim(preg_replace('/wiki link/i', '', $str), " \t\n\r\0\x0B:");
+    function extract_text_from_line(&$stats, $str, $stat_name) {
+        $regex = "/" . str_replace('_', ' ', $stat_name) . "/i";
+        $stats[$stat_name] = isset($stats[$stat_name]) ? $stats[$stat_name] : trim(preg_replace($regex, '', $str), " \t\n\r\0\x0B:");
     }
 
     function extract_type(&$stats, $str) {
@@ -1932,7 +1933,7 @@
             } elseif (stripos($line, 'hyperdrive') !== FALSE || stripos($line, 'backup') !== FALSE) {
                 extract_hyperdrive($unit, $line);
             } elseif (stripos($line, 'wiki link') !== FALSE) {
-                extract_link($unit, $line);
+                extract_text_from_line($unit, $line, 'wiki_link');
             } elseif (stripos($line, 'unit type') !== FALSE) {
                 extract_type($unit, $line);
             } elseif (stripos($line, 'Altitude') !== FALSE) {
