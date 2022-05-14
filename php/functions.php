@@ -1874,6 +1874,8 @@
                 extract_complement_from_str($line, $new_complement, 'Medium Vehicle');
             } elseif (stripos($line, 'small vehicle') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Small Vehicle');
+            } elseif (stripos($line, 'tie-series') !== False) {
+                extract_complement_from_str($line, $new_complement, 'TIE-Series');
             } elseif (stripos($line, 'fighter') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
