@@ -1759,7 +1759,7 @@
                     $line = str_replace(" :", ":", $line);
                     $line = preg_replace('/\:\S*\:/', ':', $line);
                 }
-                $line = str_replace(array('dual', 'triple', 'quad', 'quintuple', 'sextuple', 'octuple'), "", $line);
+                $line = preg_replace('/(dual|triple|quad|quintuple|sextuple|octuple)/i', "", $line);
                 $line = trim($line);
                 $current_emplacement['weapon_type'] = uppercase_string_with_colon($line);
                 $current_emplacement['direction'] = '';
