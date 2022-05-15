@@ -11,8 +11,6 @@
             $stats = get_unit_stats($pdo, $unit_id);
             echo "<br  />";
 
-            unset($stats['unit_id']);
-
             echo <<<_END
                             <div class='unit'>
             _END;

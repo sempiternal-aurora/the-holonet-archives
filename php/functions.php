@@ -720,6 +720,20 @@
             A function that can be called to easily display all stats of a unit
         */
 
+        $siamese = FALSE;
+        if ($unit['unit_id'] === 132) {
+            echo "<img class='full-screen-image' src='" . WEBSITE_ROOT . "/data/images/fork.jpg' alt='Fork' type='image/jpg'  />";
+        } elseif ($unit['unit_id'] === 147) {
+            echo "<a class='no-show' href='https://www.youtube.com/watch?v=RG5mOd8Ubsk' rel='external' target='_blank'>";
+            $siamese = TRUE;
+        } elseif ($unit['unit_id'] === 519) {
+            $unit['type_description'] = "Definitely a Capital Ship";
+        } elseif (in_array($unit['unit_id'], array(252, 153))) {
+            $unit['in_shops'][] = array('shop_name' => '69 420 Beach Trooper Shop', 'shop_id' => 47);
+        } elseif ($unit['unit_id'] === 143) {
+            $ewok = TRUE;
+        }
+
         echo "<table class='unit-table'><tbody>";
 
         display_unit_name_string($unit);
@@ -750,11 +764,18 @@
 
         display_wiki_link($unit);
 
+        unset($unit['unit_id']);
         foreach ($unit as $stat => $value) {
             if ($value === NULL) echo "$stat<br  />";
             else display_simple_stat($stat, $value);
         }
         echo "</tbody></table>";
+
+        if ($siamese) {
+            echo "</a>";
+        } elseif (isset($ewok)) {
+            echo "</div></div><iframe class='youtube-embed-full' class='full-screen-image' src='https://www.youtube.com/embed/14HRo_eTUgg' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>";
+        }        
     }
 
     function display_wiki_link(&$stats) {
