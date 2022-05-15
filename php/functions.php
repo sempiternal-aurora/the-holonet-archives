@@ -483,7 +483,10 @@
         if ($price != 0) $str .= " - <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . number_format($price);
         if (not_null($unit['uc_limit']) && $unit['uc_limit'] !== 'NULL') $str .= " (Max " . $unit['uc_limit'] . " Per UC)";
         $str .= "</a>";
-        if (not_null($unit['notes']) && $unit['notes'] !== '') $str .= "<br  />[" . $unit['notes'] . "]";
+        if (not_null($unit['notes']) && $unit['notes'] !== '') {
+            $str .= "<br  />[" . substr($unit['notes'], 0, 64);
+            $str .= strlen($unit['notes']) > 64 ? "&hellip;]" : "]";
+        }
         $str .=  "</li>";
         return $str;
     }
@@ -717,6 +720,20 @@
             A function that can be called to easily display all stats of a unit
         */
 
+        $siamese = FALSE;
+        if ($unit['unit_id'] === 132) {
+            echo "<img class='full-screen-image' src='" . WEBSITE_ROOT . "/data/images/fork.jpg' alt='Fork' type='image/jpg'  />";
+        } elseif ($unit['unit_id'] === 147) {
+            echo "<a class='no-show' href='https://www.youtube.com/watch?v=RG5mOd8Ubsk' rel='external' target='_blank'>";
+            $siamese = TRUE;
+        } elseif ($unit['unit_id'] === 519) {
+            $unit['type_description'] = "Definitely a Capital Ship";
+        } elseif (in_array($unit['unit_id'], array(252, 153))) {
+            $unit['in_shops'][] = array('shop_name' => '69 420 Beach Trooper Shop', 'shop_id' => 47);
+        } elseif ($unit['unit_id'] === 143) {
+            $ewok = TRUE;
+        }
+
         echo "<table class='unit-table'><tbody>";
 
         display_unit_name_string($unit);
@@ -747,11 +764,18 @@
 
         display_wiki_link($unit);
 
+        unset($unit['unit_id']);
         foreach ($unit as $stat => $value) {
             if ($value === NULL) echo "$stat<br  />";
             else display_simple_stat($stat, $value);
         }
         echo "</tbody></table>";
+
+        if ($siamese) {
+            echo "</a>";
+        } elseif (isset($ewok)) {
+            echo "</div></div><iframe class='youtube-embed-full' class='full-screen-image' src='https://www.youtube.com/embed/14HRo_eTUgg' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>";
+        }        
     }
 
     function display_wiki_link(&$stats) {
@@ -804,7 +828,7 @@
     function display_shops_unit_in(&$stats) {
         $randstr = generate_random_string();
         $C = 'constant';
-        if (not_null($stats['in_shops'])) {
+        if ($stats['in_shops'] !== []) {
             echo "<tr><th class=centre colspan=2>In Shops</th></tr>";
             foreach ($stats['in_shops'] as $shop) {
                 $shop_id = $shop['shop_id'];
@@ -820,7 +844,7 @@
 
         if (not_null($stats['kmh']) && not_null($stats['mglt'])) {
             $str .= "<tr><td>";
-            $str .= $stats['mglt'] . " MGTL";
+            $str .= $stats['mglt'] . " MGLT";
             $str .= "</td><td class='right-text'>";
             $str .= $stats['kmh'] . "km/h in atmosphere";
         } elseif (not_null($stats['kmh'])) {
@@ -905,7 +929,7 @@
 
     function format_firelink($firelink) {
         if ($firelink > 0) {
-            return " (firelinked in groups of $firelink)";
+            return " (Firelinked in groups of $firelink)";
         } else return '';
     }
 
@@ -1006,8 +1030,8 @@
             } 
             if (isset($complement['Cargo Capacity'])) {
                 $quantity = $complement['Cargo Capacity'];
-                $quantity = number_format($quantity);
-                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity Metric Tonnes</td></tr>";
+                $quantity = $quantity >= 1 ? number_format($quantity) . " Metric Tonnes" : number_format($quantity * 1000) . " Kilograms";
+                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity</td></tr>";
                 unset($complement['Cargo Capacity']);
             }
             $unit_comp_str = '';
@@ -1735,8 +1759,9 @@
                 $current_emplacement = [];
                 $state = 'existing';
                 $firelink_pos = stripos($line, 'firelink');
-                $firelink_pos === FALSE ? $current_emplacement['firelink'] = 0 : get_float_value_from_line(substr($line, $firelink_pos));
-                stripos($line, 'batter') === FALSE ? $current_emplacement['battery_size'] = 1 : $current_emplacement['battery_size'] = 2 ;
+                $current_emplacement['firelink'] = $firelink_pos === FALSE ? 0 : get_float_value_from_line(substr($line, $firelink_pos));
+                $line = trim(preg_replace('/firelink/i', '', $line), " -(){}[]:\t\n\r\0\x0B");
+                $current_emplacement['battery_size'] = (stripos($line, 'batter') !== FALSE && stripos($line, 'main battery') === False) ? 2 : 1 ;
                 $battery_size = extract_quantity_word($line);
                 $current_emplacement['battery_size'] = $battery_size > $current_emplacement['battery_size'] ? $battery_size : $current_emplacement['battery_size'];
                 if (stripos($line, 'long range') === FALSE && stripos($line, 'range') !== FALSE) {
@@ -1748,9 +1773,7 @@
                 $current_emplacement['weapon'] = get_all_weapon_types_and_ammo($pdo, $line);
 
                 $line = trim($line, " -0..9(){}[]:\t\n\r\0\x0B");
-                foreach ($weapon_types as $weapon_type) {
-                    $line = str_replace(strtolower($weapon_type), ":", strtolower($line));
-                }
+                $line = preg_replace($weapon_types_regex, ":", $line);
                 foreach ($current_emplacement['weapon'] as $weapon) {
                     $line = str_replace($weapon['ammo'], '', $line);
                 }
@@ -1760,7 +1783,7 @@
                     $line = str_replace(" :", ":", $line);
                     $line = preg_replace('/\:\S*\:/', ':', $line);
                 }
-                $line = str_replace(array('dual', 'triple', 'quad', 'quintuple', 'sextuple', 'octuple'), "", $line);
+                $line = preg_replace('/(dual|triple|quad|quintuple|sextuple|octuple)/i', "", $line);
                 $line = trim($line);
                 $current_emplacement['weapon_type'] = uppercase_string_with_colon($line);
                 $current_emplacement['direction'] = '';
@@ -1828,13 +1851,32 @@
         $value == 0 ?  : $complement[$type] = $value;
     }
 
+    function generate_unit_name_list(&$pdo, $pluralise=FALSE) {
+        $unit_query = $pdo->query("SELECT name, alias, unit_id FROM unit");
+        $units = [];
+
+        while ($row = $unit_query->fetch()) {
+            $units[$row['name']] = $row['unit_id'];
+            if (not_null($row['alias'])) $units[$row['alias']] = $row['unit_id'];
+        }
+
+        if ($pluralise) {
+            foreach ($units as $key => $unit) {
+                $units[$key] = pluralise($unit);
+            }
+        }
+
+        return $units;
+    }
+
     function ingest_complement(&$pdo, $complement) {
         $complement = implode("\n", $complement);
         $complement = explode("\n", $complement);
         $new_complement = [];
-
+        $types = generate_type_list($pdo);
+        $ships = generate_unit_name_list($pdo);
         foreach ($complement as $line) {
-            $type = ucwords(strtolower(depluralise(trim($line, " -:\t\n\r\0\x0B0..9(){}[]"))));
+            $type = ucwords(depluralise(trim($line, " ,-:\t\n\r\0\x0B0..9(){}[]")));
 
             if (stripos($line, 'cargo') !== FALSE || stripos($line, 'ton') !== FALSE) {
                 $value = get_float_value_from_line($line);
@@ -1842,7 +1884,7 @@
             } elseif (stripos($line, 'consumables') !== FALSE || stripos($line, 'year') !== FALSE || stripos($line, 'months') !== FALSE || stripos($line, 'day') !== FALSE) {
                 $value = get_consumables($line);
                 $value == 0 ?  : $new_complement['Consumables'] = $value;
-            } elseif (stripos($line, 'passenger') !== False || stripos($line, 'troop') !== False) {
+            } elseif (stripos($line, 'passenger') !== False || stripos($line, 'infantry') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Passenger');
             } elseif (stripos($line, 'Modular Garrison') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Modular Garrison');
@@ -1856,11 +1898,15 @@
                 extract_complement_from_str($line, $new_complement, 'Medium Vehicle');
             } elseif (stripos($line, 'small vehicle') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Small Vehicle');
+            } elseif (stripos($line, 'tie-series') !== False) {
+                extract_complement_from_str($line, $new_complement, 'TIE-Series');
             } elseif (stripos($line, 'fighter') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Escape Pod');
-            } elseif (in_array($type, generate_type_list($pdo))) {
+            } elseif (in_array($type, $types)) {
+                $new_complement[$type] = get_float_value_from_line($line);
+            } elseif (array_key_exists($type, $ships)) {
                 $new_complement[$type] = get_float_value_from_line($line);
             }
         }
@@ -1884,8 +1930,9 @@
         $stats[$measure] = get_float_value_from_line($str);
     }
 
-    function extract_link(&$stats, $str) {
-        $stats['wiki_link'] = isset($stats['wiki_link']) ? $stats['wiki_link'] : trim(preg_replace('/wiki link/i', '', $str), " \t\n\r\0\x0B:");
+    function extract_text_from_line(&$stats, $str, $stat_name) {
+        $regex = "/" . str_replace('_', ' ', $stat_name) . "/i";
+        $stats[$stat_name] = isset($stats[$stat_name]) ? $stats[$stat_name] : trim(preg_replace($regex, '', $str), " \t\n\r\0\x0B:");
     }
 
     function extract_type(&$stats, $str) {
@@ -1910,9 +1957,11 @@
             } elseif (stripos($line, 'hyperdrive') !== FALSE || stripos($line, 'backup') !== FALSE) {
                 extract_hyperdrive($unit, $line);
             } elseif (stripos($line, 'wiki link') !== FALSE) {
-                extract_link($unit, $line);
+                extract_text_from_line($unit, $line, 'wiki_link');
             } elseif (stripos($line, 'unit type') !== FALSE) {
                 extract_type($unit, $line);
+            } elseif (stripos($line, 'notes') !== FALSE) {
+                extract_text_from_line($unit, $line, 'notes');
             } elseif (stripos($line, 'Altitude') !== FALSE) {
                 $unit['max_height'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
