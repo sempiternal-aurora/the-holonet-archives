@@ -1,210 +1,63 @@
-Imperial II-class Star Destroyer
+MC95B Star Cruiser
 
 
-Production information
+	Production information
 
 
+	
+		Manufacturer
+	
+	Mon Calamari Shipyards 
 
-Manufacturer
 
-Kuat Drive Yards 
 
+	
+		Class
+	
+	Star Cruiser 
 
 
 
-Line
 
-Star Destroyers 
+	Technical specifications
 
 
+	
+		Engine unit(s)
+	
+	Sublight engines (at least 8) 
 
 
-Model
 
-Imperial II-class Star Destroyer 
+	
+		Hyperdrive system
+	
+	Equipped 
 
 
 
+	
+		Armament
+	
+	Laser cannons 
 
-Class
 
-Star Destroyer 
 
+	
+		Docking bays
+	
+	Hangars (2) 
 
 
 
-Cost
 
-Not available for sale Likely to be valued at 145,670,000 credits 
+	Usage
 
 
-
-
-Technical specifications
-
-
-
-Length
-
-1,600 meters 
-
-
-
-
-Maximum acceleration
-
-&gt;2,300 g
-
-
-
-
-MGLT
-
-60 MGLT
-
-
-
-
-Maximum atmospheric speed
-
-975 km/h 
-
-
-
-
-Engine unit(s)
-
-KDY Destroyer-I ion engines (3) Cygnus Spaceworks Gemon-4 ion engines (4) (emergency use) 
-
-
-
-
-Hyperdrive rating
-
-Class 1   or 2.0 Class 8.0 (backup) 
-
-
-
-
-Hyperdrive system
-
-Equipped 
-
-
-
-
-Power output
-
-Peak: &gt;9,28 × 1024 W  (over 20% more power than the ISD-I)  
-
-
-
-
-Power plant
-
-SFS I-a2b solar ionization reactor 
-
-
-
-
-Shielding
-
-KDY ISD-72x deflector shield generator domes (2)  (local area-effect) 
-
-
-
-
-Sensor systems
-
-KDY ISD-72x shield generator domes (2)  
-
-
-
-
-Targeting systems
-
-LeGrange targeting computers
-
-
-
-
-Armament
-
-Heavy turbolaser batteries (50)  20 fore 15 port 15 starboard Heavy turbolaser cannons (50) 20 fore 10 port 10 starboard 10 aft Additional turbolaser batteries (26+) Heavy ion cannons (20) 10 fore 5 port 5 starboard Octuple barbette turbolaser or Ion cannons (8)  Phylon Q7 tractor beam projectors (10) 6 fore 2 port 2 starboard 
-
-
-
-
-Complement
-
-TIE Series starfighters (72) Lambda-class shuttles (8) Delta-class stormtrooper transports (15)Assault gunboats (6) A variable number of GAT-12 Skipray BlastboatsGamma-class assault shuttle (1+)Repair and recovery vehicles AT-AT barges AT-AT walkers (20) AT-ST walkers (30)  Various ground vehicles Prefabricated garrison bases 
-
-
-
-
-Crew
-
-37,085  - 37,105 Crew (36,755) Gunners (330) 
-
-
-
-
-Minimum crew
-
-5,000 
-
-
-
-
-Passengers
-
-9,700 troops 
-
-
-
-
-Cargo capacity
-
-36,000 metric tons 
-
-
-
-
-Consumables
-
-6 years 
-
-
-
-
-Other systems
-
-HoloNet transceiver
-
-
-
-
-Usage
-
-
-
-Role(s)
-
-Destroyer Starfighter carrier Military transport Command ship
-
-
-
-
-Year introduced
-
-0 BBY 
-
-
-
-
-Affiliation
-
-Galactic Empire New Republic Disciples of RagnosImperial RemnantGalactic Federation of Free Alliances
+	
+		Affiliation
+	
+	Citizens&#039; Fleet 
 
 
 
