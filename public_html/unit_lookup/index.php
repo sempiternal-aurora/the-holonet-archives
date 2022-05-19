@@ -138,6 +138,8 @@
             if (in_array($sort_order, array("ASC", "DESC"))) {
                 $unit_query .= " $sort_order";
             }
+        } else {
+            $unit_query .= " ORDER BY access DESC";
         }
     }
 
