@@ -1257,7 +1257,7 @@
             if (not_null($stats[$dimension])) { //if the unit has a value for that dimension
                 $dimensions_str .= "<tr><td>";
                 $dimensions_str .= ucwords($dimension) . "</td>";
-                $dimensions_str .= "<td class='right-text'>" . add_commas_to_num($stats[$dimension]) . " meters</td></tr>"; //format and display it properly.
+                $dimensions_str .= "<td class='right-text'>" . add_commas_to_num($stats[$dimension]) . " Meters</td></tr>"; //format and display it properly.
             }
             unset($stats[$dimension]); //remove the dimension from the array, whether or not it exists.
         }
