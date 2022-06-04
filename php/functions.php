@@ -1863,9 +1863,11 @@
 
         if ($years_pos !== False) {
             $years = get_float_value_from_line($line);
-        } elseif ($months_pos !== False) {
+        } 
+        if ($months_pos !== False) {
             $months = get_float_value_from_line(substr($line, $years_pos));
-        } elseif ($days_pos !== False) {
+        } 
+        if ($days_pos !== False) {
             $days = get_float_value_from_line(substr($line, $months_pos));
         }
 
