@@ -54,6 +54,8 @@
 
     if (!$has_signed_up) {
         echo <<<_END
+                <div class='centre'><h3>Please note that this is seperate to discord.</h3>Please do not use your discord credentials to log in.</div>
+                <br  />
                 <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate_login(this)'>
                 <div class='login-form'>
                     <div class='centre'>Please enter your details to sign up</div>
