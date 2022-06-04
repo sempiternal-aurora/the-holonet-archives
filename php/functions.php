@@ -1876,7 +1876,7 @@
     }
 
     function extract_complement_from_str($str, &$complement, $type) {
-        $value = get_float_value_from_line($str);
+        $value = get_int_value_from_line($str);
         $value += isset($complement[$type]) ? $complement[$type] : 0;
         $value == 0 ?  : $complement[$type] = $value;
     }
