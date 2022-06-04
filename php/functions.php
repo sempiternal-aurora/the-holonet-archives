@@ -559,6 +559,8 @@
                 return 'Small Ship';
             case 'Transport':
                 return 'Small Ship';
+            case 'Dropship':
+                return 'Small Ship';
             case 'Heavy Transport':
                 return 'Small Ship';
             case 'Gunship':
