@@ -2178,3 +2178,18 @@
         */
         $pdo->query("UPDATE $type SET access=access+1 WHERE " . $type . "_id=$id");
     }
+
+    function generate_random_testing_string($length, $symbols=FALSE) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if ($symbols) {
+            $characters .= '-=_+[]}{;:\'"?/\\!@#$%^&*()`~<>.|';
+        }
+        $randomString = '';
+      
+        for ($i = 0; $i < $length; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+      
+        return $randomString;
+    }
