@@ -799,8 +799,14 @@
 
     function display_max_height(&$stats) {
         if (not_null($stats['max_height'])) {
-            echo "<tr><td colspan='2' class='centre'>";
-            echo "Maximum Altitude: " . $stats['max_height'];
+            echo "<tr><td>Maximum Altitude</td><td class='right-text'>";
+            $max_height = $stats['max_height'];
+            if ($max_height >= 1) {
+                echo "$max_height Kilometers";
+            } else {
+                $max_height *= 1000;
+                echo "$max_height Meters";
+            }
             echo "</td></tr>";
         }
 
