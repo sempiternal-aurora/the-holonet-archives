@@ -141,14 +141,17 @@
 
     function validate_username($username) {
         if (strlen($username) < 4) return "Usernames must be at least 4 characters.<br  /><br  />";
+        elseif (strlen($username) > 32) return "Usernames must be no longer than 32 characters.<br  /><br  />";
         elseif (preg_match('/[^a-zA-Z0-9_]/', $username) == 1) return "Only a-z, A-Z, 0-9 and _ allowed in Usernames.<br  /><br  />";
         else return "";
     }
 
     function validate_password($password) {
         if (strlen($password) < 8) return "Passwords must be at least 8 characters<br  /><br  />";
+        elseif (strlen($password) > 32) return "Passwords must be no longer than 32 characters.<br  /><br  />";
+        elseif (preg_match('/</', $password) !== 0) return "Passwords cannot contain '<'.<br  /><br  />";
         elseif (preg_match('/[a-z]/', $password) == 0 || preg_match('/[A-Z]/', $password) == 0 || preg_match('/[0-9]/', $password) == 0) {
-            return "Passwords require one each of a-z, A-Z and 0-9,<br  /><br  />";
+            return "Passwords require one each of a-z, A-Z and 0-9.<br  /><br  />";
         }
         else return "";
     }
