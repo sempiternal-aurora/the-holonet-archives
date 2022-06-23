@@ -54,7 +54,7 @@
 
             if (validate_id($pdo, $unit_id, 'unit') == '') {
                 $wiki_link = sanitise_string($pdo, $_POST['wiki_link']);
-                $unit_data = file_get_contents($wiki_link);
+                $unit_data = file_get_contents(str_replace(array('&#039;'), array("'"), $wiki_link));
                 $open_aside = strpos($unit_data, '<aside');
                 $close_aside = strpos($unit_data, '</aside');
                 $unit_data = substr($unit_data, $open_aside, $close_aside-$open_aside);
