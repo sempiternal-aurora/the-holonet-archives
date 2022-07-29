@@ -79,7 +79,7 @@
     if (isset($_GET['name'])) {
         foreach ($get_keys as $key) {
             if (isset($_GET[$key]) && $_GET[$key] != '') {
-                $sanitised_get_variables[$key] = sanitise_string($pdo, $_GET[$key]);
+                $sanitised_get_variables[$key] = trim(sanitise_string($pdo, $_GET[$key]));
                 if (str_contains($key, "-")) {
                     $pos_m_dash = strrpos($key, "-");
                     $max_or_min = strtoupper(substr($key, $pos_m_dash+1));
