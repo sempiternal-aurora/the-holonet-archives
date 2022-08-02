@@ -1815,12 +1815,10 @@
                     $line = str_replace($weapon['ammo'], '', $line);
                 }
                 for ($i = 0; $i < 10; $i++) {
-                    $line = str_replace(" : ", ":", $line);
-                    $line = str_replace(": ", ":", $line);
-                    $line = str_replace(" :", ":", $line);
+                    $line = preg_replace('/\s*\:\s*/', ':', $line);
                     $line = preg_replace('/\:\S*\:/', ':', $line);
                 }
-                $line = preg_replace('/(dual|triple|quad|quintuple|sextuple|octuple)/i', "", $line);
+                $line = preg_replace('/(dual|triple|quad|quintuple|sextuple|septuple|octuple|nonuple|decuple|range)/i', "", $line);
                 $line = trim($line);
                 $current_emplacement['weapon_type'] = uppercase_string_with_colon($line);
                 $current_emplacement['direction'] = '';
