@@ -1112,6 +1112,7 @@
     function convert_days_to_timestr($days) {
         list($years, $year_remainder) = divide_with_remainder($days, 365);
         list($months, $month_remainder) = divide_with_remainder($year_remainder, 30);
+        list($weeks, $week_remainder) = divide_with_remainder($month_remainder, 7);
 
         $str = '';
         if ($years != 0) {
@@ -1120,8 +1121,11 @@
         if ($months != 0) {
             $str .= " $months Months";
         }
-        if ($month_remainder != 0) {
-            $str .= " $month_remainder Days";
+        if ($weeks != 0) {
+            $str .= " $weeks Weeks";
+        }
+        if ($week_remainder != 0) {
+            $str .= " $week_remainder Days";
         }
 
         return trim($str);
@@ -1867,22 +1871,14 @@
     function get_consumables($line) {
         $years_pos = stripos($line, 'year');
         $months_pos = stripos($line, 'month');
+        $weeks_pos = stripos($line, 'week');
         $days_pos = stripos($line, 'day');
-        $years = 0;
-        $months = 0;
-        $days = 0;
 
-        if ($years_pos !== False) {
-            $years = get_float_value_from_line($line);
-        } 
-        if ($months_pos !== False) {
-            $months = get_float_value_from_line(substr($line, $years_pos));
-        } 
-        if ($days_pos !== False) {
-            $days = get_float_value_from_line(substr($line, $months_pos));
-        }
+        $days = $years_pos !== False ? get_float_value_from_line($line) * 365 : 0;
+        $days += $months_pos !== False ? get_float_value_from_line(substr($line, $years_pos)) * 30 : 0;
+        $days += $weeks_pos !== False ? get_float_value_from_line(substr($line, $months_pos)) * 7 : 0; 
+        $days += $days_pos !== False ? get_float_value_from_line(substr($line, $weeks_pos)) : 0;
 
-        $days += $years * 365 + $months * 30;
         return $days;
     }
 
@@ -1922,7 +1918,7 @@
             if (stripos($line, 'cargo') !== FALSE || stripos($line, 'ton') !== FALSE) {
                 $value = get_float_value_from_line($line);
                 $value == 0 ?  : $new_complement['Cargo Capacity'] = $value;
-            } elseif (stripos($line, 'consumables') !== FALSE || stripos($line, 'year') !== FALSE || stripos($line, 'months') !== FALSE || stripos($line, 'day') !== FALSE) {
+            } elseif (stripos($line, 'consumables') !== FALSE || stripos($line, 'year') !== FALSE || stripos($line, 'month') !== FALSE || stripos($line, 'week') !== FALSE || stripos($line, 'day') !== FALSE) {
                 $value = get_consumables($line);
                 $value == 0 ?  : $new_complement['Consumables'] = $value;
             } elseif (stripos($line, 'passenger') !== False || stripos($line, 'infantry') !== False) {
