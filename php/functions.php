@@ -1810,7 +1810,7 @@
                 $line = trim($line, " -0..9(){}[]:\t\n\r\0\x0B");
                 $line = preg_replace($weapon_types_regex, ":", $line);
                 foreach ($current_emplacement['weapon'] as $weapon) {
-                    $line = str_replace($weapon['ammo'], '', $line);
+                    $line = $weapon['ammo'] == 0 ? $line : str_replace($weapon['ammo'], '', $line);
                 }
                 for ($i = 0; $i < 10; $i++) {
                     $line = preg_replace('/\s*\:\s*/', ':', $line);
