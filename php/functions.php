@@ -1,12 +1,12 @@
 <?php
-    define("WEBSITE_ROOT", "http://localhost/the_holonet_archives/public_html");
-    //define("WEBSITE_ROOT", "https://beta.myria.dev");
+    //define("WEBSITE_ROOT", "http://localhost:8081");
+    define("WEBSITE_ROOT", "https://holonet.myria.dev");
     //define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
-    //define ("DOCUMENT_ROOT", "/var/www/beta.myria.dev/");
-    define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
+    define ("DOCUMENT_ROOT", "/var/www/holonet.myria.dev/");
+    //define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
     define("MYSQL_USER", "php_console");
     define("MYSQL_PASS", "mysql");
-    define("MYSQL_HOST", "localhost");
+    define("MYSQL_HOST", "database");
     define("MYSQL_DATABASE", "holonet");
     define("MYSQL_CHARSET", "utf8mb4");
     define("WEBSITE_CHARSET", 'utf-8');
@@ -19,7 +19,7 @@
 
     class Unit {
         public $name;
-        public $type_description;
+        public $type;
         public $alias;
         public $price;
         public $modslots;
@@ -41,7 +41,7 @@
         public $armament = [];
         public $complement = [];
         public $crew = [];
-        
+
         function __construct($name_str, $type, $alias = '', $modslots = 0, $price = 0) { //Initialise common values when creating the class
             $this->name = $name_str;
             $this->type = $type;
@@ -78,7 +78,7 @@
     */
 
     function create_table(&$pdo, $name, $query) {
-        /* 
+        /*
             A short and sweet piece of code to create a table if it doesn't exist. As the login provided to this server does not have the privilege to
             create tables on the holonet database, it cannot ever call this function except in setup_mysql.
         */
@@ -116,10 +116,10 @@
             WARNING, THIS FUNCTION REALLY DELETES ALL TABLES FROM THE DATABASE GIVEN, YOU HAVE BEEN WARNED
         */
         $tables = get_all_table_names($pdo, $database_name); //Get all tables in the database
-        echo "Disabling checks for foreign keys<br  />"; 
+        echo "Disabling checks for foreign keys<br  />";
         $pdo->query("SET FOREIGN_KEY_CHECKS = 0"); //Ignore checks to see if deleting the tables will break foreign keys
         foreach ($tables as $table) { //Iterate through all the tables
-            echo "Dropping $table<br  />"; 
+            echo "Dropping $table<br  />";
             $pdo->query("DROP TABLE IF EXISTS $table"); //drop the table
         }
         echo "Enabling checks for foreign keys<br  />";
@@ -162,7 +162,7 @@
             Takes a table, given a primary key inside it, and as long as it is a form of an integer, sets it to be an auto_incrementing value
         */
         if (strpos($data_type, "INT")) { //if the primary key is some form of an integer
-            echo "Changing $primary_key in $table to be an auto_incrementing value." . "<br  />"; 
+            echo "Changing $primary_key in $table to be an auto_incrementing value." . "<br  />";
             $pdo->query("ALTER TABLE $table MODIFY $primary_key $data_type AUTO_INCREMENT"); //make the primary key an auto-increment column
         }
     }
@@ -299,15 +299,15 @@
         $complement = [];
         while ($result = $complement_query->fetch()) {
             if ($result['is_crew'] === 1) {
-                $crew[$result['alias']] = $result['quantity']; 
+                $crew[$result['alias']] = $result['quantity'];
             } else {
-                $complement[$result['alias']] = $result['quantity']; 
+                $complement[$result['alias']] = $result['quantity'];
             }
         }
         $stats['in_shops'] = $shops;
         $stats['complement'] = $complement;
         $stats['crew'] = $crew;
-        
+
         $skill_query = $pdo->query("SELECT s.skill, us.value FROM unit_skill AS us JOIN skill AS s ON us.skill_id=s.skill_id WHERE us.unit_id=$unit_id");
         $skills = [];
         while ($row = $skill_query->fetch()) {
@@ -333,7 +333,7 @@
             $armament_query = $pdo->query("SELECT a.ammo, w.weapon_type FROM armament AS a JOIN weapon AS w ON a.weapon_id=w.weapon_id WHERE armament_id=$armament_id");
             while ($result = $armament_query->fetch()) {
                 $emplacement[] = array(
-                    'ammo' => $result['ammo'], 
+                    'ammo' => $result['ammo'],
                     'weapon_type' => $result['weapon_type']
                 );
             }
@@ -414,7 +414,7 @@
         $array[$b] = $array[$a];
         $array[$a] = $temp;
     }
-    
+
     function sort_units_by_attribute(&$units, $attr) {
         /*
             simple binary insertion sort to sort units by any attribute provided.
@@ -428,7 +428,7 @@
                 if ($units[$i][$attr] >= $units[$middle][$attr]) $lower = $middle + 1;
                 else $upper = $middle - 1;
             }
-            if ($units[$i][$attr] >= $units[$middle][$attr]) $position = $middle + 1; 
+            if ($units[$i][$attr] >= $units[$middle][$attr]) $position = $middle + 1;
             else $position = $middle;
             for ($j = $i; $j > $position; $j--) {
                 swap_array_values($units, $j, $j-1);
@@ -528,7 +528,7 @@
 
     function sort_unit_types(&$types) {
         /*
-            Sorts the unit types based on a 
+            Sorts the unit types based on a
         */
         $arr_size = sizeof($types);
         for ($i = 1; $i < $arr_size; $i++) {
@@ -539,7 +539,7 @@
                 if (get_type_value($types[$i]) <= get_type_value($types[$middle])) $lower = $middle + 1;
                 else $upper = $middle - 1;
             }
-            if (get_type_value($types[$i]) <= get_type_value($types[$middle])) $position = $middle + 1; 
+            if (get_type_value($types[$i]) <= get_type_value($types[$middle])) $position = $middle + 1;
             else $position = $middle;
             for ($j = $i; $j > $position; $j--) {
                 swap_array_values($types, $j, $j-1);
@@ -580,7 +580,7 @@
         echo "<h1 class='centre'>$shop_name</h1>";
 
         foreach ($types as $type) {
-            
+
             echo "<div><h3>" . pluralise($type) . "</h3><ul>";
             $units_of_type = get_units_of_attr($units, 'type_description',  $type);
 
@@ -639,11 +639,11 @@
             'is_special' => 0,
             'notes' => "The Imperial II-class Star Destroyer, also known as the Imperial II-class Destroyer and colloquially the ImpStar Deuce, was a Star Destroyer model that was derived from the Imperial I-class Star Destroyer.",
             'in_shops' => array(
-                array('shop_id' => 1, 'shop_name' => 'Empire of the Hand Shop'), 
-                array('shop_id' => 1, 'shop_name' => 'Eriadu Authority Shop'), 
-                array('shop_id' => 1, 'shop_name' => 'Greater Maldrood Shop'), 
-                array('shop_id' => 1, 'shop_name' => 'Pentastar Alignment Shop'), 
-                array('shop_id' => 1, 'shop_name' => 'X1&#039;s Empire Shop'), 
+                array('shop_id' => 1, 'shop_name' => 'Empire of the Hand Shop'),
+                array('shop_id' => 1, 'shop_name' => 'Eriadu Authority Shop'),
+                array('shop_id' => 1, 'shop_name' => 'Greater Maldrood Shop'),
+                array('shop_id' => 1, 'shop_name' => 'Pentastar Alignment Shop'),
+                array('shop_id' => 1, 'shop_name' => 'X1&#039;s Empire Shop'),
                 array('shop_id' => 1, 'shop_name' => 'Zsinj&#039;s Empire Shop')
             ),
             'armament' => array(
@@ -778,7 +778,7 @@
             echo "</a>";
         } elseif (isset($ewok)) {
             echo "</div></div><iframe class='youtube-embed-full' class='full-screen-image' src='https://www.youtube.com/embed/14HRo_eTUgg' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>";
-        }        
+        }
     }
 
     function display_mass(&$stats) {
@@ -1053,7 +1053,7 @@
                 $quantity = convert_days_to_timestr($complement['Consumables']);
                 $end_str .= "<tr><td class='centre' colspan=2>$quantity Consumables</td></tr>";
                 unset($complement['Consumables']);
-            } 
+            }
             if (isset($complement['Cargo Capacity'])) {
                 $quantity = $complement['Cargo Capacity'];
                 $quantity = $quantity >= 1 ? number_format($quantity) . " Metric Tonnes" : number_format($quantity * 1000) . " Kilograms";
@@ -1334,7 +1334,7 @@
                 $type = depluralise(trim($line, "_"));
                 //if (!(in_array($type, $types))) $types[] = $type; //Old check to gather names of all unit types from shops
             }
-            elseif (is_numeric(substr($line, 1, 1)) || (strrpos($line, "-") >= 3 && substr($line, 0, 1) != "[")) { 
+            elseif (is_numeric(substr($line, 1, 1)) || (strrpos($line, "-") >= 3 && substr($line, 0, 1) != "[")) {
                 /*test to see if the 2nd character in a string is numeric, or the first character is an m-dash, or if there is an m-dash past index 3 AND the line doesn't start with a square bracket
                 Will accept:
                 (1) YM-2800 Limpet - 250,000
@@ -1468,7 +1468,7 @@
         $name = trim(substr($str, 0, $last_m_dash_position)); //grab everything up to the m dash, and trim whitespace
         $name = ucwords($name);
         return $name;
-    } 
+    }
 
     function remove_name_from_shop_str($str) {
         /*
@@ -1594,7 +1594,7 @@
 
     function extract_speeds(&$stats, $line) {
         $line = str_replace("/", '', $line);
-        
+
         $mglt_position = stripos($line, 'mglt');
         $kmh_position = stripos($line, 'kmh');
 
@@ -1638,7 +1638,7 @@
                 $stats['backup'] = $value;
             } elseif ($value != 0) {
                 $stats['hyperdrive'] = $value;
-            } 
+            }
         }
     }
 
@@ -1715,9 +1715,9 @@
         } elseif (stripos($str, 'octuple') !== FALSE) {
             return 8;
         } elseif (stripos($str, 'septuple') !== FALSE) {
-            return 7; 
+            return 7;
         } elseif (stripos($str, 'sextuple') !== FALSE) {
-            return 6; 
+            return 6;
         } elseif (stripos($str, 'quintuple') !== FALSE) {
             return 5;
         } elseif (stripos($str, 'quad') !== FALSE) {
@@ -1872,7 +1872,7 @@
 
         $days = $years_pos !== False ? get_float_value_from_line($line) * 365 : 0;
         $days += $months_pos !== False ? get_float_value_from_line(substr($line, $years_pos)) * 30 : 0;
-        $days += $weeks_pos !== False ? get_float_value_from_line(substr($line, $months_pos)) * 7 : 0; 
+        $days += $weeks_pos !== False ? get_float_value_from_line(substr($line, $months_pos)) * 7 : 0;
         $days += $days_pos !== False ? get_float_value_from_line(substr($line, $weeks_pos)) : 0;
 
         return $days;
@@ -2062,13 +2062,13 @@
                 $armament_list[$row['armament_id']][] = array('ammo' => $row['ammo'], 'weapon_id' => $row['weapon_id']);
             }
         }
-        
+
         return $armament_list;
     }
 
     function update_unit_complement(&$pdo, $unit_id, $complement, $is_crew = 0) {
         $add_crew_query = 'INSERT INTO unit_complement VALUES ';
-        
+
         foreach ($complement as $stat => $value) {
             $crew_query = $pdo->query("SELECT * FROM complement WHERE alias LIKE '$stat' AND is_crew = '$is_crew'");
 
@@ -2119,7 +2119,7 @@
                 }
                 $weapon_query = substr($weapon_query, 0, -2);
                 $pdo->query($weapon_query);
-                
+
                 $armament_list = generate_armament_list($pdo);
                 $armament_id = $new_armament_id;
             }
@@ -2145,11 +2145,11 @@
     }
 
     function update_unit_skills(&$pdo, $unit_id, $complement) {
-        
+
     }
 
     function update_unit_shops(&$pdo, $unit_id, $complement) {
-        
+
     }
 
     function update_unit(&$pdo, $unit_id, $unit) {
@@ -2192,12 +2192,12 @@
             $characters .= '-=_+[]}{;:\'"?/\\!@#$%^&*()`~<>.|';
         }
         $randomString = '';
-      
+
         for ($i = 0; $i < $length; $i++) {
             $index = rand(0, strlen($characters) - 1);
             $randomString .= $characters[$index];
         }
-      
+
         return $randomString;
     }
 
@@ -2278,6 +2278,6 @@
         print_metadata();
 
         print_header($title, $randstr, $logged_in_as);
-        
-        display_personalised_button_link_list($logged_in, $privilege, $randstr);        
+
+        display_personalised_button_link_list($logged_in, $privilege, $randstr);
     }
