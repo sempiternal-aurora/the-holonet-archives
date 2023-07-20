@@ -5,8 +5,8 @@
 
     if (!isset($no_footer)) {
         echo "<div data-role='footer'>";
-        echo "<h4 class='centre'>Web App Developed by Myria: <a data-ajax='false' href='{$C('WEBSITE_ROOT')}/contact?r=$randstr'>Contact me</a></h4>";
-        echo "<div class='centre'>By using this website, you agree to the terms of service listed here: <a data-ajax='false' href='{$C('WEBSITE_ROOT')}/terms_of_use'>{$C('WEBSITE_ROOT')}/terms_of_use</a>";
+        echo "<h4 class='centre'>Web App Developed by Myria: <a href='{$C('WEBSITE_ROOT')}/contact?r=$randstr'>Contact me</a></h4>";
+        echo "<div class='centre'>By using this website, you agree to the terms of service listed here: <a href='{$C('WEBSITE_ROOT')}/terms_of_use'>{$C('WEBSITE_ROOT')}/terms_of_use</a>";
     }
 
     echo <<<_END
