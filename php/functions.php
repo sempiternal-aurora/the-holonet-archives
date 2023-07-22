@@ -565,6 +565,8 @@
             case 'Dropship':
             case 'Heavy Transport':
                 return 'Small Ship';
+            case 'Droid':
+                return 'Infantry';
             default:
                 return $type;
         }
