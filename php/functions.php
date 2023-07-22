@@ -553,8 +553,6 @@
         */
         switch ($type) {
             case 'Speeder':
-            case 'Gunship':
-            case 'Airspeeder':
             case 'Small Vehicle':
             case 'Medium Vehicle':
             case 'Large Vehicle':
@@ -564,6 +562,7 @@
             case 'Transport':
             case 'Dropship':
             case 'Heavy Transport':
+            case 'Gunship':
                 return 'Small Ship';
             case 'Airspeeder':
                 return 'Starfighter';
