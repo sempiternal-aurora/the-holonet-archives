@@ -565,6 +565,8 @@
             case 'Dropship':
             case 'Heavy Transport':
                 return 'Small Ship';
+            case 'Airspeeder':
+                return 'Starfighter';
             default:
                 return $type;
         }
