@@ -304,7 +304,7 @@
         $skill_query = $pdo->query("SELECT s.skill, us.value FROM unit_skill AS us JOIN skill AS s ON us.skill_id=s.skill_id WHERE us.unit_id=$unit_id");
         $skills = [];
         while ($row = $skill_query->fetch()) {
-            $skills[] = $row;
+            $skills[$row['skill']] = $row['value'];
         }
         $stats['skills'] = $skills;
 
@@ -672,6 +672,10 @@
                 'crew' => 36755,
                 'gunner' => 330,
                 'Minimum Crew' => 5000
+            ),
+            'skills' => array(
+                'Marksmanship' => 4,
+                'CQC' => 3
             )
         );
     }
@@ -690,6 +694,20 @@
         echo "$stat: ";
         print_r($value);
         echo "<br  />";
+    }
+
+    function display_skills(&$stats) {
+        $skills = $stats['skills'];
+        unset($stats['skills']);
+        if ($skills != []) {
+            $str = '';
+            foreach ($skills as $skill => $value) {
+                $stat = mysql_stat_names_to_display_names($skill);
+                $str .= "<tr><td>$stat</td><td class='right-text'>$value</tr>";
+            }
+            echo "<tr><th class='centre' colspan=2>Skills</th></tr>";
+            if ($str != '') echo $str;
+        }
     }
 
     function display_unit_stats($unit) {
@@ -716,6 +734,8 @@
         display_complement($unit);
 
         display_crew($unit);
+
+        display_skills($unit);
 
         display_shops_unit_in($unit);
 
