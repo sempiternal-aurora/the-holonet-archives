@@ -418,13 +418,13 @@
                 'medium vehicles' => 30,
                 'modular garrison' => 1,
                 'passengers' => 9700,
-                'cargo capacity' => 36000,
-                'consumables' => 2190
+                'Cargo Capacity' => 36000,
+                'Consumables' => 2190
             ),
             'crew' => array(
                 'crew' => 36755,
                 'gunner' => 330,
-                'minimum crew' => 5000
+                'Minimum Crew' => 5000
             )
         );
     }
