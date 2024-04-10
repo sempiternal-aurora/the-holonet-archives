@@ -1445,3 +1445,62 @@
 
         return $privilege;
     }
+
+    function fetch_unit_type_array(&$pdo) {
+        $unit_type_array = [];
+        $unit_type_query = $pdo->query("SELECT * FROM unit_type");
+
+        while ($row = $unit_type_query->fetch()) {
+            $unit_type_array[$row['type_description']] = $row['unit_type'];
+        }
+
+        return $unit_type_array;
+    }
+
+    function get_unit_type_number(&$pdo, $type) {
+        $types = fetch_unit_type_array($pdo);
+
+        if (array_key_exists($type, $types)) {
+            $type_num = "'" . $types[$type] . "'";
+        } else {
+            $type_num = "NULL";
+        }
+
+        return $type_num;
+    }
+
+    function insert_shop_into_database(&$pdo, $shop_name, $units, $is_special=0) {
+        foreach ($units as $index => $unit) {
+            if ($unit['unit_id'] == '') {
+                $type = get_unit_type_number($pdo, $unit['type_description']);
+                $notes = $unit['notes'] == '' ? 'NULL' : "'" . $unit['notes'] . "'";
+                $pdo->query("INSERT INTO unit(name, modslots, unit_type, price, uc_limit, notes, is_special) VALUES" . "('" . $unit['name'] . "', '" . $unit['modslots'] . "', " . $type . ", '" . $unit['price'] . "', " . $unit['uc_limit'] . ", " . $notes . ", '" . $is_special . "')");
+
+                $unit_id_array = fetch_unit_id_array($pdo);
+                $units[$index]['unit_id'] = $unit_id_array[$unit['name']];
+            }
+        }
+
+        $shop_query = $pdo->query("SELECT * FROM shop WHERE shop_name='$shop_name'");
+
+        if ($shop_query->rowCount() == 0) {
+            $pdo->query("INSERT INTO shop(shop_name) VALUES ('$shop_name')");
+        }
+
+        $shop_id_query = $pdo->query("SELECT * FROM shop WHERE shop_name='$shop_name'");
+
+        $shop_id = 0;
+
+        while ($row = $shop_id_query->fetch()) {
+            $shop_id = $row['shop_id'];
+        }
+
+        if ($shop_id >= 0) {
+            foreach ($units as $unit) {
+                $check_query = $pdo->query("SELECT * FROM units_in_shop WHERE unit_id='" . $unit['unit_id'] . "' AND shop_id=$shop_id");
+                if ($check_query->rowCount() === 0) {
+                    $pdo->query("INSERT INTO units_in_shop VALUES ('$shop_id', '" . $unit['unit_id'] . "')");
+                }
+            }
+        }
+    }
