@@ -17,7 +17,7 @@ services:
     image: mariadb
     restart: "always"
     volumes:
-      - "/var/lib/mysql:/var/lib/mysql"
+      - "${PWD}/mysql_database:/var/lib/mysql"
     environment:
       MYSQL_DATABASE: "holonet"
 

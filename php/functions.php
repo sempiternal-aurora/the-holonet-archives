@@ -1,6 +1,6 @@
 <?php
-    //define("WEBSITE_ROOT", "http://localhost:8081");
-    define("WEBSITE_ROOT", "https://holonet.myria.dev");
+    define("WEBSITE_ROOT", "http://localhost");
+    //define("WEBSITE_ROOT", "https://holonet.myria.dev");
     //define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
     define ("DOCUMENT_ROOT", "/var/www/holonet.myria.dev/");
     //define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
