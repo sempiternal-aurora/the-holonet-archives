@@ -1,9 +1,9 @@
 <?php
     define("WEBSITE_ROOT", "http://localhost/the_holonet_archives/public_html");
     //define("WEBSITE_ROOT", "https://beta.myria.dev");
-    define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
+    //define("DOCUMENT_ROOT", "/var/www/html/the_holonet_archives/"); //Linux document root
     //define ("DOCUMENT_ROOT", "/var/www/beta.myria.dev/");
-    //define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
+    define("DOCUMENT_ROOT", 'C:\xampp\htdocs\the_holonet_archives\\'); // Windows Document root for Xampp install
     define("MYSQL_USER", "php_console");
     define("MYSQL_PASS", "mysql");
     define("MYSQL_HOST", "localhost");
@@ -917,6 +917,8 @@
 
     function get_size_word($size) {
         switch ($size) {
+            case 1:
+                return '';
             case 2:
                 return 'Dual';
             case 3:
@@ -936,7 +938,7 @@
             case 10:
                 return 'Decuple';
             default:
-                return '';
+                return $size . '-uple';
         }
     }
 
