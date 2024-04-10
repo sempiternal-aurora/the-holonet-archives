@@ -1838,6 +1838,10 @@
         return floatval(remove_comma_from_str(trim($line, " -/-:\t\n\r\0\x0Ba..zA..Z[]{}()")));
     }
 
+    function get_int_value_from_line($line) {
+        return intval(remove_comma_from_str(trim($line, " -/-:\t\n\r\0\x0Ba..zA..Z[]{}()")));
+    }
+
     function get_unit_type(&$pdo, $unit_name) {
         $query = $pdo->query("SELECT ut.type_description FROM unit_type AS ut JOIN unit AS u ON ut.unit_type = u.unit_type WHERE name LIKE '%$unit_name%' OR alias LIKE '%$unit_name%'");
 
