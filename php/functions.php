@@ -1934,6 +1934,10 @@
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Escape Pod');
+            } elseif (stripos($line, 'small ship') !== False) {
+                extract_complement_from_str($line, $new_complement, 'Small Ship');
+            } elseif (stripos($line, 'prisoner') !== False) {
+                extract_complement_from_str($line, $new_complement, 'Prisoner');
             } elseif (in_array($type, $types) || array_key_exists($type, $ships)) {
                 extract_complement_from_str($line, $new_complement, $type);
             }
