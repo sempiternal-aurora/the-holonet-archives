@@ -1223,11 +1223,11 @@
     }
 
     function generate_type_list(&$pdo, $normalise=FALSE, $pluralise=FALSE) {
-        $type_query = $pdo->query("SELECT type_description FROM unit_type");
+        $type_query = $pdo->query("SELECT type_description, unit_type FROM unit_type");
         $types = [];
 
         while ($row = $type_query->fetch()) {
-            $types[] = $row['type_description'];
+            $types[$row['unit_type']] = $row['type_description'];
         }
 
         if ($normalise) {
