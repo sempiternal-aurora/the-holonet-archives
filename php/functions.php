@@ -1899,7 +1899,7 @@
         $crew = [];
         $state = 'normal';
         foreach ($unit_data as $line) {
-            if (stripos($line, 'length') !== FALSE || stripos($line, 'long') !== FALSE) {
+            if (stripos($line, 'length') !== FALSE || (stripos($line, 'long') !== FALSE && stripos($line, 'long range') === FALSE)) {
                 $unit['length'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'height') !== FALSE) {
                 $unit['height'] = get_float_value_from_line($line);
