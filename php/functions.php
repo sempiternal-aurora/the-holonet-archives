@@ -2017,6 +2017,8 @@
                 $complement[] = $line;
             } elseif ($state == 'armament') {
                 $armament[] = $line;
+            } elseif (stripos($line, 'mass') !== FALSE) {
+                $unit['mass'] = get_float_value_from_line($line);
             } elseif ($state == 'complement') {
                 $complement[] = $line;
             } elseif ($state == 'crew') {
