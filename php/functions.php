@@ -207,7 +207,7 @@
             From an input string, sanitise it to protect against mysql injection, and any other problems that may come from user input
         */
         $var = strip_tags($var); //remove any identified html tags in the supplied string
-        $var = htmlentities($var); //any special characters are converted to the html special character equivalent, e.g. & -> &amp;
+        $var = htmlentities($var, ENT_QUOTES); //any special characters are converted to the html special character equivalent, e.g. & -> &amp;
         $result = $pdo->quote($var); //put quotes around the string, and escape any special characters still inside it for some reason
         return str_replace("'", "", $result); //remove all quotes in the string, and return it
     }

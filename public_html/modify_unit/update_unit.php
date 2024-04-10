@@ -62,6 +62,8 @@
                 $unit_data = trim(strip_tags($unit_data));
 
                 $unit_data = preg_replace('/(\[|&#91;)([1-9][0-9]*|\S*)(\]|&#93;)/i', ' ', $unit_data);
+                $unit_data = sanitise_string($pdo, $unit_data);
+                $unit_data = str_replace('\n', "\n", $unit_data);
 
                 $unit_data = str_replace("\t", '', $unit_data);
                 $unit_data = explode("\n\n\n", $unit_data);
