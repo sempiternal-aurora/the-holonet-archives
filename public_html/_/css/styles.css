@@ -99,7 +99,8 @@ html {
     border: 1px solid black;
     border-collapse: collapse;
     margin: auto;
-    max-width: 500px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .unit-table * tr {
