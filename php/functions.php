@@ -1749,9 +1749,7 @@
                 $current_emplacement['weapon'] = get_all_weapon_types_and_ammo($pdo, $line);
 
                 $line = trim($line, " -0..9(){}[]:\t\n\r\0\x0B");
-                foreach ($weapon_types as $weapon_type) {
-                    $line = str_replace(strtolower($weapon_type), ":", strtolower($line));
-                }
+                $line = preg_replace($weapon_types_regex, ":", $line);
                 foreach ($current_emplacement['weapon'] as $weapon) {
                     $line = str_replace($weapon['ammo'], '', $line);
                 }
