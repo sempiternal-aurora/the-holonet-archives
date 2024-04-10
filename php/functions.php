@@ -2048,7 +2048,7 @@
         $unit['crew'] = ingest_crew($crew);
         $unit['type_description'] = isset($unit_type) ? $unit_types[$unit['unit_type']] : NULL ;
 
-        foreach (array('uc_limit', 'max_height', 'wiki_link',  'hyperdrive', 'backup', 'kmh', 'mglt', 'length', 'height', 'width', 'sbd', 'ru', 'shield', 'hull', 'notes', 'modslots', 'name', 'alias', 'price', 'points', 'is_special') as $stat) {
+        foreach (array('uc_limit', 'max_height', 'wiki_link',  'hyperdrive', 'backup', 'kmh', 'mglt', 'length', 'height', 'width', 'sbd', 'ru', 'shield', 'hull', 'notes', 'modslots', 'name', 'alias', 'price', 'points', 'is_special', 'mass') as $stat) {
             $unit[$stat] = isset($unit[$stat]) ? $unit[$stat] : NULL;
         }
 
