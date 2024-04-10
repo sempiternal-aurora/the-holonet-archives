@@ -741,11 +741,22 @@
 
         display_notes($unit);
 
+        display_wiki_link($unit);
+
         foreach ($unit as $stat => $value) {
             if ($value === NULL) echo "$stat<br  />";
             else display_simple_stat($stat, $value);
         }
         echo "</tbody></table>";
+    }
+
+    function display_wiki_link(&$stats) {
+        if (not_null($stats['wiki_link'])) {
+            $wiki_link = $stats['wiki_link'];
+            echo "<tr><th colspan=2 class='centre'>Wookieepedia Article</th></tr>";
+            echo "<tr><td colspan=2 class='centre'><a href='$wiki_link' target='_blank' rel='external'>$wiki_link</a></td></tr>";
+        }
+        unset($stats['wiki_link']);
     }
 
     function display_notes(&$stats) {
