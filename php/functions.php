@@ -1827,13 +1827,32 @@
         $value == 0 ?  : $complement[$type] = $value;
     }
 
+    function generate_unit_name_list(&$pdo, $pluralise=FALSE) {
+        $unit_query = $pdo->query("SELECT name, alias, unit_id FROM unit");
+        $units = [];
+
+        while ($row = $unit_query->fetch()) {
+            $units[$row['name']] = $row['unit_id'];
+            if (not_null($row['alias'])) $units[$row['alias']] = $row['unit_id'];
+        }
+
+        if ($pluralise) {
+            foreach ($units as $key => $unit) {
+                $units[$key] = pluralise($unit);
+            }
+        }
+
+        return $units;
+    }
+
     function ingest_complement(&$pdo, $complement) {
         $complement = implode("\n", $complement);
         $complement = explode("\n", $complement);
         $new_complement = [];
-
+        $types = generate_type_list($pdo);
+        $ships = generate_unit_name_list($pdo);
         foreach ($complement as $line) {
-            $type = ucwords(strtolower(depluralise(trim($line, " -:\t\n\r\0\x0B0..9(){}[]"))));
+            $type = ucwords(depluralise(trim($line, " ,-:\t\n\r\0\x0B0..9(){}[]")));
 
             if (stripos($line, 'cargo') !== FALSE || stripos($line, 'ton') !== FALSE) {
                 $value = get_float_value_from_line($line);
@@ -1859,7 +1878,9 @@
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Escape Pod');
-            } elseif (in_array($type, generate_type_list($pdo))) {
+            } elseif (in_array($type, $types)) {
+                $new_complement[$type] = get_float_value_from_line($line);
+            } elseif (array_key_exists($type, $ships)) {
                 $new_complement[$type] = get_float_value_from_line($line);
             }
         }
