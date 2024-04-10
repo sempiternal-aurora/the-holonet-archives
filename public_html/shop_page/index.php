@@ -32,6 +32,8 @@
         foreach ($all_shops as $shop) {
             echo display_shop_link($shop);
         }
+
+        echo "</div>";
     }
 
     include_once DOCUMENT_ROOT . 'php/footer.php';
