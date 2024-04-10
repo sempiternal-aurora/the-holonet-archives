@@ -924,7 +924,7 @@
         $quantity = consolidate_quantity($emplacement);
         $str .= $quantity . " ";
         $size_word = get_size_word($emplacement['battery_size']);
-        $str .= $size_word;
+        $str .= $size_word . " ";
         unset($emplacement['battery_size']);
 
         $emplacement_list_str = '';
