@@ -1,6 +1,8 @@
 <?php
     require_once 'functions.php';
 
+    $C = 'constant'; //create a variable that references the constant function
+
     if (!isset($no_footer)) {
         echo "<div data-role='footer'>";
         echo "<h4 class='centre'>Web App Developed by Myria: <a href='{$C('WEBSITE_ROOT')}/contact?r=$randstr'>Contact me</a></h4>";

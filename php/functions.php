@@ -473,7 +473,7 @@
     }
 
     function display_shop_link($shop) {
-        $C = 'constant';
+        $C = 'constant'; //create a variable that references the constant function
         $str = "<a data-transition='slide' class='ui-btn ui-corner-all' href='{$C('WEBSITE_ROOT')}/shop_page?sid=" . $shop['shop_id'] . "'>";
         $str .= $shop['shop_name'] . "</a>";
         return $str;
@@ -481,7 +481,7 @@
 
     function display_shop_unit($unit) {
         $randstr = generate_random_string();
-        $C = 'constant';
+        $C = 'constant'; //create a variable that references the constant function
         $unit_id = $unit['unit_id'];
         $str = "<li><a class='unit-links' data-transition='slide' href='{$C('WEBSITE_ROOT')}/unit_page?uid=$unit_id'>(" . $unit['modslots'] . ") ";
         $str .= $unit['name'];
@@ -844,7 +844,7 @@
 
     function display_shops_unit_in(&$stats) {
         $randstr = generate_random_string();
-        $C = 'constant';
+        $C = 'constant'; //create a variable that references the constant function
         if ($stats['in_shops'] !== []) {
             echo "<tr><th class=centre colspan=2>In Shops</th></tr>";
             foreach ($stats['in_shops'] as $shop) {
@@ -1194,7 +1194,7 @@
     }
 
     function display_price($price) {
-        $C = 'constant';
+        $C = 'constant'; //create a variable that references the constant function
         echo " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />";
         echo number_format($price);
     }
