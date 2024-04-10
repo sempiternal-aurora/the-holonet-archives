@@ -40,7 +40,7 @@
     _ECHO;
 
     
-    if ($loggedin) {//If they are logged in, display a button linking to the home, modify unit, order calculator, unit search, profile and log out page
+    if ($logged_in) {//If they are logged in, display a button linking to the home, modify unit, order calculator, unit search, profile and log out page
         echo <<<_ECHO
                     <div class='centre'>
                         <a class='ui-btn ui-btn-inline ui-icon-home ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Home</a>
