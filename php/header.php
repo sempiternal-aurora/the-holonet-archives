@@ -55,6 +55,7 @@
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-user ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile?r=$randstr'>Profile</a>
                         <a class='ui-btn ui-btn-inline ui-icon-action ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-comment ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
         _ECHO;
     }
@@ -66,6 +67,7 @@
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
                         <a class='ui-btn ui-btn-inline ui-icon-plus ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/sign_up.php?r=$randstr'>Sign Up</a>
                         <a class='ui-btn ui-btn-inline ui-icon-check ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/login.php?r=$randstr'>Login</a>
+                        <a class='ui-btn ui-btn-inline ui-icon-comment ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
         _ECHO;
     }
