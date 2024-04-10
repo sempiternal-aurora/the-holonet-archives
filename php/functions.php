@@ -300,6 +300,13 @@
         $stats['complement'] = $complement;
         $stats['crew'] = $crew;
         
+        $skill_query = $pdo->query("SELECT s.skill, us.value FROM unit_skill AS us JOIN skill AS s ON us.skill_id=s.skill_id WHERE us.unit_id=$unit_id");
+        $skills = [];
+        while ($row = $skill_query->fetch()) {
+            $skills[] = $row;
+        }
+        $stats['skills'] = $skills;
+
         $table = 'unit_armament';
         $get_stats = $pdo->query("SELECT * FROM $table WHERE unit_id = $unit_id");
 
