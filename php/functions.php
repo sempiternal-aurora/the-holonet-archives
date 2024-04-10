@@ -481,7 +481,7 @@
         if ($price != 0) $str .= " - <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . number_format($price);
         if (not_null($unit['uc_limit']) && $unit['uc_limit'] !== 'NULL') $str .= " (Max " . $unit['uc_limit'] . " Per UC)";
         $str .= "</a>";
-        if (not_null($unit['notes'])) $str .= "<br  />[" . $unit['notes'] . "]";
+        if (not_null($unit['notes']) && $unit['notes'] !== '') $str .= "<br  />[" . $unit['notes'] . "]";
         $str .=  "</li>";
         return $str;
     }
