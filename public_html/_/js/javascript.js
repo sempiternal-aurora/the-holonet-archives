@@ -1,6 +1,7 @@
 function validate_username(field) {
     if (field == "") return "No Username was entered.\n";
     else if (field.length < 4) return "Usernames must be at least 4 characters.\n";
+    else if (field.length > 32) return "Usernames must be no longer than 32 characters.\n";
     else if (/[^a-zA-Z0-9_]/.test(field)) return "Only a-z, A-Z, 0-9 and _ allowed in Usernames.\n";
     else return "";
 }
