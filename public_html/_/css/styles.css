@@ -30,3 +30,8 @@ html {
     border:0px;
     
 }
+
+.login_form {
+    margin:0 auto;
+    width:300px;
+}
