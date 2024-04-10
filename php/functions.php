@@ -310,6 +310,14 @@
             'points' => 7,
             'is_special' => 0,
             'notes' => NULL,
+            'in_shops' => array(
+                'Empire of the Hand Shop', 
+                'Eriadu Authority Shop', 
+                'Greater Maldrood Shop', 
+                'Pentastar Alignment Shop', 
+                'X1&#039;s Empire Shop', 
+                'Zsinj&#039;s Empire Shop'
+            ),
             'armament' => array(
                 // ammo, type, battery, range, firelink, type, quantity, direction
                 array(array(0, 'Heavy Turbolaser'), 2, NULL, 0, ':Batteries', 20, 'Fore'),
