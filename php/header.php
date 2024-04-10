@@ -38,18 +38,18 @@
                 <div data-role='content'>
     _ECHO;
 
-    
+
     if ($logged_in) {//If they are logged in, display a button linking to the home, modify unit, order calculator, unit search, profile and log out page
         echo "<div class='centre'>";
 
         if (in_array(3, $privilege)) {
-            echo "<a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>";
+            echo "<a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/modify_unit?r=$randstr'>Modify Unit</a>";
         }
 
         echo <<<_ECHO
-                        <a data-role='button' data-inline='true' data-icon='tag' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
+                        <a data-role='button' data-inline='true' data-icon='tag' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a data-role='button' data-inline='true' data-icon='bullets' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
-                        <a data-role='button' data-inline='true' data-icon='action' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
+                        <a data-role='button' data-inline='true' data-icon='action' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
                         <a data-role='button' data-inline='true' data-icon='comment' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
         _ECHO;
@@ -57,10 +57,10 @@
     else {//If they are not logged in, instead display a different list of options, including links to home, order calculator, unit search, sign up and login page
         echo <<<_ECHO
                     <div class='centre'>
-                        <a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
+                        <a data-role='button' data-inline='true' data-icon='edit' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a data-role='button' data-inline='true' data-icon='bullets' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
-                        <a data-role='button' data-inline='true' data-icon='plus' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/sign_up.php?r=$randstr'>Sign Up</a>
-                        <a data-role='button' data-inline='true' data-icon='check' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/login.php?r=$randstr'>Login</a>
+                        <a data-role='button' data-inline='true' data-icon='plus' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/profile/sign_up.php?r=$randstr'>Sign Up</a>
+                        <a data-role='button' data-inline='true' data-icon='check' data-transtition='slidefade' data-ajax='false' href='{$C('WEBSITE_ROOT')}/profile/login.php?r=$randstr'>Login</a>
                         <a data-role='button' data-inline='true' data-icon='comment' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
         _ECHO;
