@@ -306,25 +306,25 @@
                             <div class='ui-field-contain'>
                                 <div data-role='rangeslider'>
                                     <label for='length-min'>Length</label>
-                                    <input name="length-min" id="length-min" step='0.1' min="$min_length" max="$max_length" value="$min_length" type="range" />
+                                    <input name="length-min" id="length-min" step='0.01' min="$min_length" max="$max_length" value="$min_length" type="range" />
                                     <label for="length-max">Length</label>
-                                    <input name="length-max" id="length-max" step='0.1' min="$min_length" max="$max_length" value="$max_length" type="range" />
+                                    <input name="length-max" id="length-max" step='0.01' min="$min_length" max="$max_length" value="$max_length" type="range" />
                                 </div>
                             </div>
                             <div class='ui-field-contain'>
                                 <div data-role='rangeslider'>
                                     <label for='width-min'>Width</label>
-                                    <input name="width-min" id="width-min" step='0.1' min="$min_width" max="$max_width" value="$min_width" type="range" />
+                                    <input name="width-min" id="width-min" step='0.01' min="$min_width" max="$max_width" value="$min_width" type="range" />
                                     <label for="width-max">Width</label>
-                                    <input name="width-max" id="width-max" step='0.1' min="$min_width" max="$max_width" value="$max_width" type="range" />
+                                    <input name="width-max" id="width-max" step='0.01' min="$min_width" max="$max_width" value="$max_width" type="range" />
                                 </div>
                             </div>
                             <div class='ui-field-contain'>
                                 <div data-role='rangeslider'>
                                     <label for='height-min'>Height</label>
-                                    <input name="height-min" id="height-min" step='0.1' min="$min_height" max="$max_height" value="$min_height" type="range" />
+                                    <input name="height-min" id="height-min" step='0.01' min="$min_height" max="$max_height" value="$min_height" type="range" />
                                     <label for="height-max">Height</label>
-                                    <input name="height-max" id="height-max" step='0.1' min="$min_height" max="$max_height" value="$max_height" type="range" />
+                                    <input name="height-max" id="height-max" step='0.01' min="$min_height" max="$max_height" value="$max_height" type="range" />
                                 </div>
                             </div>
                             <div class='ui-field-contain'>
