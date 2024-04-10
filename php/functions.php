@@ -551,26 +551,19 @@
             Normalise the provided type of a unit, returning a more general term for displaying in shops and the like.
         */
         switch ($type) {
+            case 'Speeder':
+            case 'Gunship':
+            case 'Airspeeder':
             case 'Small Vehicle':
-                return 'Vehicle';
             case 'Medium Vehicle':
-                return 'Vehicle';
             case 'Large Vehicle':
-                return 'Vehicle';
             case 'Juggernaut':
                 return 'Vehicle';
             case 'Shuttle':
-                return 'Small Ship';
             case 'Transport':
-                return 'Small Ship';
             case 'Dropship':
-                return 'Small Ship';
             case 'Heavy Transport':
                 return 'Small Ship';
-            case 'Gunship':
-                return 'Vehicle';
-            case 'Airspeeder':
-                return 'Vehicle';
             default:
                 return $type;
         }
