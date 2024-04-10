@@ -1,0 +1,239 @@
+MRX-BR Pacifier |  Length: 25.0m
+Imperial Customs Frigate |  Length: 35.0m
+Guardian-Class Light Cruiser |  Length: 42.0m
+Law-Class Light Patrol Craft |  Length: 51.0m
+Burst Fire-Class Deep-Space Patrol Vessel |  Length: 60.0m
+Corvette-Class Patrol Boat |  Length: 64.0m
+Mother Grace |  Length: 67.5m
+Jedi Justice Cruiser |  Length: 68.0m
+YZ-2500 Heavy Transport |  Length: 70.0m
+Far*Reach IV PQR |  Length: 80.0m
+Trident-Class Surveyor Ship |  Length: 82.5m
+Braha'Tok Class Gunship |  Length: 90.0m
+GR75 transport |  Length: 90.0m
+X-70B Phantom Class Prototype |  Length: 80.0m Height: 18.0m Width: 94.0m
+Dimel Assault Ship |  Length: 95.0m
+BT-7 Thunderclap |  Length: 96.0m Height: 80.0m Width: 61.0m
+Dark Jedi Starship |  Length: 98.0m
+Action VI transport |  Length: 100.0m
+Crusader-Class Corvette |  Length: 100.0m Height: 40.0m Width: 30.0m
+Fury-Class Interceptor |  Length: 100.0m Height: 33.0m Width: 88.0m
+Mansk-Class Light Escort Frigate |  Length: 100.0m
+Shu-Torun Royal Cruiser |  Length: 100.0m
+Vibre-Class Assault Cruiser |  Length: 100.0m
+IR-3F-Class Light Frigate |  Length: 110.0m
+Warlord Dropship |  Length: 110.0m
+MB-C1 medium transport |  Length: 113.0m
+Chiss Combat Cruiser |  Length: 115.0m
+Sphyrna Class corvette |  Length: 116.7m
+Cosinga-Class Heavy Corvette |  Length: 120.0m
+Crusader XX-777 prototype droid frigate |  Length: 120.0m
+DP20 Frigate |  Length: 120.0m
+First Order Dropship |  Length: 120.0m
+IPV-1 Patrol Craft |  Length: 120.0m
+Nau'ur-class yacht |  Height: 120.0m
+BFF-1 bulk freighter |  Length: 120.9m Height: 34.0m Width: 75.56m
+Etti-Class Light Cruiser |  Length: 125.0m
+Imperial assault shuttle |  Length: 125.0m
+Shaadlar-Type Troopship |  Length: 130.0m
+Consular-class cruiser (Charger c70 Retrofit) |  Length: 138.55m
+CR92a Corvette |  Length: 139.25m Height: 16.97m Width: 58.95m
+Y-8 Mining Vessel |  Length: 80.0m Height: 140.0m Width: 30.0m
+Deep Space Recovery Vessel L-2783 |  Length: 145.0m
+Adz-Class Patrol Destroyer |  Length: 150.0m
+CR90 Corvette |  Length: 150.0m Height: 32.6m Width: 48.6m
+Hunter-Killer probot |  Height: 150.0m
+Interceptor IV-class frigate |  Length: 150.0m
+Kiltirin Class Dungeon Ship |  Length: 150.0m
+Raider-Class Corvette |  Length: 150.0m
+Republic executive shuttle |  Length: 150.0m Height: 32.6m Width: 48.6m
+Foray-Class Blockade Runner |  Length: 155.0m
+Axis sublight missile corvette |  Length: 160.0m
+Minstrel-class space yacht |  Length: 160.0m
+GS-100 salvage ship |  Length: 174.78m
+Sabertooth Assault/Rescue Vessel |  Length: 175.0m
+Imperial Customs Corvette |  Length: 180.0m
+Imperial Transport |  Length: 180.0m
+Praetorian-Class Frigate |  Length: 180.0m
+Jehavey'ir-Type Assault Ship |  Length: 188.0m
+Agave-Class Picket Ship |  Length: 190.0m
+Warrior-class gunship |  Length: 190.0m
+Marauder-Class Corvette |  Length: 195.0m Height: 22.0m Width: 131.0m
+Mere Cruiser |  Length: 195.0m
+Republic Transport |  Length: 195.0m
+Bayonet-Class Light Cruiser |  Length: 200.0m
+Trenchant-class cruiser |  Length: 215.0m
+Coronet |  Height: 215.77m
+Hardcell-Class Interstellar Transport |  Length: 220.0m
+Arquitens-Class Command Cruiser |  Length: 230.0m
+Arquitens-Class Light Cruiser |  Length: 230.0m
+Class Four Container Transport |  Length: 233.0m
+First Order Light Cruiser |  Length: 235.0m
+Aramadia-Class Thrustship |  Length: 240.0m Height: 240.0m Width: 240.0m
+Alderaanian War Frigate |  Length: 250.0m
+Beta Cruiser |  Length: 250.0m
+Kleeque-class transport |  Length: 250.0m
+Lancer-Class Frigate |  Length: 250.0m Height: 60.0m Width: 57.0m
+Tartan-Class Patrol Cruiser |  Length: 250.0m
+Nebulon B2 Frigate |  Length: 253.2m Height: 94.3m Width: 147.7m
+Vigil-Class Corvette |  Length: 255.0m
+Chiss Diplomatic Cruiser |  Length: 260.0m
+Corona Frigate |  Length: 275.0m
+Dissident-Class Light Cruiser |  Length: 275.0m
+ShaShore-Class Frigate |  Length: 275.0m
+Pelta-Class Frigate |  Length: 282.24m
+Batil Gunship |  Length: 285.0m
+MedStar-class frigate |  Length: 285.0m
+EF76 Nebulon-B Escort Frigate |  Length: 300.0m Height: 166.0m Width: 72.0m
+Imperial Patrol Frigate |  Length: 300.0m
+Kossak-Class Frigate |  Length: 300.0m
+Munifex-Class Light cruiser |  Length: 300.0m
+Star Galleon-Class Frigate |  Length: 300.0m
+Thranta Class Corvette |  Length: 305.0m
+Bothan Frigate |  Length: 310.0m
+Hammerhead-class Cruiser |  Length: 315.0m
+MPO-1400 Star Cruiser |  Length: 320.0m
+Tetan Assault Ship |  Length: 325.0m
+Carrack-Class Light Cruiser |  Length: 350.0m Height: 75.0m Width: 72.0m
+CC-7700 Interdictor Frigate |  Length: 350.0m
+Class 546 Light Cruiser |  Length: 350.0m
+Derapha |  Length: 350.0m
+Imperial Escort Carrier |  Length: 350.0m
+Quasar Fire-Class Bulk Cruiser |  Length: 350.0m
+Surveyor-Class Reconnaissance Frigate |  Length: 350.0m
+Tri-Scythe-Class Frigate |  Length: 350.0m
+C-9979 Landing Craft |  Length: 210.0m Height: 150.0m Width: 370.0m
+Hajen-class Fleet Tender |  Length: 375.0m
+Sacheen-class light escort |  Length: 375.0m
+Corona-class armed frigate |  Length: 376.29m Width: 376.29m
+MC30c Frigate |  Length: 380.0m
+MC30c Scout Frigate |  Length: 380.0m
+MC30c Torpedo Frigate |  Length: 380.0m
+Ardent-Class Fast Frigate |  Length: 400.0m
+Belarus-class Medium Cruiser |  Length: 400.0m
+Imperial-II Frigate |  Length: 400.0m
+Namana Class Light Cruiser |  Length: 400.0m
+Nova-Class Battle Cruiser |  Length: 400.0m
+Tarrada |  Length: 401.0m
+Drone Freighter |  Length: 405.0m Height: 120.0m Width: 84.0m
+Fantail-class Destroyer |  Length: 405.0m
+Vengeance-class frigate |  Length: 310.0m Height: 420.0m Width: 90.0m
+Baleen-Class Heavy Freighter |  Length: 425.99m
+Cantwell-class Arrestor Cruiser |  Length: 450.0m
+Eidolon-Type Strike Cruiser |  Length: 450.0m Height: 90.0m
+Strike-Class Medium Cruiser |  Length: 450.0m Height: 90.0m
+Xolochi Dreadnought |  Length: 450.0m
+Broadside cruiser |  Length: 500.0m
+Broadside-class Cruiser |  Length: 500.0m
+Gladiator-Class Star Destroyer |  Length: 500.0m
+Hapan Battle Dragon |  Length: 500.0m
+Liberator-Class Cruiser |  Length: 500.0m
+MC40a |  Length: 500.0m
+Pursuit Class Light Cruiser |  Length: 500.0m
+Terminus-Class Destroyer |  Length: 500.0m
+Ton-Falk-Class Escort Carrier |  Length: 500.0m Height: 150.0m
+Victory II-Class Frigate |  Length: 500.0m
+Voracious |  Length: 500.0m
+Nebulon-C escort frigate |  Length: 549.17m Height: 322.24m Width: 195.06m
+BSX-5 Dreadnaught |  Length: 600.0m
+Captor-Class Heavy Munitions Cruiser |  Length: 600.0m
+Dreadnought-Class Heavy Cruiser |  Length: 600.0m Height: 129.7m Width: 116.5m
+Enforcer-class picket cruiser |  Length: 600.0m
+Giga-class Transport |  Length: 600.0m
+Immobilizer 418 Cruiser |  Length: 600.0m Height: 100.0m Width: 300.0m
+Mon Calamari Star Cruiser (Stocky) |  Length: 600.0m
+Neutron Star-class bulk cruiser |  Length: 600.0m
+Sabaoth Destroyer |  Length: 600.0m
+Vindicator-Class Heavy Cruiser |  Length: 600.0m
+Shifalan Patrol Ship |  Length: 640.0m
+Mandalorian Cruiser |  Length: 650.0m
+Assault Frigate Mark I |  Length: 700.0m
+Assault Frigate Mark II |  Length: 700.0m
+Dragon-class heavy cruiser |  Length: 700.0m
+Majestic Heavy Cruiser |  Length: 700.0m
+Acclamator I-Class Assault Ship |  Length: 752.0m Height: 183.0m Width: 460.0m
+Acclamator II-Class Assault Ship |  Length: 752.0m Height: 183.0m Width: 460.0m
+Acclamator-Class Transport Dropship |  Length: 752.0m Height: 183.0m Width: 460.0m
+Imperial Cargo Ship |  Length: 752.0m
+Kyramud-Type Battleship |  Length: 752.0m
+Lictor-Class Dungeon Ship |  Length: 764.0m
+Chiss Assault Cruiser |  Length: 795.0m
+Chelandion |  Length: 800.0m
+Harrower |  Length: 800.0m
+Mandalorian Carrier |  Length: 800.0m
+Munificent-Class Frigate |  Length: 825.0m Height: 243.0m Width: 426.0m
+Bakura-Class Destroyer |  Length: 850.0m
+Bothan Assault Cruiser |  Length: 850.0m
+Rejuvenator Class Star Destroyer |  Length: 860.0m
+Victory I-Class Star Destroyer |  Length: 900.0m
+Victory II-Class Star Destroyer |  Length: 900.0m
+Maxima-A Class Heavy Cruiser |  Length: 950.0m
+Chiss Star Destroyer |  Length: 1000.0m
+Space ARC Star Cruiser |  Length: 1000.0m
+Endurance-Class Fleet Carrier |  Length: 1040.0m
+Nebula-Class Star Destroyer |  Length: 1040.0m
+Providence-Class Carrier Destroyer |  Length: 1088.0m Height: 374.0m Width: 198.0m
+Interdictor-Class Star Destroyer (Canon) |  Length: 1129.0m
+Venator-Class Star Destroyer |  Length: 1137.0m Height: 268.0m Width: 548.0m
+Modular Task Force Cruiser |  Length: 1150.0m
+Recusant-Class Light Destroyer |  Length: 1187.0m Height: 163.0m Width: 157.0m
+Keldabe-class battleship |  Length: 1200.0m
+MC80 evacuation cruiser |  Length: 1200.0m
+MC80 Home One Type |  Length: 1200.0m
+MC80 Liberty Type |  Length: 1200.0m
+MC80A Type |  Length: 1200.0m
+MC80B |  Length: 1200.0m Height: 150.0m Width: 572.0m
+Procursator-Class Star Destroyer |  Length: 1200.0m
+MC75 Cruiser |  Length: 1204.44m Height: 435.56m
+Republic-Class Star Destroyer |  Length: 1250.0m
+MC90 Star Cruiser |  Length: 1255.0m
+CIS Supply Ship |  Length: 908.78m Height: 910.35m Width: 1257.32m
+Dauntless Heavy Cruiser |  Length: 1360.0m
+Kandosii-type Dreadnaught |  Length: 1360.0m
+Sorannan-Class Star Destroyer |  Length: 1500.0m
+Aggressor-Class Star Destroyer |  Length: 1600.0m
+Imperial I-Class Star Destroyer |  Length: 1600.0m
+Imperial II-Class Star Destroyer |  Length: 1600.0m
+Interdictor-Class Star Destroyer (Legends) |  Length: 1600.0m
+Pellaeon-Class Star Destroyer |  Length: 1600.0m
+Tector-class Star Destroyer |  Length: 1600.0m
+Mediator-Class Battlecruiser |  Length: 1700.0m
+Mobile Munitions Complex |  Length: 1700.0m Height: 1300.0m Width: 1700.0m
+MC95B |  Length: 1800.0m
+MC95A |  Length: 1900.0m
+Torpedo Sphere |  Length: 1900.0m
+Maelstrom-Class Battle Cruiser |  Length: 2100.0m
+MC95D |  Length: 2100.0m
+Qaz class Star Destroyer |  Length: 2100.0m
+Providence-Class Dreadnought |  Length: 2177.0m
+Allegiance-Class Battlecruiser |  Length: 2200.0m
+MC95C |  Length: 2200.0m
+Secutor-Class Battlecruiser |  Length: 2200.0m
+A'den-Class Battlecruiser |  Length: 2300.0m
+Atgeir-Class Battlecruiser |  Length: 2400.0m
+Starhawk-Class Battleship Mark I |  Length: 2400.0m Height: 900.0m
+Bulwark Mark-III Class Battlecruiser |  Length: 2500.0m
+Procurator-class Star Battlecruiser |  Length: 2500.0m
+Voidstar |  Length: 2500.0m
+Recusant-Class Dreadnought |  Length: 2544.0m Height: 349.34m Width: 336.49m
+LH-3210 cargo freighter |  Length: 3170.0m
+Lucrehulk-class Battlecruiser |  Length: 3170.0m Height: 1028.77m Width: 3009.0m
+Communications Battlecruiser |  Length: 3200.0m
+MC85 Star Cruiser |  Length: 3438.37m Height: 461.61m Width: 706.55m
+Azalus Class Hutt Dreadnought |  Length: 3500.0m
+Mon Calamari Heavy Carrier |  Length: 3500.0m
+Corellian Dreadnought |  Length: 3800.0m
+Tagge Battlecruiser |  Length: 4250.0m
+Altor-Class Replenishment Ship |  Length: 4600.0m
+Praetor Mark II-Class Battlecruiser |  Length: 4800.0m
+Bellator-class dreadnought |  Length: 7200.0m
+Mandator I-Class Dreadnought |  Length: 8000.0m
+Mandator II-Class Dreadnought |  Length: 8000.0m
+Evakmar KDY Transport |  Length: 8400.0m
+Mandator III-Class Dreadnought |  Length: 12000.0m
+Assertor class star dreadnaught |  Length: 15000.0m
+Megador-Class Super Star Destroyer |  Length: 17000.0m
+Viscount-class Star defender |  Length: 17000.0m
+Executor-Class Star Dreadnought |  Length: 19000.0m
+Vengeance-Class Super Star Destroyer |  Length: 19000.0m
+Loronar Field Secured Container Vessel |  Length: 19200.0m
