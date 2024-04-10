@@ -469,8 +469,10 @@
         $unit_id = $unit['unit_id'];
         $str = "<li><a class='unit-links' data-transition='slide' href='{$C('WEBSITE_ROOT')}/unit_page?uid=$unit_id'>(" . $unit['modslots'] . ") ";
         $str .= $unit['name'];
-        $str .= " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . $unit['price'] . "</a>";
+        $price = $unit['price'];
+        if ($price != 0) $str .= " - <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . add_commas_to_num($price);
         if (not_null($unit['uc_limit'])) $str .= " (Max " . $unit['uc_limit'] . " Per UC)";
+        $str .= "</a>";
         if (not_null($unit['notes'])) $str .= "<br  />[" . $unit['notes'] . "]";
         $str .=  "</li>";
         return $str;
