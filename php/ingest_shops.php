@@ -436,7 +436,6 @@
     __Vehicles__
     (0) Unstable Terrain Artillery Transport - 1,500,000
     (0) All Terrain Mobile Artillery - 2,000,000
-
     (0) Hav6 Juggernaut - 5,000,000
 
     __Infantry__
