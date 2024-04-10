@@ -656,6 +656,8 @@
     (1) Imperial Soldier - 10,000
     (1) Eternal Empire Special Operator - 20,000
 
+    --------------------------------------------------------------
+
     **Special Ground Units Because Moh Fucked Up 2019**
 
     (3)SCAR Heavy Weapons Trooper - 2,000,000 (Max 6 Per UC)
