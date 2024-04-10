@@ -20,8 +20,8 @@
             }
 
             $(document).ready(function(){
-                $('#show_password').on('click', function() {
-                    var passwordField = $('#password_input_field');
+                $('#show-password').on('click', function() {
+                    var passwordField = $('#password-input-field');
                     var passwordFieldType = passwordField.attr('type');
                     if (passwordFieldType == 'password') {
                         passwordField.attr('type', 'text')
@@ -47,36 +47,39 @@
         else {
             $result = $pdo->query("SELECT * FROM user WHERE username='$user'");
 
+            $is_valid_user = validate_username($user);
+            $is_valid_pass = validate_password($pass);
+
             if ($result->rowCount()) $error = 'That username already exists<br  /><br  />';
+            elseif ($is_valid_user != '') $error .= $is_valid_user;
+            elseif ($is_valid_pass != '') $error .= $is_valid_pass;
             else {
-                $result = $pdo->query("INSERT INTO members VALUES ('$user', '$pass')");
+                $hash = password_hash($pass, PASSWORD_DEFAULT);
+                $result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')");
                 die('<h4>Account created</h4>Please Log in.</div></body></html>');
             }
         }
     }
 
     echo <<<_END
-            <form method='post' action='signup.php?r=$randstr'>$error
-            <div>
-                <div class='login_form'>
-                    <div>Please enter your details to sign up</div>
-                    <div class='ui-field-contain'>
-                        <label for='user'>Username</label>
-                        <input type='text' maxlength='32' name='user' value='$user' onBlur='check_user(this)'  />
+            <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate(this)'>$error
+            <div class='login-form'>
+                <div class='centre'>Please enter your details to sign up</div>
+                <div class='top-margin'>    
+                    <label for='user'><span class='form-label'>Username</span></label>
+                    <div>
+                        <input type='text' maxlength='32' name='user' value='$user' id='username-field' onBlur='check_user(this)'  />
                     </div>
                     <div id='used'>&nbsp;</div>
-                    <div class='ui-field-contain'>
-                        <label for='pass'>Password</label>
-                        <input type='password' maxlength='32' name='pass' value='$pass' id='password_input_field'  />
-                    </div>
-                    <div class='ui-field-contain'>
-                        <label></label>
-                        <button type='button' class='ui-btn ui-btn-inline' id='show_password'>Show</button>
-                    </div>
-                    <div class='ui-field-contain'>
-                        <label></label>
-                        <input class='ui-btn ui-btn-inline' data-transition='slide' type='submit' value='Sign Up'  />
-                    </div>
+                </div>
+                <label for='pass'><span class='form-label'>Password</span></label>
+                <div class='ui-field-contain' id='pass-div-cont'>
+                    <input type='password' maxlength='32' name='pass' value='$pass' id='password-input-field' autocomplete='off'  />
+                    <button type='button' class='ui-btn ui-btn-inline btn-thin' id='show-password'>Show</button>
+                </div>
+                <div class='ui-field-contain'>
+                    <label for='sign-up-btn' class='ui-hidden-accessible'>Sign Up</label>
+                    <input class='ui-btn ui-btn-inline' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
                 </div>
             </div>
             </form>
