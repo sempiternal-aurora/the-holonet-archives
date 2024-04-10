@@ -465,7 +465,9 @@
         display_integrity_stats($unit);
 
         display_armament($unit);
+
         display_complement($unit);
+
         display_crew($unit);
 
         display_shops_unit_in($unit);
@@ -549,7 +551,7 @@
     function display_complement(&$stats) {
         $complement = $stats['complement'];
         unset($stats['complement']);
-        if (not_null($complement)) {
+        if ($complement != []) {
             $str = '';
             if (isset($complement['Consumables'])) {
                 $quantity = convert_days_to_timestr($complement['Consumables']);
@@ -613,7 +615,7 @@
     function display_crew(&$stats) {
         $crew = $stats['crew'];
         unset($stats['crew']);
-        if (not_null($crew)) {
+        if ($crew != []) {
             $str = '';
             if (isset($crew['Minimum Crew'])) {
                 $quantity = $crew['Minimum Crew'];
