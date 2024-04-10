@@ -1433,3 +1433,14 @@
         return $id;
     }
 
+    function check_user_privilege(&$pdo, $username) {
+        $privilege_query = $pdo->query("SELECT * FROM user_privilege WHERE username='$username'");
+
+        $privilege = [];
+
+        while ($row = $privilege_query->fetch()) {
+            $privilege[] = $row['privilege_id'];
+        }
+
+        return $privilege;
+    }
