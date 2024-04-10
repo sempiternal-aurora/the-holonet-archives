@@ -932,8 +932,14 @@
                 return 'Quintuple';
             case 6:
                 return 'Sextuple';
+            case 7:
+                return 'Septuple';
             case 8:
                 return 'Octuple';
+            case 9:
+                return 'Nonuple';
+            case 10:
+                return 'Decuple';
             default:
                 return '';
         }
