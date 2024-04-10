@@ -753,9 +753,9 @@
 
         display_integrity_stats($unit);
 
-        display_armament($unit);
+        echo display_armament($unit);
 
-        display_complement($unit);
+        echo display_complement($unit);
 
         display_crew($unit);
 
