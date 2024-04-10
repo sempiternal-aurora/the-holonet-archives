@@ -15,7 +15,7 @@
             <meta name='viewport' content='width=device-width, initial-scale=1'  />
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/js/jquery_mobile/jquery.mobile-1.4.5.css'  />
             <link rel='stylesheet' href='{$C('WEBSITE_ROOT')}/_/css/styles.css'  />
-            <link rel='icon' href='{$C('WEBSITE_ROOT')}/data/images/logo.png' type='image/png'  />
+            <link rel='icon' href='{$C('WEBSITE_ROOT')}/data/images/favicon.ico' type='image/ico'  />
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/OSC.js'></script>
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/javascript.js'></script>
             <script type='text/javascript' src='{$C('WEBSITE_ROOT')}/_/js/jquery/jquery-3.6.0.js'></script>

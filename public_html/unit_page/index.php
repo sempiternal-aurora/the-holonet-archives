@@ -10,6 +10,8 @@
                         <div class='unit'>
         _END;
         
+        
+
         display_unit_name_string($stats);
 
         display_unit_type_price_string($stats);
