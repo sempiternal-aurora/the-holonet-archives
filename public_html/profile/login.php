@@ -53,7 +53,7 @@
             </div>
             <div class='top-margin'><label for='pass'><span class='form-label'>Password</span></label></div>
             <input type='password' maxlength='32' name='pass' value='' data-clear-btn='true' id='password-input-field' autocomplete='off'  />
-                <label for='login-btn' class='ui-hidden-accessible'>login</label>
+            <label for='login-btn' class='ui-hidden-accessible'>login</label>
             <input id='login-btn' data-transition='slide' type='submit' value='Login'  />
         </div>
         </form>
