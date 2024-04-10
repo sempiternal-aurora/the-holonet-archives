@@ -1707,8 +1707,14 @@
     }
 
     function extract_quantity_word($str) {
-        if (stripos($str, 'octuple') !== FALSE) {
+        if (stripos($str, 'decuple') !== FALSE) {
+            return 10;
+        } elseif (stripos($str, 'nonuple') !== FALSE) {
+            return 9;
+        } elseif (stripos($str, 'octuple') !== FALSE) {
             return 8;
+        } elseif (stripos($str, 'septuple') !== FALSE) {
+            return 7; 
         } elseif (stripos($str, 'sextuple') !== FALSE) {
             return 6; 
         } elseif (stripos($str, 'quintuple') !== FALSE) {
@@ -1719,7 +1725,7 @@
             return 3;
         } elseif (stripos($str, 'dual') !== FALSE) {
             return 2;
-        }
+        } else return 1;
     }
 
     function get_max_len_in_array($arr) {
