@@ -905,7 +905,7 @@
 
     function format_firelink($firelink) {
         if ($firelink > 0) {
-            return " (firelinked in groups of $firelink)";
+            return " (Firelinked in groups of $firelink)";
         } else return '';
     }
 
