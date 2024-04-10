@@ -1860,7 +1860,7 @@
             } elseif (stripos($line, 'consumables') !== FALSE || stripos($line, 'year') !== FALSE || stripos($line, 'months') !== FALSE || stripos($line, 'day') !== FALSE) {
                 $value = get_consumables($line);
                 $value == 0 ?  : $new_complement['Consumables'] = $value;
-            } elseif (stripos($line, 'passenger') !== False || stripos($line, 'troop') !== False) {
+            } elseif (stripos($line, 'passenger') !== False || stripos($line, 'infantry') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Passenger');
             } elseif (stripos($line, 'Modular Garrison') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Modular Garrison');
