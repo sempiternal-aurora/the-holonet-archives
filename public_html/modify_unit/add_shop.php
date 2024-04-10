@@ -29,6 +29,7 @@
             <input data-role='button' type='submit' name='yes' value='Yes'  />
             <label for='no' class='ui-hidden-accessible'>No</label>
             <input data-role='button' type='submit' name='no' value='No'  />
+            </form>
             _END;
         } else {
             echo "<h2>Please enter the shop data</h2>";
