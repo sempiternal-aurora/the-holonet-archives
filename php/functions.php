@@ -1009,8 +1009,8 @@
             } 
             if (isset($complement['Cargo Capacity'])) {
                 $quantity = $complement['Cargo Capacity'];
-                $quantity = number_format($quantity);
-                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity Metric Tonnes</td></tr>";
+                $quantity = $quantity >= 1 ? number_format($quantity) . " Metric Tonnes" : number_format($quantity * 1000) . " Kilograms";
+                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity</td></tr>";
                 unset($complement['Cargo Capacity']);
             }
             $unit_comp_str = '';
