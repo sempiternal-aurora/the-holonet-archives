@@ -381,7 +381,8 @@
         WHERE
             s.shop_id = $shop_id
         ORDER BY
-            u.unit_type
+            u.unit_type,
+            u.name
         _END);
 
         $units = [];
