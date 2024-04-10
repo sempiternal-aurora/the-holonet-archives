@@ -121,6 +121,9 @@
             } elseif ($key == 'is_special' && in_array($value, array(0, 1))) {
                 $unit_query .= "is_special=$value AND ";
                 $counter += 1;
+            } elseif (in_array($key, array('shield', 'hull'))) {
+                $unit_query .= "$key=$value AND ";
+                $counter += 1;
             }
         }
     }
