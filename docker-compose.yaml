@@ -2,22 +2,22 @@ services:
   web:
     build: .
     ports:
-      - 8081:80
+      - 80:80
     restart: "always"
     depends_on:
       - database
     links:
       - database
     volumes:
-      - "/home/opc/the_holonet_archives/public_html:/var/www/holonet.myria.dev/public_html"
-      - "/home/opc/the_holonet_archives/php:/var/www/holonet.myria.dev/php"
+      - "${PWD}/public_html:/var/www/holonet.myria.dev/public_html"
+      - "${PWD}/php:/var/www/holonet.myria.dev/php"
+      - "/etc/letsencrypt:/etc/letsencrypt"
   database:
     image: mariadb
     restart: "always"
     volumes:
       - "/var/lib/mysql:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: "Aqpm9supk63X2z*A27qo9Mux"
       MYSQL_DATABASE: "holonet"
 
 volumes:
