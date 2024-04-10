@@ -63,12 +63,12 @@
                     <div class='top-margin'>    
                         <label for='user'><span class='form-label'>Username</span></label>
                         <div>
-                            <input type='text' maxlength='32' name='user' value='$user' id='username-field' onBlur='check_user(this)'  />
+                            <input type='text' name='user' value='$user' id='username-field' onBlur='check_user(this)'  />
                         </div>
                         <div id='used'>&nbsp;</div>
                     </div>
                     <label for='pass'><span class='form-label'>Password</span></label>
-                    <input type='password' maxlength='32' name='pass' value='$pass' id='password-input-field' autocomplete='off'  />
+                    <input type='password' name='pass' value='$pass' id='password-input-field' autocomplete='off'  />
                     <label for='sign-up-btn' class='ui-hidden-accessible'>Sign Up</label>
                     <input data-role='button' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
                 </div>
