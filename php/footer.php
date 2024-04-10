@@ -3,7 +3,7 @@
 
     echo <<<_END
                 <div data-role='footer'>
-                    <h4>Web App Developed by Myria</h4>
+                    <h4 class='centre'>Web App Developed by Myria</h4>
                 </div>
             </div>
         </body>
