@@ -12,7 +12,7 @@
         'alias' => 'nickname'
     ));
     //define("FILENAME_SLASH", '/'); //Normal unix slash for Linux, web and more
-    //define("FILENAME_SLASH", '\\'); //Stupid windows backslash because they are special.
+    //define("FILENAME_SLASH", '\\'); //Stupid windows backslash because they are special and want to be all backwards compatible but it makes it harder for everyone developing on any of their platforms
 
     class Unit {
         public $name;
