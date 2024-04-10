@@ -511,7 +511,7 @@
                 $value += 1;
             case 'Space Station':
                 $value += 1;
-            case 'Prefabricated Garrison':
+            case 'Modular Garrison':
                 $value += 1;
             case 'Car':
                 $value += 1;
@@ -1927,8 +1927,8 @@
                 $value == 0 ?  : $new_complement['Consumables'] = $value;
             } elseif (stripos($line, 'passenger') !== False || stripos($line, 'infantry') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Passenger');
-            } elseif (stripos($line, 'Prefabricated Garrison') !== False) {
-                extract_complement_from_str($line, $new_complement, 'Prefabricated Garrison');
+            } elseif (stripos($line, 'Modular Garrison') !== False) {
+                extract_complement_from_str($line, $new_complement, 'Modular Garrison');
             } elseif (stripos($line, 'juggernaut') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Juggernaut');
             } elseif (stripos($line, 'large vehicle') !== False) {
