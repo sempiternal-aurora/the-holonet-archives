@@ -164,3 +164,21 @@ html {
 .sort-by {
     padding: 15px;
 }
+
+.no-show {
+    color: #DDD !important;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.full-screen-image {
+    width: 100%;
+    margin: auto;
+}
+
+.youtube-embed-full {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
