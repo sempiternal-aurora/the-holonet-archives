@@ -1023,13 +1023,13 @@
 
         $str = '';
         if ($years != 0) {
-            $str .= "$years years";
+            $str .= "$years Years";
         }
         if ($months != 0) {
-            $str .= " $months months";
+            $str .= " $months Months";
         }
         if ($month_remainder != 0) {
-            $str .= " $month_remainder days";
+            $str .= " $month_remainder Days";
         }
 
         return trim($str);
