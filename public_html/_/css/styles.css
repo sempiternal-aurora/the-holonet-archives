@@ -130,3 +130,7 @@ a:active {
     max-width: 800px;
     margin: auto;
 }
+
+.no-show {
+    text-decoration: none;
+}
