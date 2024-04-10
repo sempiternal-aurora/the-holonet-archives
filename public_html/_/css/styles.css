@@ -81,6 +81,7 @@ html {
     border: 1px solid black;
     border-collapse: collapse;
     margin: auto;
+    max-width: 500px;
 }
 
 .unit-table * tr {
