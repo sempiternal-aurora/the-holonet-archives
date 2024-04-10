@@ -33,7 +33,7 @@
 
     if (isset($_SESSION['user'])) {
         echo <<<_END
-        "<div class='centre'>You have been logged in successfully.
+        <div class='centre'>You have been logged in successfully.
         <a data-transition='slide' href='{$C('WEBSITE_ROOT')}/profile?r=$randstr'>Click here</a>
         </div></div>
         _END;
@@ -52,14 +52,9 @@
                 </div>
             </div>
             <div class='top-margin'><label for='pass'><span class='form-label'>Password</span></label></div>
-            <div class='ui-field-contain' id='pass-div-cont'>
-                <input type='password' maxlength='32' name='pass' value='' id='password-input-field' autocomplete='off'  />
-                <button type='button' class='ui-btn ui-btn-inline btn-thin' id='show-password'>Show</button>
-            </div>
-            <div class='ui-field-contain'>
+            <input type='password' maxlength='32' name='pass' value='' data-clear-btn='true' id='password-input-field' autocomplete='off'  />
                 <label for='login-btn' class='ui-hidden-accessible'>login</label>
-                <input class='submit-btn ui-btn ui-btn-inline' id='login-btn' data-transition='slide' type='submit' value='Login'  />
-            </div>
+            <input id='login-btn' data-transition='slide' type='submit' value='Login'  />
         </div>
         </form>
         </div>
