@@ -53,7 +53,6 @@
                         <a class='ui-btn ui-btn-inline ui-icon-shop ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/order?r=$randstr'>Order Calc</a>
                         <a class='ui-btn ui-btn-inline ui-icon-tag ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/shop_page?r=$randstr'>All Shops</a>
                         <a class='ui-btn ui-btn-inline ui-icon-bullets ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/unit_lookup?r=$randstr'>Unit Search</a>
-                        <a class='ui-btn ui-btn-inline ui-icon-user ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile?r=$randstr'>Profile</a>
                         <a class='ui-btn ui-btn-inline ui-icon-action ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/profile/log_out.php?r=$randstr'>Log out</a>
                         <a class='ui-btn ui-btn-inline ui-icon-comment ui-btn-icon-left' data-transtition='slidefade' href='{$C('WEBSITE_ROOT')}/help/?r=$randstr'>Help</a>
                     </div>
