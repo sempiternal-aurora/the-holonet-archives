@@ -828,7 +828,7 @@
     function display_shops_unit_in(&$stats) {
         $randstr = generate_random_string();
         $C = 'constant';
-        if (not_null($stats['in_shops'])) {
+        if ($stats['in_shops'] !== []) {
             echo "<tr><th class=centre colspan=2>In Shops</th></tr>";
             foreach ($stats['in_shops'] as $shop) {
                 $shop_id = $shop['shop_id'];
@@ -844,7 +844,7 @@
 
         if (not_null($stats['kmh']) && not_null($stats['mglt'])) {
             $str .= "<tr><td>";
-            $str .= $stats['mglt'] . " MGTL";
+            $str .= $stats['mglt'] . " MGLT";
             $str .= "</td><td class='right-text'>";
             $str .= $stats['kmh'] . "km/h in atmosphere";
         } elseif (not_null($stats['kmh'])) {
