@@ -1934,10 +1934,8 @@
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Escape Pod');
-            } elseif (in_array($type, $types)) {
-                $new_complement[$type] = get_float_value_from_line($line);
-            } elseif (array_key_exists($type, $ships)) {
-                $new_complement[$type] = get_float_value_from_line($line);
+            } elseif (in_array($type, $types) || array_key_exists($type, $ships)) {
+                extract_complement_from_str($line, $new_complement, $type);
             }
         }
 
