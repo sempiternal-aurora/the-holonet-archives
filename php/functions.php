@@ -1515,3 +1515,175 @@
             }
         }
     }
+
+    function extract_stats_from_line($line, &$stats) {
+    }
+
+    function extract_speeds(&$stats, $line) {
+        $line = str_replace("/", '', $line);
+        
+        $mglt_position = stripos($line, 'mglt');
+        $kmh_position = stripos($line, 'kmh');
+
+        if ($kmh_position === FALSE) {
+            $line = trim($line, " :\t\n\r\0\x0Ba..zA..Z");
+            $stats['mglt'] = intval($line);
+        } elseif ($mglt_position === FALSE) {
+            $line = trim($line, " :\t\n\r\0\x0Ba..zA..Z");
+            $line = remove_comma_from_str($line);
+            $stats['kmh'] = intval($line);
+        } else {
+            if ($mglt_position > $kmh_position) {
+                $mglt_str = substr($line, $kmh_position);
+                $kmh_str = substr($line, 0, $kmh_position);
+            } else {
+                $kmh_str = substr($line, $mglt_position);
+                $mglt_str = substr($line, 0, $mglt_position);
+            }
+
+            $stats['mglt'] = intval(remove_comma_from_str(trim($mglt_str, " :\t\n\r\0\x0Ba..zA..Z")));
+            $stats['kmh'] = intval(remove_comma_from_str(trim($kmh_str, " :\t\n\r\0\x0Ba..zA..Z")));
+        }
+    }
+
+    function extract_hyperdrive(&$stats, $line) {
+        if (str_contains($line, ',')) {
+            $lines = explode(',', $line);
+        } elseif (str_contains($line, '|')) {
+            $lines = explode('|', $line);
+        } else {
+            $lines = array($line);
+        }
+
+        foreach ($lines as $line) {
+            $hyperdrive_pos = stripos($line, 'hyperdrive');
+            $backup_pos = stripos($line, 'backup');
+
+            if ($hyperdrive_pos !== FALSE) {
+                $stats['hyperdrive'] = floatval(remove_comma_from_str(trim($line, " :\t\n\r\0\x0Ba..zA..Z")));
+            } elseif ($backup_pos !== FALSE) {
+                $stats['backup'] = floatval(remove_comma_from_str(trim($line, " :\t\n\r\0\x0Ba..zA..Z")));
+            }
+        }
+    }
+
+    function get_strength_no_in_str($str) {
+        if (stripos($str, 'above average') !== false) {
+            return 6;
+        } elseif (stripos($str, 'below average') !== false) {
+            return 4;
+        } elseif (stripos($str, 'very strong') !== false) {
+            return 8;
+        } elseif (stripos($str, 'very bad') !== false) {
+            return 2;
+        } elseif (stripos($str, 'weak') !== false) {
+            return 3;
+        } elseif (stripos($str, 'average') !== false) {
+            return 5;
+        } elseif (stripos($str, 'strong') !== false) {
+            return 7;
+        } elseif (stripos($str, 'no') !== false) {
+            return 1;
+        } else {
+            return NULL;
+        }
+    }
+
+    function extract_durability(&$stats, $line) {
+        if (str_contains($line, '/')) {
+            $strength = get_strength_no_in_str($line);
+            $stats['hull'] = $strength;
+            $stats['shield'] = $strength;
+            return;
+        } elseif (str_contains($line, ',')) {
+            $lines = explode(',', $line);
+        } else {
+            $lines = array($line);
+        }
+
+        foreach ($lines as $line) {
+            $shield_pos = stripos($line, 'shield');
+            $hull_pos = stripos($line, 'hull');
+
+            if ($shield_pos !== FALSE) {
+                $stats['shield'] = get_strength_no_in_str($line);
+            } elseif ($hull_pos !== FALSE) {
+                $stats['hull'] = get_strength_no_in_str($line);
+            }
+        }
+    }
+
+    function ingest_armament($armament) {
+        return $armament;
+    }
+
+    function ingest_complement($complement) {
+        return $complement;
+    }
+
+    function ingest_crew($crew) {
+        return $crew;
+    }
+
+    function ingest_shield_hull_value(&$stats, $str, $measure) {
+        $stats[$measure] = floatval(remove_comma_from_str(trim($str, " []{}():\t\n\r\0\x0Ba..zA..Z")));
+    }
+
+    function ingest_unit_from_data(&$pdo, $unit_data, $unit_id) {
+        $unit = [];
+        $complement = [];
+        $armament = [];
+        $crew = [];
+        $state = 'normal';
+        foreach ($unit_data as $line) {
+            echo "$line<br  />";
+
+            if (stripos($line, 'length') !== FALSE || stripos($line, 'long') !== FALSE) {
+                $line = trim($line, " :\t\n\r\0\x0Ba..zA..Z");
+                $unit['length'] = floatval(remove_comma_from_str($line));
+            } elseif (stripos($line, 'height') !== FALSE) {
+                $line = trim($line, " :\t\n\r\0\x0Ba..zA..Z");
+                $unit['height'] = floatval(remove_comma_from_str($line));
+            } elseif (stripos($line, 'width') !== FALSE) {
+                $line = trim($line, " :\t\n\r\0\x0Ba..zA..Z");
+                $unit['width'] = floatval(remove_comma_from_str($line));
+            } elseif (stripos($line, 'mglt') !== FALSE || stripos($line, 'kmh') !== FALSE || stripos($line, 'km/h') !== FALSE) {
+                extract_speeds($unit, $line);
+            } elseif (stripos($line, 'hyperdrive') !== FALSE || stripos($line, 'backup') !== FALSE) {
+                extract_hyperdrive($unit, $line);
+            } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
+                extract_durability($unit, $line);
+            } elseif (stripos($line, 'armament') !== FALSE) {
+                $state = 'armament';
+            } elseif (stripos($line, 'complement') !== FALSE) {
+                $state = 'complement';
+            } elseif (stripos($line, 'crew') !== FALSE) {
+                $state = 'crew';
+            } elseif (stripos($line, 'consumable') !== FALSE) {
+                $complement[] = $line;
+            } elseif (stripos($line, 'consumable') !== FALSE || stripos($line, 'cargo') !== FALSE || stripos($line, 'pasenger') !== FALSE) {
+                $complement[] = $line;
+            }
+
+            if (stripos($line, 'sbd') !== FALSE) {
+                ingest_shield_hull_value($unit, $line, 'sbd');
+            } 
+            if (stripos($line, 'ru') !== FALSE) {
+                ingest_shield_hull_value($unit, $line, 'ru');
+            }
+            
+            if ($state == 'armament') {
+                $armament[] = $line;
+            } elseif ($state == 'complement') {
+                $complement[] = $line;
+            } elseif ($state == 'crew') {
+                $crew[] = $line;
+            }
+        }
+
+        $unit['armament'] = ingest_armament($armament);
+        $unit['complement'] = ingest_complement($complement);
+        $unit['crew'] = ingest_crew($crew);
+
+        print_r($unit);
+    }
