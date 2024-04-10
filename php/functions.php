@@ -1015,24 +1015,25 @@
             }
             $str .= "</ul></td></tr>";
         }
-        echo $str;
         unset($stats['armament']);
+        return $str;
     }
 
     function display_complement(&$stats) {
         $complement = $stats['complement'];
         unset($stats['complement']);
+        $str = '';
         if ($complement != []) {
-            $str = '';
+            $end_str = '';
             if (isset($complement['Consumables'])) {
                 $quantity = convert_days_to_timestr($complement['Consumables']);
-                $str .= "<tr><td class='centre' colspan=2>$quantity Consumables</td></tr>";
+                $end_str .= "<tr><td class='centre' colspan=2>$quantity Consumables</td></tr>";
                 unset($complement['Consumables']);
             } 
             if (isset($complement['Cargo Capacity'])) {
                 $quantity = $complement['Cargo Capacity'];
                 $quantity = $quantity >= 1 ? number_format($quantity) . " Metric Tonnes" : number_format($quantity * 1000) . " Kilograms";
-                $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity</td></tr>";
+                $end_str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity</td></tr>";
                 unset($complement['Cargo Capacity']);
             }
             $unit_comp_str = '';
@@ -1042,13 +1043,14 @@
                 $quantity = number_format($quantity);
                 $unit_comp_str .= "<li>$quantity $stat</li>";
             }
-            echo "<tr><th class='centre' colspan=2>Complement</th></tr>";
+            $str = "<tr><th class='centre' colspan=2>Complement</th></tr>";
             if ($unit_comp_str != '') {
                 $unit_comp_str = "<tr><td colspan=2><ul>" . $unit_comp_str . "</ul></td></tr>";
-                echo $unit_comp_str;
+                $str .= $unit_comp_str;
             }
-            echo $str;
+            $str .= $end_str;
         }
+        return $str;
     }
 
     function depluralise($phrase) {
@@ -1877,7 +1879,7 @@
         $types = generate_type_list($pdo);
         $ships = generate_unit_name_list($pdo);
         foreach ($complement as $line) {
-            $type = ucwords(depluralise(trim($line, " ,-:\t\n\r\0\x0B0..9(){}[]")));
+            $type = ucwords(trim($line, " ,-:\t\n\r\0\x0B0..9(){}[]"));
 
             if (stripos($line, 'cargo') !== FALSE || stripos($line, 'ton') !== FALSE) {
                 $value = get_float_value_from_line($line);
