@@ -13,6 +13,7 @@
             
             if ($is_valid_id == '') { 
                 $shop = get_shop_stats($pdo, $shop_id);
+                increment_access($pdo, $shop_id, 'shop'); //Increment how many times the shop has been accessed for sorting reasons
                 echo "<br  />";
 
                 echo <<<_END

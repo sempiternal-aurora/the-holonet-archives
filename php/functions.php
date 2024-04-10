@@ -282,6 +282,7 @@
 
         update_shield_hull($stats);
         unset($stats['unit_type']);
+        unset($stats['access']);
 
         $shops_query = $pdo->query("SELECT s.shop_id, s.shop_name FROM shop AS s JOIN units_in_shop AS us ON us.shop_id=s.shop_id WHERE unit_id = $unit_id");
         $shops = [];
@@ -459,7 +460,7 @@
 
     function fetch_all_shops(&$pdo) {
         $all_shops = [];
-        $result = $pdo->query("SELECT * FROM shop");
+        $result = $pdo->query("SELECT * FROM shop ORDER BY access DESC");
         while ($row = $result->fetch()) {
             $all_shops[] = $row;
         }
@@ -1527,7 +1528,7 @@
             if ($unit['unit_id'] == '') {
                 $type = get_unit_type_number($pdo, $unit['type_description']);
                 $notes = $unit['notes'] == '' ? 'NULL' : "'" . $unit['notes'] . "'";
-                $pdo->query("INSERT INTO unit(name, modslots, unit_type, price, uc_limit, notes, is_special) VALUES" . "('" . $unit['name'] . "', '" . $unit['modslots'] . "', " . $type . ", '" . $unit['price'] . "', " . $unit['uc_limit'] . ", " . $notes . ", '" . $is_special . "')");
+                $pdo->query("INSERT INTO unit(name, modslots, unit_type, price, uc_limit, notes, is_special, access) VALUES" . "('" . $unit['name'] . "', '" . $unit['modslots'] . "', " . $type . ", '" . $unit['price'] . "', " . $unit['uc_limit'] . ", " . $notes . ", '" . $is_special . "', 0)");
 
                 $unit_id_array = fetch_unit_id_array($pdo);
                 $units[$index]['unit_id'] = $unit_id_array[$unit['name']];
@@ -1537,7 +1538,7 @@
         $shop_query = $pdo->query("SELECT * FROM shop WHERE shop_name='$shop_name'");
 
         if ($shop_query->rowCount() == 0) {
-            $pdo->query("INSERT INTO shop(shop_name) VALUES ('$shop_name')");
+            $pdo->query("INSERT INTO shop(shop_name, access) VALUES ('$shop_name', 0)");
         }
 
         $shop_id_query = $pdo->query("SELECT * FROM shop WHERE shop_name='$shop_name'");
@@ -2140,4 +2141,11 @@
         $query .= " WHERE unit_id = $unit_id";
 
         $pdo->query($query);
+    }
+
+    function increment_access(&$pdo, $id, $type) {
+        /*
+            Function to increment how many times a specific unit or shop has been accessed.
+        */
+        $pdo->query("UPDATE $type SET access=access+1 WHERE " . $type . "_id=$id");
     }

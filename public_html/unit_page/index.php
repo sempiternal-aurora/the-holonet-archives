@@ -9,6 +9,7 @@
         
         if ($is_valid_id == '') { 
             $stats = get_unit_stats($pdo, $unit_id);
+            increment_access($pdo, $unit_id, 'unit');
             echo "<br  />";
 
             echo <<<_END
