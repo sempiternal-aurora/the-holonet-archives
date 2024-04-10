@@ -1207,20 +1207,47 @@
         }
     }
 
-    function ingest_shop_to_array($shop, $unit_id_key) {
+    function generate_type_list(&$pdo, $normalise=FALSE, $pluralise=FALSE) {
+        $type_query = $pdo->query("SELECT type_description FROM unit_type");
+        $types = [];
+
+        while ($row = $type_query->fetch()) {
+            $types[] = $row['type_description'];
+        }
+
+        if ($normalise) {
+            foreach ($types as $key => $type) {
+                $types[$key] = normalise_unit_types($type);
+            }
+        }
+        if ($pluralise) {
+            foreach ($types as $key => $type) {
+                $types[$key] = pluralise($type);
+            }
+        }
+
+        return $types;
+    }
+
+    function ingest_shop_to_array(&$pdo, $shop, $get_unit_id=FALSE) {
+        $shop = str_replace('\n', "\n", $shop);
+        $shop = str_replace('\r', "\r", $shop);
         $shop = explode("\n", $shop); //seperate the lines into seperate values in the variables
         $units = array(); //
+
+        $types = generate_type_list($pdo, TRUE);
+
         $type = ''; //initialise type to avoid errors later
         foreach ($shop as $index => $line) { //for each line in the shop
             $line = trim($line);
             if ($line == "") { //if it is empty, unset the line and continue with the next element
                 unset($shop[$index]);
             }
-            elseif (strpos($line, "*") === 0) { //test to see if the first character is an asterix, denoting the shop name
-                $shop_name = trim($line, "*");
+            elseif ($index == 0) { //test to see if it is the first line, denoting the shop name
+                $shop_name = ucwords(strtolower(trim($line, "*")));
             }
-            elseif (strpos($line, "_") === 0) {//test to see if there are any _, denoting a unit type in the shop
-                $type = trim($line, "_");
+            elseif (in_array(depluralise(trim($line, "_")), $types)) {//test to see if the contents of the line are one of the types of units, normalised as per normal shops
+                $type = depluralise(trim($line, "_"));
                 //if (!(in_array($type, $types))) $types[] = $type; //Old check to gather names of all unit types from shops
             }
             elseif (is_numeric(substr($line, 1, 1)) || (strrpos($line, "-") >= 3 && substr($line, 0, 1) != "[")) { 
@@ -1246,7 +1273,33 @@
                 $units[$index]['notes'] .= trim($line, " \t\n\r\0\x0B-()[]{}:;");
             }
         }
+
+        if ($get_unit_id) {
+            $unit_id_array = fetch_unit_id_array($pdo);
+
+            foreach ($units as $key => $unit) {
+                if (array_key_exists($unit['name'], $unit_id_array)) {
+                    $units[$key]['unit_id'] = $unit_id_array[$unit['name']];
+                } else {
+                    $units[$key]['unit_id'] = NULL;
+                }
+            }
+        }
         return array($shop_name, $units); //return the shop object
+    }
+
+    function fetch_unit_id_array(&$pdo) {
+        $unit_id_array = [];
+        $unit_id_query = $pdo->query("SELECT alias, name, unit_id FROM unit");
+
+        while ($row = $unit_id_query->fetch()) {
+            $unit_id_array[$row['name']] = $row['unit_id'];
+            if (not_null($row['alias'])) {
+                $unit_id_array[$row['alias']] = $row['unit_id'];
+            }
+        }
+
+        return $unit_id_array;
     }
 
     function convert_shop_unit_string_to_unit($shop_str, $type) {
