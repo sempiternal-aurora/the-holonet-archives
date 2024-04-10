@@ -745,6 +745,8 @@
 
         display_dimensions_string($unit);
 
+        display_mass($unit);
+
         display_speed_string($unit);
 
         display_max_height($unit);
@@ -777,6 +779,14 @@
         } elseif (isset($ewok)) {
             echo "</div></div><iframe class='youtube-embed-full' class='full-screen-image' src='https://www.youtube.com/embed/14HRo_eTUgg' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>";
         }        
+    }
+
+    function display_mass(&$stats) {
+        if (not_null($stats['mass'])) {
+            $mass = $stats['mass'];
+            echo "<tr><td>Mass</td><td class='right-text'>$mass Kilograms</td></tr>";
+        }
+        unset($stats['mass']);
     }
 
     function display_wiki_link(&$stats) {
