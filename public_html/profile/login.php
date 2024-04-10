@@ -39,6 +39,7 @@
         _END;
     } else {
         echo <<<_END
+        <div class='centre'><h3>Please note that this is seperate to discord.</h3>Please do not use your discord credentials to log in.</div>
         <form method='post' action='login.php?r=$randstr'>
         <div class='login-form'>
             <div class='ui-field-contain'>
