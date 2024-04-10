@@ -202,7 +202,7 @@
                         <div class='show-button'>
                             <button class='ui-btn ui-corner-all ui-btn-inline form-button' id='show-advanced' type='button'>Show Advanced</button>
                             <input type='submit' name='submit' data-inline='true' data-ajax='false' value='Search'  />
-                            <a href='../unit_lookup' class='ui-btn ui-corner-all ui-btn-inline form-button'>Clear Filters</a>
+                            <a href='../unit_lookup?r=$randstr' data-ajax='false' class='ui-btn ui-corner-all ui-btn-inline form-button'>Clear Filters</a>
                         </div>
                         <div class='advanced search-input' style='display: none;'>
     _END;
