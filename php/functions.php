@@ -1979,7 +1979,9 @@
         $crew = [];
         $state = 'normal';
         foreach ($unit_data as $line) {
-            if (stripos($line, 'length') !== FALSE) {
+            if (strtolower(substr($line, 0, 6)) == 'notes:') {
+                extract_text_from_line($unit, $line, 'notes');
+            } elseif (stripos($line, 'length') !== FALSE) {
                 $unit['length'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'height') !== FALSE) {
                 $unit['height'] = get_float_value_from_line($line);
@@ -1993,8 +1995,6 @@
                 extract_text_from_line($unit, $line, 'wiki_link');
             } elseif (stripos($line, 'unit type') !== FALSE) {
                 extract_type($unit, $line);
-            } elseif (stripos($line, 'notes') !== FALSE) {
-                extract_text_from_line($unit, $line, 'notes');
             } elseif (stripos($line, 'Altitude') !== FALSE) {
                 $unit['max_height'] = get_float_value_from_line($line);
             } elseif (stripos($line, 'shield') !== FALSE || stripos($line, 'hull') !== FALSE) {
