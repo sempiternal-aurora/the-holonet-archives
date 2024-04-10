@@ -447,6 +447,22 @@
         return $units_of_attr;
     }
 
+    function fetch_all_shops(&$pdo) {
+        $all_shops = [];
+        $result = $pdo->query("SELECT * FROM shop");
+        while ($row = $result->fetch()) {
+            $all_shops[] = $row;
+        }
+        return $all_shops;
+    }
+
+    function display_shop_link($shop) {
+        $C = 'constant';
+        $str = "<a data-transition='slide' class='ui-btn ui-corner-all' href='{$C('WEBSITE_ROOT')}/shop_page?sid=" . $shop['shop_id'] . "'>";
+        $str .= $shop['shop_name'] . "</a>";
+        return $str;
+    }
+
     function display_shop_unit($unit) {
         $randstr = generate_random_string();
         $C = 'constant';
