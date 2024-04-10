@@ -928,7 +928,7 @@
         unset($emplacement['battery_size']);
 
         $emplacement_list_str = '';
-        if (sizeof($emplacement['locations']) > 2) {
+        if (sizeof($emplacement['locations']) >= 2) {
             $emplacement_list_str = generate_emplacement_list($emplacement['locations']);
         } else {
             $str .= $emplacement['locations'][0]['direction'];
