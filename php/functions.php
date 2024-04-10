@@ -272,22 +272,97 @@
         return array($user, $userstr, $logged_in, $logged_in_as);
     }
 
-    function get_unit_stats_yes(&$pdo, $unit_id) {
-        $table = 'unit';
-        $get_stats = $pdo->query("SELECT * FROM $table WHERE unit_id = $unit_id");
+    function get_unit_stats(&$pdo, $unit_id) {
+        $get_stats = $pdo->query("SELECT * FROM unit AS u JOIN unit_type AS ut ON ut.unit_type=u.unit_type WHERE unit_id = $unit_id");
         while ($result = $get_stats->fetch()) {
             $stats = $result;
         }
+        update_shield_hull($stats);
+        unset($stats['unit_type']);
+
+        $shops_query = $pdo->query("SELECT s.shop_id, s.shop_name FROM shop AS s JOIN units_in_shop AS us ON us.shop_id=s.shop_id WHERE unit_id = $unit_id");
+        $shops = [];
+        while ($result = $shops_query->fetch()) {
+            $shops[] = $result;
+        }
+
+        $complement_query = $pdo->query("SELECT uc.quantity, c.alias, c.is_crew FROM unit_complement AS uc JOIN complement AS c ON uc.complement_id=c.complement_id WHERE unit_id = $unit_id");
+        $crew = [];
+        $complement = [];
+        while ($result = $complement_query->fetch()) {
+            if ($result['is_crew'] === 1) {
+                $crew[$result['alias']] = $result['quantity']; 
+            } else {
+                $complement[$result['alias']] = $result['quantity']; 
+            }
+        }
+        $stats['in_shops'] = $shops;
+        $stats['complement'] = $complement;
+        $stats['crew'] = $crew;
         
         $table = 'unit_armament';
         $get_stats = $pdo->query("SELECT * FROM $table WHERE unit_id = $unit_id");
 
         $armament = array();
+        $armament_id_array = array();
         while ($result = $get_stats->fetch()) {
+            unset($result['unit_id']);
             $armament[] = $result;
+            if (!in_array($result['armament_id'], $armament_id_array)) {
+                $armament_id_array[] = $result['armament_id'];
+            }
+        }
+        $armament_array = [];
+        foreach ($armament_id_array as $armament_id) {
+            $emplacement = array();
+            $armament_query = $pdo->query("SELECT a.ammo, w.weapon_type FROM armament AS a JOIN weapon AS w ON a.weapon_id=w.weapon_id WHERE armament_id=$armament_id");
+            while ($result = $armament_query->fetch()) {
+                $emplacement[] = $result['ammo'];
+                $emplacement[] = $result['weapon_type'];
+            }
+            $armament_array[$armament_id] = $emplacement;
+        }
+        foreach ($armament as $key => $emplacement) {
+            $armament[$key]['weapon'] = $armament_array[$emplacement['armament_id']];
+            unset($armament[$key]['armament_id']);
+        }
+
+        $stats['armament'] = $armament;
+        return $stats;
+    }
+
+    function update_shield_hull(&$stats) {
+        if (isset($stats['shield'])) {
+            $stats['shield'] = get_integrity_desc($stats['shield']);
+        }
+        if (isset($stats['hull'])) {
+            $stats['hull'] = get_integrity_desc($stats['hull']);
         }
     }
 
+    function verify_unit_id(&$pdo, $unit_id) {
+        $query = $pdo->query("SELECT * FROM unit WHERE unit_id = '$unit_id'");
+        if (!is_numeric($unit_id)) {
+            return "Unit_id must be an integer, please try again.";
+        } elseif ($query->rowCount() == 0) {
+            return "That unit does not exist, please try again";
+        } else return '';
+    }
+
+    function get_integrity_desc($class) {
+        switch ($class) {
+            case 8: return "Very Strong";
+            case 7: return "Strong";
+            case 6: return "Above Average";
+            case 5: return "Average";
+            case 4: return "Below Average";
+            case 3: return "Weak";
+            case 2: return "Very Bad";
+            default: return "No";
+        }
+    }
+
+    /*
     function get_unit_stats(&$pdo, $unit_id) {
         return array(
             'name' => 'Imperial II-Class Star Destroyer',
@@ -353,6 +428,7 @@
             )
         );
     }
+    */
 
     function mysql_stat_names_to_display_names($stat) {
         if (array_key_exists($stat, DISPLAY_NAMES)) {
@@ -394,11 +470,22 @@
 
         display_shops_unit_in($unit);
 
+        display_notes($unit);
+
         foreach ($unit as $stat => $value) {
             if ($value === NULL) echo "$stat<br  />";
             else display_simple_stat($stat, $value);
         }
         echo "</tbody></table>";
+    }
+
+    function display_notes(&$stats) {
+        if (not_null($stats['notes'])) {
+            $notes = $stats['notes'];
+            echo "<tr><th colspan=2 class='centre'>Notes</tr></td>";
+            echo "<tr><td colspan=2>$notes</td></tr>";
+        }
+        unset($stats['notes']);
     }
 
     function display_array_stat($value, $stat) {
@@ -464,16 +551,16 @@
         unset($stats['complement']);
         if (not_null($complement)) {
             $str = '';
-            if (not_null($complement['consumables'])) {
-                $quantity = convert_days_to_timestr($complement['consumables']);
+            if (isset($complement['Consumables'])) {
+                $quantity = convert_days_to_timestr($complement['Consumables']);
                 $str .= "<tr><td class='centre' colspan=2>$quantity Consumables</td></tr>";
-                unset($complement['consumables']);
+                unset($complement['Consumables']);
             } 
-            if (not_null($complement['cargo capacity'])) {
-                $quantity = $complement['cargo capacity'];
+            if (isset($complement['Cargo Capacity'])) {
+                $quantity = $complement['Cargo Capacity'];
                 $quantity = add_commas_to_num($quantity);
                 $str .= "<tr><td>Cargo Capacity</td><td class='right-text'>$quantity Metric Tonnes</td></tr>";
-                unset($complement['cargo capacity']);
+                unset($complement['Cargo Capacity']);
             }
             $unit_comp_str = '';
             foreach ($complement as $class => $quantity) {
@@ -528,11 +615,11 @@
         unset($stats['crew']);
         if (not_null($crew)) {
             $str = '';
-            if (not_null($crew['minimum crew'])) {
-                $quantity = $crew['minimum crew'];
+            if (isset($crew['Minimum Crew'])) {
+                $quantity = $crew['Minimum Crew'];
                 $quantity = add_commas_to_num($quantity);
                 $str .= "<tr><td>Minimum Crew</td><td class='right-text'>$quantity</td></tr>";
-                unset($crew['minimum crew']);
+                unset($crew['Minimum Crew']);
             }
             $unit_crew_str = '';
             foreach ($crew as $role => $quantity) {

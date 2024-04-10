@@ -3,21 +3,32 @@
     require_once DOCUMENT_ROOT . 'php/header.php';
 
     if (isset($_GET['uid'])) {
-        $unit_id = $_GET['uid'];
-        $stats = get_unit_stats($pdo, $unit_id);
-        get_unit_stats_yes($pdo, $unit_id);
-        echo <<<_END
-                        <div class='unit'>
-        _END;
-        
-        display_unit_stats($stats);
+        $unit_id = sanitise_string($pdo, $_GET['uid']);
 
-        echo <<<_END
+        $is_valid_id = verify_unit_id($pdo, $unit_id);
+        
+        if ($is_valid_id == '') { 
+            $stats = get_unit_stats($pdo, $unit_id);
+            echo "<br  />";
+
+            unset($stats['unit_id']);
+
+            echo <<<_END
+                            <div class='unit'>
+            _END;
+            
+            display_unit_stats($stats);
+
+            echo <<<_END
+                            </div>
                         </div>
-        _END;
+            _END;
+        } else {
+            echo "<h4 class='centre'>$is_valid_id</h4></div>";
+        }
     }
     else {
-        echo <<<_END
-                        Please specify a unit to lookup stats for.
-        _END;
+        echo "<h4 class='centre'>Please specify a unit to lookup stats for.</h4></div>";
     }
+
+    include_once DOCUMENT_ROOT . 'php/footer.php';
