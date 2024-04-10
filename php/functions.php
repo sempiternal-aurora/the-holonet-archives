@@ -568,7 +568,7 @@
         foreach ($units as $index => $unit) {
             $units[$index]['type_description'] = normalise_unit_types($unit['type_description']); //get rid of subclasses like small_vehicles and medium_vehicles and shuttles
         }
-        $types = collect_unit_types($units); //get rid of subclasses like small_vehicles and medium_vehicles and shuttles
+        $types = collect_unit_types($units);
         sort_unit_types($types); //sort the types by their assigned values in get_type_value so they are displayed in order
 
         echo "<h1 class='centre'>$shop_name</h1>";
