@@ -36,6 +36,8 @@
 
     _END;
 
+    $has_signed_up = FALSE;
+
     $error = $user = $pass = ''; //initialise variables
     if (isset($_SESSION['user'])) destroy_session_completely(); //if user is already logged in, lot them out
 
@@ -55,8 +57,9 @@
             elseif ($is_valid_pass != '') $error .= $is_valid_pass; //appended to the error message shown to the user
             else { //otherwise, if the username is taken and it and the password are valid
                 $hash = password_hash($pass, PASSWORD_DEFAULT); //hash the password for security
-                $result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')"); //and insert it into the database of users for future reference
-                die('<h4>Account created</h4>Please Log in.</div></body></html>'); //inform the user that their account has been created, and ask them to login, stopping the script
+                //$result = $pdo->query("INSERT INTO user VALUES ('$user', '$hash')"); //and insert it into the database of users for future reference
+                echo "<div class='centre'><h4>Account created</h4>Please Log in.</div></div></body></html>"; //inform the user that their account has been created, and ask them to login, stopping the script
+                $has_signed_up = TRUE;
             }
         }
     }
@@ -64,29 +67,26 @@
         What follows is the form sent to the user that gathers password and username and calls this script with the values they give. Also includes basic validation to save server resources.
     */
 
-    echo <<<_END
-            <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate(this)'>$error
-            <div class='login-form'>
-                <div class='centre'>Please enter your details to sign up</div>
-                <div class='top-margin'>    
-                    <label for='user'><span class='form-label'>Username</span></label>
-                    <div>
-                        <input type='text' maxlength='32' name='user' value='$user' id='username-field' onBlur='check_user(this)'  />
+    if (!$has_signed_up) {
+        echo <<<_END
+                <form method='post' action='sign_up.php?r=$randstr' onsubmit='return validate(this)'>$error
+                <div class='login-form'>
+                    <div class='centre'>Please enter your details to sign up</div>
+                    <div class='top-margin'>    
+                        <label for='user'><span class='form-label'>Username</span></label>
+                        <div>
+                            <input type='text' maxlength='32' name='user' value='$user' id='username-field' onBlur='check_user(this)'  />
+                        </div>
+                        <div id='used'>&nbsp;</div>
                     </div>
-                    <div id='used'>&nbsp;</div>
-                </div>
-                <label for='pass'><span class='form-label'>Password</span></label>
-                <div class='ui-field-contain' id='pass-div-cont'>
+                    <label for='pass'><span class='form-label'>Password</span></label>
                     <input type='password' maxlength='32' name='pass' value='$pass' id='password-input-field' autocomplete='off'  />
-                    <button type='button' class='ui-btn ui-btn-inline btn-thin' id='show-password'>Show</button>
-                </div>
-                <div class='ui-field-contain'>
                     <label for='sign-up-btn' class='ui-hidden-accessible'>Sign Up</label>
-                    <input class='submit-btn ui-btn ui-btn-inline' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
+                    <input data-role='button' id='sign-up-btn' data-transition='slide' type='submit' value='Sign Up'  />
                 </div>
+                </form>
             </div>
-            </form>
-        </div>
-    _END;
+        _END;
+    }
 
     include_once DOCUMENT_ROOT . '/php/footer.php'; //footer
