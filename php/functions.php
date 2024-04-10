@@ -1356,13 +1356,17 @@
         return $str; //return the string without the first bracket pair
     }
 
-    function find_id_for_unit($unit, $unit_id_key) {
-        $name = $unit['unit_name'];
-        if (array_key_exists($name, $unit_id_key)) {
-            $id = $unit_id_key[$name];
-        }
-        else {
-            $id = NULL;
+    function find_unit_id(&$pdo, $name) {
+        $id = FALSE;
+        $result = $pdo->query("SELECT unit_id FROM unit WHERE name LIKE '%$name%'");
+        if ($result->rowCount() == 1) {
+            $id = $result->fetch()['unit_id'];
+        } elseif ($result->rowCount() > 1) {
+            $id = [];
+            while ($row = $result->fetch()) {
+                $id[] = $row['unit_id'];
+            }
         }
         return $id;
     }
+
