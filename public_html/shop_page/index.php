@@ -5,7 +5,7 @@
     if (isset($_GET['sid'])) {
         $shop_id = sanitise_string($pdo, $_GET['sid']);
 
-        $is_valid_id = verify_id($pdo, $shop_id, 'shop');
+        $is_valid_id = validate_id($pdo, $shop_id, 'shop');
         
         if ($is_valid_id == '') { 
             $shop = get_shop_stats($pdo, $shop_id);

@@ -5,7 +5,7 @@
     if (isset($_GET['uid'])) {
         $unit_id = sanitise_string($pdo, $_GET['uid']);
 
-        $is_valid_id = verify_id($pdo, $unit_id, 'unit');
+        $is_valid_id = validate_id($pdo, $unit_id, 'unit');
         
         if ($is_valid_id == '') { 
             $stats = get_unit_stats($pdo, $unit_id);
