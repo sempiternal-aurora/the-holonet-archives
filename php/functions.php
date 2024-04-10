@@ -478,13 +478,13 @@
     function add_commas_to_num($num_string) {
         $pos = strrpos($num_string, '.');
         if ($pos) {
-            return add_commas_to_num(substr($num_string, 0, $pos)) . "," . substr($num_string, $pos);
+            return add_commas_to_num(substr($num_string, 0, $pos)) . substr($num_string, $pos);
         }
         if (strlen($num_string) < 4) {
             return $num_string;
         }
         else {
-            return add_commas_to_num(substr($num_string, 0, -3)) . substr($num_string, -3);
+            return add_commas_to_num(substr($num_string, 0, -3)) . "," . substr($num_string, -3);
         }
     }
 
