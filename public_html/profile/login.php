@@ -1,6 +1,9 @@
 <?php
     require_once '../../php/functions.php';
-    require_once DOCUMENT_ROOT . 'php/header.php';
+    
+    require_once DOCUMENT_ROOT . 'php/initialise.php';
+    
+    display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
 
     $error = $user = $pass = ''; //initialise variable
     $pdo = initialise_mysql_connection(MYSQL_HOST, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASS);

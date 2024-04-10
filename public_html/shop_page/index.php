@@ -1,19 +1,24 @@
 <?php
     require_once '../../php/functions.php';
-    require_once DOCUMENT_ROOT . 'php/header.php';
+    
+    require_once DOCUMENT_ROOT . 'php/initialise.php';
 
     if (isset($_GET['sid'])) {
         $shop_id = sanitise_string($pdo, $_GET['sid']);
 
         if ($shop_id == 47) {
+            $title = '420 69 Beach Trooper Shop: The Holonet Archives';
+            display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
             echo "<iframe class='youtube-embed-full' class='full-screen-image' src='https://www.youtube.com/embed/DJfg39WkMvE' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>";
             $no_footer = TRUE;
         } else {
             $is_valid_id = validate_id($pdo, $shop_id, 'shop');
             
-            if ($is_valid_id == '') { 
+            if ($is_valid_id == '') {
                 $shop = get_shop_stats($pdo, $shop_id);
                 increment_access($pdo, $shop_id, 'shop'); //Increment how many times the shop has been accessed for sorting reasons
+                $title = $shop[0] . ': The Holonet Archives';
+                display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
                 echo "<br  />";
 
                 echo <<<_END
@@ -27,11 +32,14 @@
                             </div>
                 _END;
             } else {
+                display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
                 echo "<h4 class='centre'>$is_valid_id</h4></div>";
             }
         }
     }
     else {
+        $title = "All Shops: The Holonet Archives";
+        display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
         echo "<h4 class='centre'>All Shops</h4>";
         $all_shops = fetch_all_shops($pdo);
 

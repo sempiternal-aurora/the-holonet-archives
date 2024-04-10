@@ -1,6 +1,9 @@
 <?php
     require_once '../php/functions.php';
-    require_once DOCUMENT_ROOT . 'php/header.php';
+    
+    require_once DOCUMENT_ROOT . 'php/initialise.php';
+
+    display_header($title, $randstr, $logged_in_as, $logged_in, $privilege);
 
     echo <<<_END
                 <div class='centre'>
@@ -16,4 +19,4 @@
                 </div></div>
     _END;
 
-    require_once DOCUMENT_ROOT . 'php/footer.php';
+    include_once DOCUMENT_ROOT . 'php/footer.php';
