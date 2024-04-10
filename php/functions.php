@@ -1735,8 +1735,8 @@
                 $current_emplacement = [];
                 $state = 'existing';
                 $firelink_pos = stripos($line, 'firelink');
-                $firelink_pos === FALSE ? $current_emplacement['firelink'] = 0 : get_float_value_from_line(substr($line, $firelink_pos));
-                stripos($line, 'batter') === FALSE ? $current_emplacement['battery_size'] = 1 : $current_emplacement['battery_size'] = 2 ;
+                $current_emplacement['firelink'] = $firelink_pos === FALSE ? 0 : get_float_value_from_line(substr($line, $firelink_pos));
+                $line = trim(preg_replace('/firelink/i', '', $line), " -(){}[]:\t\n\r\0\x0B");
                 $battery_size = extract_quantity_word($line);
                 $current_emplacement['battery_size'] = $battery_size > $current_emplacement['battery_size'] ? $battery_size : $current_emplacement['battery_size'];
                 if (stripos($line, 'long range') === FALSE && stripos($line, 'range') !== FALSE) {
