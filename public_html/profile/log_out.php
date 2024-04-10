@@ -7,7 +7,7 @@
         echo <<<_END
                     <br  />
                     <div class='centre'> You have been logged out. Please
-                        <a data-transition='slide' href='index.php?r=$randstr'>click here</a>
+                        <a data-transition='slide' href='{$C('WEBSITE_ROOT')}/?r=$randstr'>click here</a>
                         to refresh the screen.
                     </div></div>
         _END;
