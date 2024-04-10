@@ -72,3 +72,7 @@ html {
 .taken, .error {
     color: red;
 }
+
+.left-text {
+    text-align: right;
+}
