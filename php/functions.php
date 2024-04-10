@@ -1850,6 +1850,8 @@
                 extract_complement_from_str($line, $new_complement, 'Juggernaut');
             } elseif (stripos($line, 'large vehicle') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Large Vehicle');
+            } elseif (stripos($line, 'speeder') !== False || stripos($line, 'speeder bike') !== False) {
+                extract_complement_from_str($line, $new_complement, 'Speeder');
             } elseif (stripos($line, 'medium vehicle') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Medium Vehicle');
             } elseif (stripos($line, 'small vehicle') !== False) {
@@ -1857,7 +1859,7 @@
             } elseif (stripos($line, 'fighter') !== False) {
                 extract_complement_from_str($line, $new_complement, 'Starfighter');
             } elseif (stripos($line, 'escape pod') !== False) {
-                extract_complement_from_str($line, $new_complement, 'Escape Pods');
+                extract_complement_from_str($line, $new_complement, 'Escape Pod');
             } elseif (in_array($type, generate_type_list($pdo))) {
                 $new_complement[$type] = get_float_value_from_line($line);
             }
