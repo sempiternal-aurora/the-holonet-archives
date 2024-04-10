@@ -906,7 +906,7 @@
         foreach ($types as $type) {
             $str .= " " . $type['weapon_type'];
             if ($type['ammo'] > 0) {
-                $str .= " (ammo: " . $type['ammo'] . ")";
+                $str .= " (Ammo: " . $type['ammo'] . ")";
             }
             $str .= " or";
         }
