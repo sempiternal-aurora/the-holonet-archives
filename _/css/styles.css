@@ -1,0 +1,32 @@
+html {
+    background:#ccf;
+}
+
+.centre {
+    text-align:center;
+}
+
+#logo {
+    font-family:'Times New Roman', Times, serif;
+    font-weight:bold;
+    font-style:italic;
+    font-size:300%;
+    color:purple;
+}
+
+.username {
+    text-align:center;
+    background:#ddf;
+    color:#40d;
+}
+
+#center_username {
+    margin:auto;
+    width:90%;
+}
+
+.net {
+    position:relative;
+    border:0px;
+    
+}
