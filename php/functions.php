@@ -1185,10 +1185,10 @@
     function display_hyperdrive_string(&$stats) {
         $hyperdrive_str = '';
         if (not_null($stats['hyperdrive'])) {
-            $hyperdrive_str = "<tr><td>Hyperdrive: Class " . $stats['hyperdrive'] . "</td>";
+            $hyperdrive_str = "<tr><td>Hyperdrive: Class " . number_format($stats['hyperdrive'], 1) . "</td>";
         }
         if (not_null($stats['backup'])) {
-            $hyperdrive_str .= "<td class='right-text'>Backup: Class " . $stats['backup'] . "</td>";
+            $hyperdrive_str .= "<td class='right-text'>Backup: Class " . number_format($stats['backup'], 1) . "</td>";
         }
         unset($stats['hyperdrive']);
         unset($stats['backup']);
