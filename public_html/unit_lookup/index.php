@@ -84,9 +84,9 @@
                     $pos_m_dash = strrpos($key, "-");
                     $max_or_min = strtoupper(substr($key, $pos_m_dash+1));
                     $variable = str_replace("-", '_', substr($key, 0, $pos_m_dash));
-                    if ($max_min_array["$max_or_min($variable)"] >= $sanitised_get_variables[$key] && $max_or_min == 'MAX') {
+                    if ($max_min_array["$max_or_min($variable)"] <= $sanitised_get_variables[$key] && $max_or_min == 'MAX') {
                         unset($sanitised_get_variables[$key]);
-                    } elseif ($max_min_array["$max_or_min($variable)"] <= $sanitised_get_variables[$key] && $max_or_min == 'MIN') {
+                    } elseif ($max_min_array["$max_or_min($variable)"] >= $sanitised_get_variables[$key] && $max_or_min == 'MIN') {
                         unset($sanitised_get_variables[$key]);
                     }
                 } elseif (in_array($key, array('shield', 'hull', 'type'))) {
