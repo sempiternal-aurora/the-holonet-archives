@@ -342,6 +342,225 @@
         }
     }
 
+    function get_shop_stats(&$pdo, $shop_id) {
+        $result = $pdo->query(<<<_END
+        SELECT
+            u.unit_id,
+            u.name,
+            ut.type_description,
+            u.modslots,
+            s.shop_name,
+            u.price,
+            u.notes,
+            u.uc_limit
+        FROM
+            units_in_shop AS us
+        JOIN shop AS s
+        ON
+            s.shop_id = us.shop_id
+        JOIN unit AS u
+        ON
+            us.unit_id = u.unit_id
+        LEFT JOIN unit_type AS ut
+        ON
+            ut.unit_type = u.unit_type
+        WHERE
+            s.shop_id = $shop_id
+        ORDER BY
+            u.unit_type
+        _END);
+
+        $units = [];
+        while ($row = $result->fetch()) {
+            $units[] = $row;
+        }
+
+        $shop_name = $units[0]['shop_name'];
+        foreach ($units as $index => $unit) {
+            unset($units[$index]['shop_name']);
+        }
+
+        return array($shop_name, $units);
+    }
+
+    function collect_unit_types($units) {
+        $unit_types = [];
+        foreach ($units as $unit) {
+            if (!in_array($unit['type_description'], $unit_types)) {
+                $unit_types[] = $unit['type_description'];
+            }
+        }
+        return $unit_types;
+    }
+
+    function swap_array_values(&$array, $a, $b) {
+        $temp = $array[$b];
+        $array[$b] = $array[$a];
+        $array[$a] = $temp;
+    }
+    
+    function sort_units_by_attribute(&$units, $attr) {
+        /*
+            simple binary insertion sort to sort units by any attribute provided.
+        */
+        $arr_size = sizeof($units);
+        for ($i = 1; $i < $arr_size; $i++) {
+            $lower = 0;
+            $upper = $i-1;
+            while ($lower <= $upper) {
+                $middle = intval(($lower + $upper)/2);
+                if ($units[$i][$attr] >= $units[$middle][$attr]) $lower = $middle + 1;
+                else $upper = $middle - 1;
+            }
+            if ($units[$i][$attr] >= $units[$middle][$attr]) $position = $middle + 1; 
+            else $position = $middle;
+            for ($j = $i; $j > $position; $j--) {
+                swap_array_values($units, $j, $j-1);
+            }
+        }
+
+        return $units;
+    }
+
+    function search_for_units($units, $attr, $value) {
+        /*
+            Quick search for a unit who has an attribute equal to the value given.
+        */
+        $found_at = FALSE;
+        foreach ($units as $index => $unit) {
+            if ($unit[$attr] == $value) {
+                $found_at = $index;
+                break;
+            }
+        }
+        return $found_at;
+    }
+
+    function get_units_of_attr($units, $attr, $value) {
+        $found_at = search_for_units($units, $attr, $value);
+        $units_of_attr = [];
+        while ($found_at !== FALSE) {
+            $units_of_attr[] = $units[$found_at];
+            unset($units[$found_at]);
+            $found_at = search_for_units($units, $attr, $value);
+        }
+        return $units_of_attr;
+    }
+
+    function display_shop_unit($unit) {
+        $randstr = generate_random_string();
+        $C = 'constant';
+        $unit_id = $unit['unit_id'];
+        $str = "<li><a class='unit-links' data-transition='slide' href='{$C('WEBSITE_ROOT')}/unit_page?uid=$unit_id'>(" . $unit['modslots'] . ") ";
+        $str .= $unit['name'];
+        $str .= " <img src='{$C('WEBSITE_ROOT')}/data/images/credit_symbol.png' alt='credits' height='18px'  />" . $unit['price'] . "</a>";
+        if (not_null($unit['uc_limit'])) $str .= " (Max " . $unit['uc_limit'] . " Per UC)";
+        if (not_null($unit['notes'])) $str .= "<br  />[" . $unit['notes'] . "]";
+        $str .=  "</li>";
+        return $str;
+    }
+
+    function get_type_value($type) {
+        $value = 0;
+        switch ($type) {
+            case 'Starfighter':
+                $value += 1;
+            case 'Small Ship':
+                $value += 1;
+            case 'Capital Ship':
+                $value += 1;
+            case 'Infantry':
+                $value += 1;
+            case 'Vehicles':
+                $value += 1;
+            case 'Space Station':
+                $value += 1;
+            case 'Modular Garrison':
+                $value += 1;
+            case 'Car':
+                $value += 1;
+            case 'Civilian':
+                $value += 1;
+            case 'Military Installation':
+                $value += 1;
+            case 'Building':
+                $value += 1;
+        }
+        return $value;
+    }
+
+    function sort_unit_types(&$types) {
+        /*
+            Sorts the unit types based on a 
+        */
+        $arr_size = sizeof($types);
+        for ($i = 1; $i < $arr_size; $i++) {
+            $lower = 0;
+            $upper = $i-1;
+            while ($lower <= $upper) {
+                $middle = intval(($lower + $upper)/2);
+                if (get_type_value($types[$i]) <= get_type_value($types[$middle])) $lower = $middle + 1;
+                else $upper = $middle - 1;
+            }
+            if (get_type_value($types[$i]) <= get_type_value($types[$middle])) $position = $middle + 1; 
+            else $position = $middle;
+            for ($j = $i; $j > $position; $j--) {
+                swap_array_values($types, $j, $j-1);
+            }
+        }
+    }
+
+    function normalise_unit_types($type) {
+        /*
+            Normalise the provided type of a unit, returning a more general term for displaying in shops and the like.
+        */
+        switch ($type) {
+            case 'Small Vehicle':
+                return 'Vehicle';
+            case 'Medium Vehicle':
+                return 'Vehicle';
+            case 'Large Vehicle':
+                return 'Vehicle';
+            case 'Juggernaut':
+                return 'Vehicle';
+            case 'Shuttle':
+                return 'Small Ship';
+            case 'Transport':
+                return 'Small Ship';
+            case 'Heavy Transport':
+                return 'Small Ship';
+            case 'Gunship':
+                return 'Vehicle';
+            case 'Airspeeder':
+                return 'Vehicle';
+            default:
+                return $type;
+        }
+    }
+
+    function display_shop($shop_name, $units) {
+        foreach ($units as $index => $unit) {
+            $units[$index]['type_description'] = normalise_unit_types($unit['type_description']);
+        }
+        $types = collect_unit_types($units); //get rid of subclasses like small_vehicles and medium_vehicles and shuttles
+        sort_unit_types($types); //sort the types by their assigned values in get_type_value so they are displayed in order
+
+        echo "<h1 class='centre'>$shop_name</h1>";
+
+        foreach ($types as $type) {
+            
+            echo "<div><h3>" . pluralise($type) . "</h3><ul>";
+            $units_of_type = get_units_of_attr($units, 'type_description',  $type);
+
+            sort_units_by_attribute($units_of_type, 'price');
+
+            foreach ($units_of_type as $unit) {
+                echo display_shop_unit($unit);
+            }
+            echo "</ul></div>";
+        }
+    }
+
     function verify_id(&$pdo, $id, $table) {
         $query = $pdo->query("SELECT * FROM $table WHERE $table" . "_id = '$id'");
         if (!is_numeric($id)) {
@@ -740,6 +959,8 @@
         if (strtolower(substr($phrase, -1)) == 's') {
             return $phrase;
         } elseif (strtolower($phrase) == 'crew') {
+            return $phrase;
+        } elseif (strtolower($phrase) == 'infantry') {
             return $phrase;
         } else return $phrase . "s";
     }
