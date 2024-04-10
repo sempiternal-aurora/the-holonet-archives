@@ -1,16 +1,18 @@
 function validate_username(field) {
-    if (field == "") return "No Username was entered.\n";
-    else if (field.length < 4) return "Usernames must be at least 4 characters.\n";
-    else if (field.length > 32) return "Usernames must be no longer than 32 characters.\n";
-    else if (/[^a-zA-Z0-9_]/.test(field)) return "Only a-z, A-Z, 0-9 and _ allowed in Usernames.\n";
+    if (field == "") return "No Username was entered.";
+    else if (field.length < 4) return "Usernames must be at least 4 characters.";
+    else if (field.length > 32) return "Usernames must be no longer than 32 characters.";
+    else if (/[^a-zA-Z0-9_]/.test(field)) return "Only a-z, A-Z, 0-9 and _ allowed in Usernames.";
     else return "";
 }
 
 function validate_password(field) {
-    if (field == "") return "No Password was entered.\n";
-    else if (field.length < 8) return "Passwords must be at least 8 characters\n";
+    if (field == "") return "No Password was entered.";
+    else if (field.length < 8) return "Passwords must be at least 8 characters.";
+    else if (field.length > 32) return "Passwords must be no longer than 32 characters.";
+    else if (/</.test(field)) return "Passwords cannot contain '<'.";
     else if (!/[a-z]/.test(field) || !/[A-Z]/.test(field) || !/[0-9]/.test(field)) {
-        return "Passwords require one each of a-z, A-Z and 0-9,\n";
+        return "Passwords require one each of a-z, A-Z and 0-9.";
     }
     else return "";
 }
