@@ -34,7 +34,7 @@
     if (isset($_SESSION['user'])) {
         echo <<<_END
         <div class='centre'>You have been logged in successfully.
-        <a data-transition='slide' href='{$C('WEBSITE_ROOT')}/profile?r=$randstr'>Click here</a>
+        <a data-transition='slide' href='{$C('WEBSITE_ROOT')}?r=$randstr'>Click here</a>
         </div></div>
         _END;
     } else {
