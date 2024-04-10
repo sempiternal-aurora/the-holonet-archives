@@ -1017,6 +1017,8 @@
             return substr($phrase, 0, -1);
         } elseif (strtolower($phrase) == 'crew') {
             return $phrase;
+        } elseif (strtolower($phrase) == 'batteries') {
+            return 'battery';
         } elseif (strtolower($phrase) == 'infantry') {
             return $phrase;
         } else return $phrase;
